@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments
+.env
+.env.local
+env/
+.venv/
+venv/
+
+# Build and notebooks
+dist/
+build/
+.ipynb_checkpoints/
+
+# Generated data
+data/raw/
+data/processed/
+data/index/
+!tests/fixtures/
+!tests/fixtures/**
