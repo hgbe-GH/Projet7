@@ -43,7 +43,7 @@ def parse_args() -> argparse.Namespace:
         dest="category_ids",
         help="Repeatable category identifier filter",
     )
-    parser.add_argument("--page-size", type=int, default=100, help="API page size for the public dataset")
+    parser.add_argument("--page-size", type=int, default=100, help="API page size for the public dataset (max 100)")
     return parser.parse_args()
 
 

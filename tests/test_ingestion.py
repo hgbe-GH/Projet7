@@ -127,6 +127,16 @@ def test_build_records_request_params_uses_public_dataset_defaults():
     }
 
 
+def test_build_records_request_params_caps_page_size_to_dataset_limit():
+    params = build_records_request_params(
+        start_date="2025-01-01",
+        offset=0,
+        page_size=500,
+    )
+
+    assert params["limit"] == 100
+
+
 def test_prepare_events_dataset_normalizes_incomplete_records():
     raw_events = [
         {

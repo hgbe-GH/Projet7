@@ -38,6 +38,9 @@ DOCUMENT_METADATA_COLUMNS = [
 ]
 
 INDEXED_DOCUMENT_COLUMNS = [
+    "chunk_id",
+    "chunk_index",
+    "chunk_start",
     "event_uid",
     "agenda_uid",
     "title",
@@ -74,6 +77,12 @@ def _get_mistral_embeddings_class():
     return MistralAIEmbeddings
 
 
+def _get_text_splitter_class():
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+    return RecursiveCharacterTextSplitter
+
+
 def _normalize_categories(value: Any) -> list[str]:
     if value is None or (isinstance(value, float) and pd.isna(value)):
         return []
@@ -92,6 +101,14 @@ def _normalize_scalar(value: Any) -> Any:
     if hasattr(value, "isoformat"):
         return value.isoformat()
     return value
+
+
+def _sanitize_chunk_size(chunk_size: int) -> int:
+    return max(1, int(chunk_size))
+
+
+def _sanitize_chunk_overlap(chunk_size: int, chunk_overlap: int) -> int:
+    return max(0, min(int(chunk_overlap), _sanitize_chunk_size(chunk_size) - 1))
 
 
 def _build_embeddings(embedding_model: str, api_key: str):
@@ -132,22 +149,53 @@ def load_events_for_indexing(input_path: Path) -> pd.DataFrame:
     return frame
 
 
-def build_documents(frame: pd.DataFrame) -> list["Document"]:
+def build_documents(
+    frame: pd.DataFrame,
+    chunk_size: int = 1000,
+    chunk_overlap: int = 200,
+) -> list["Document"]:
     document_class = _get_document_class()
-    documents = []
+    splitter_class = _get_text_splitter_class()
+    effective_chunk_size = _sanitize_chunk_size(chunk_size)
+    effective_chunk_overlap = _sanitize_chunk_overlap(effective_chunk_size, chunk_overlap)
+    splitter = splitter_class(
+        chunk_size=effective_chunk_size,
+        chunk_overlap=effective_chunk_overlap,
+        add_start_index=True,
+    )
 
+    base_documents = []
     for row in frame.to_dict(orient="records"):
         metadata = {
             key: _normalize_categories(value) if key == "categories" else _normalize_scalar(value)
             for key, value in row.items()
             if key in DOCUMENT_METADATA_COLUMNS
         }
-        documents.append(
+        base_documents.append(
             document_class(
                 page_content=str(row["text_for_embedding"]).strip(),
                 metadata=metadata,
             )
         )
+
+    split_documents = splitter.split_documents(base_documents)
+    chunk_counters: dict[str, int] = {}
+    documents: list["Document"] = []
+    for doc in split_documents:
+        event_uid = str(doc.metadata["event_uid"])
+        chunk_index = chunk_counters.get(event_uid, 0)
+        metadata = dict(doc.metadata)
+        metadata["chunk_id"] = f"{event_uid}::chunk-{chunk_index}"
+        metadata["chunk_index"] = chunk_index
+        metadata["chunk_start"] = metadata.get("start_index")
+        metadata.pop("start_index", None)
+        documents.append(
+            document_class(
+                page_content=doc.page_content,
+                metadata=metadata,
+            )
+        )
+        chunk_counters[event_uid] = chunk_index + 1
 
     return documents
 
@@ -200,9 +248,65 @@ def load_vector_store(output_dir: Path, embedding_model: str, api_key: str) -> "
         return faiss_class.load_local(str(output_dir), embeddings)
 
 
-def build_indexed_documents_frame(frame: pd.DataFrame) -> pd.DataFrame:
-    available_columns = [column for column in INDEXED_DOCUMENT_COLUMNS if column in frame.columns]
-    indexed_frame = frame.loc[:, available_columns].copy()
-    if "categories" in indexed_frame.columns:
-        indexed_frame["categories"] = indexed_frame["categories"].apply(_normalize_categories)
-    return indexed_frame
+def build_indexed_documents_frame(documents: list["Document"]) -> pd.DataFrame:
+    rows = []
+    for document in documents:
+        row = {}
+        for column in INDEXED_DOCUMENT_COLUMNS:
+            if column == "text_for_embedding":
+                row[column] = document.page_content
+            elif column == "categories":
+                row[column] = _normalize_categories(document.metadata.get(column))
+            else:
+                row[column] = _normalize_scalar(document.metadata.get(column))
+        rows.append(row)
+    return pd.DataFrame(rows, columns=INDEXED_DOCUMENT_COLUMNS)
+
+
+def rebuild_index_artifacts(
+    input_path: Path,
+    output_dir: Path,
+    embedding_model: str,
+    api_key: str,
+    batch_size: int = 50,
+    chunk_size: int = 1000,
+    chunk_overlap: int = 200,
+    rebuild_requested: bool = True,
+) -> dict[str, Any]:
+    frame = load_events_for_indexing(input_path)
+    documents = build_documents(
+        frame,
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+    )
+    vector_store = build_vector_store(
+        documents=documents,
+        embedding_model=embedding_model,
+        api_key=api_key,
+        batch_size=batch_size,
+    )
+    manifest = {
+        "generated_at": pd.Timestamp.utcnow().isoformat(),
+        "source_dataset": str(input_path),
+        "output_dir": str(output_dir),
+        "embedding_model": embedding_model,
+        "batch_size": batch_size,
+        "chunk_size": chunk_size,
+        "chunk_overlap": chunk_overlap,
+        "indexed_event_count": len(frame),
+        "indexed_document_count": len(documents),
+        "rebuild_requested": rebuild_requested,
+    }
+    save_vector_store(vector_store, output_dir, manifest)
+
+    indexed_documents_path = output_dir.parent / INDEXED_DOCUMENTS_FILENAME
+    build_indexed_documents_frame(documents).to_parquet(indexed_documents_path, index=False)
+
+    return {
+        "manifest_path": str(output_dir.parent / MANIFEST_FILENAME),
+        "indexed_documents_path": str(indexed_documents_path),
+        "indexed_event_count": len(frame),
+        "indexed_document_count": len(documents),
+        "output_dir": str(output_dir),
+        "manifest": manifest,
+    }

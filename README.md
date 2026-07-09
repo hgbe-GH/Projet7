@@ -6,7 +6,7 @@ Ce depot couvre actuellement les etapes 1 a 3 du projet OpenClassrooms :
 - collecte et normalisation des evenements OpenAgenda via le dataset public Opendatasoft fourni dans la mission ;
 - vectorisation Mistral et index FAISS local.
 
-Le chatbot RAG, l'API REST, l'evaluation, Docker et la demo produit restent hors perimetre a ce stade.
+L'evaluation automatisee, Docker et la demo produit restent hors perimetre a ce stade.
 
 ## Structure
 
@@ -81,6 +81,15 @@ Variables disponibles :
 - `INDEX_OUTPUT_DIR` : dossier de sortie de l'index FAISS.
 - `INDEX_EMBEDDING_MODEL` : modele d'embedding Mistral, par defaut `mistral-embed`.
 - `INDEX_BATCH_SIZE` : taille de lot employee pendant la construction de l'index.
+- `INDEX_CHUNK_SIZE` : taille des chunks en caracteres avant vectorisation.
+- `INDEX_CHUNK_OVERLAP` : chevauchement entre chunks consecutifs.
+- `RAG_CHAT_MODEL` : modele de chat Mistral utilise pour generer la reponse, par defaut `mistral-small-latest`.
+- `RAG_TOP_K` : nombre de chunks recuperes dans FAISS avant generation.
+- `RAG_TEMPERATURE` : temperature du modele de chat.
+- `RAG_MAX_TOKENS` : longueur maximale de la reponse.
+- `API_HOST` : hote local de l'API FastAPI.
+- `API_PORT` : port local de l'API FastAPI.
+- `API_REBUILD_TOKEN` : jeton optionnel pour proteger `/rebuild`.
 
 ### Smoke test
 
@@ -224,6 +233,7 @@ pytest -q
 ## Etape 3 - Index FAISS
 
 L'etape 3 suppose que `data/processed/events.parquet` existe deja.
+Chaque evenement est d'abord decoupe en chunks de texte, puis chaque chunk est vectorise et indexe dans FAISS.
 
 Commande minimale :
 
@@ -239,6 +249,8 @@ python scripts/build_index.py \
   --output-dir data/index/faiss \
   --embedding-model mistral-embed \
   --batch-size 50 \
+  --chunk-size 1000 \
+  --chunk-overlap 200 \
   --rebuild
 ```
 
@@ -248,8 +260,21 @@ Sorties :
 - `data/index/index_manifest.json`
 - `data/index/indexed_documents.parquet`
 
+Le script :
+
+- charge le parquet normalise ;
+- dedoublonne les evenements ;
+- ignore les lignes sans `text_for_embedding` ;
+- decoupe les textes avec `RecursiveCharacterTextSplitter` ;
+- genere un chunk par segment de texte ;
+- vectorise les chunks avec `langchain_mistralai.MistralAIEmbeddings` ;
+- persiste l'index local avec `langchain_community.vectorstores.FAISS`.
+
 L'indexation conserve les metadonnees suivantes :
 
+- `chunk_id`
+- `chunk_index`
+- `chunk_start`
 - `event_uid`
 - `agenda_uid`
 - `title`
@@ -261,3 +286,119 @@ L'indexation conserve les metadonnees suivantes :
 - `canonical_url`
 - `categories`
 - `source_updated_at`
+
+Le fichier `data/index/indexed_documents.parquet` represente les chunks effectivement indexes, un chunk par ligne.
+
+## Etape 4 - Chatbot RAG
+
+L'etape 4 utilise l'index FAISS local et un modele de chat Mistral pour repondre a une question utilisateur a partir des evenements recuperes.
+
+Le chatbot :
+
+- recharge l'index FAISS local ;
+- recupere les chunks les plus proches semantiquement ;
+- construit un prompt contraint avec le contexte retrouve ;
+- interroge Mistral pour generer une reponse en francais ;
+- renvoie aussi les sources retenues.
+
+Commande one-shot :
+
+```bash
+python scripts/chatbot.py --question "Je cherche un concert a Paris ce week-end"
+```
+
+Commande JSON :
+
+```bash
+python scripts/chatbot.py \
+  --question "Je cherche une expo photo a Lyon" \
+  --json
+```
+
+Mode interactif sans historique conversationnel :
+
+```bash
+python scripts/chatbot.py
+```
+
+Options principales :
+
+- `--index-dir`
+- `--embedding-model`
+- `--chat-model`
+- `--top-k`
+- `--temperature`
+- `--max-tokens`
+
+Le moteur RAG est implemente dans `src/openagenda_rag/rag.py`.
+Les tests couvrent :
+
+- le formatage du contexte injecte dans le prompt ;
+- la deduplication des sources par evenement ;
+- le fallback quand aucun document n'est retrouve ;
+- la construction du retriever FAISS ;
+- la structure du payload de reponse.
+
+## Etape 5 - API REST
+
+L'etape 5 expose le systeme RAG via FastAPI, avec une documentation Swagger automatique disponible sur `/docs`.
+
+Routes principales :
+
+- `GET /health` : verifie l'etat de l'API et sa configuration courante.
+- `POST /ask` : prend une question utilisateur et renvoie une reponse augmentee.
+- `POST /rebuild` : reconstruit l'index FAISS a la demande.
+
+### Demarrer l'API
+
+Commande la plus simple :
+
+```bash
+python scripts/run_api.py
+```
+
+Alternative uvicorn directe :
+
+```bash
+uvicorn openagenda_rag.api:app --app-dir src --host 127.0.0.1 --port 8000
+```
+
+Une fois lancee :
+
+- Swagger UI : `http://127.0.0.1:8000/docs`
+- OpenAPI JSON : `http://127.0.0.1:8000/openapi.json`
+
+### Exemple d'appel `/ask`
+
+```bash
+curl -X POST http://127.0.0.1:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question":"Je cherche un concert a Paris"}'
+```
+
+### Exemple d'appel `/rebuild`
+
+Sans protection :
+
+```bash
+curl -X POST http://127.0.0.1:8000/rebuild \
+  -H "Content-Type: application/json" \
+  -d '{}'
+```
+
+Avec protection optionnelle :
+
+```bash
+curl -X POST http://127.0.0.1:8000/rebuild \
+  -H "Content-Type: application/json" \
+  -H "X-Admin-Token: votre_token" \
+  -d '{"chunk_size": 8000, "chunk_overlap": 200}'
+```
+
+### Test fonctionnel d'API
+
+```bash
+python scripts/api_test.py
+```
+
+Le script teste `/health` et `/ask`, et peut aussi appeler `/rebuild` avec `--include-rebuild`.

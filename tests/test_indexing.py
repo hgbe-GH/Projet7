@@ -9,6 +9,7 @@ import pytest
 from openagenda_rag.indexing import (
     INDEXED_DOCUMENT_COLUMNS,
     build_documents,
+    build_indexed_documents_frame,
     build_vector_store,
     load_events_for_indexing,
     load_vector_store,
@@ -86,6 +87,31 @@ class FakeDocument:
         self.metadata = metadata
 
 
+class FakeTextSplitter:
+    def __init__(self, chunk_size: int, chunk_overlap: int, add_start_index: bool = False):
+        self.chunk_size = chunk_size
+        self.chunk_overlap = chunk_overlap
+        self.add_start_index = add_start_index
+
+    def split_documents(self, documents):
+        split_documents = []
+        step = max(1, self.chunk_size - self.chunk_overlap)
+        for document in documents:
+            text = document.page_content
+            if not text:
+                split_documents.append(FakeDocument(text, dict(document.metadata)))
+                continue
+            start = 0
+            while start < len(text):
+                chunk = text[start : start + self.chunk_size]
+                metadata = dict(document.metadata)
+                if self.add_start_index:
+                    metadata["start_index"] = start
+                split_documents.append(FakeDocument(chunk, metadata))
+                start += step
+        return split_documents
+
+
 class FakeEmbeddings:
     def __init__(self, model: str, api_key: str | None = None, mistral_api_key: str | None = None):
         self.model = model
@@ -107,10 +133,7 @@ class FakeFAISS:
     def save_local(self, folder_path: str):
         path = Path(folder_path)
         path.mkdir(parents=True, exist_ok=True)
-        payload = [
-            {"page_content": doc.page_content, "metadata": doc.metadata}
-            for doc in self.documents
-        ]
+        payload = [{"page_content": doc.page_content, "metadata": doc.metadata} for doc in self.documents]
         (path / "fake_index.json").write_text(json.dumps(payload, ensure_ascii=True))
 
     @classmethod
@@ -152,15 +175,22 @@ def test_build_documents_preserves_page_content_and_metadata(monkeypatch):
     from openagenda_rag import indexing
 
     monkeypatch.setattr(indexing, "_get_document_class", lambda: FakeDocument)
+    monkeypatch.setattr(indexing, "_get_text_splitter_class", lambda: FakeTextSplitter)
     frame = _sample_frame().iloc[[0]].copy()
 
-    documents = build_documents(frame)
+    documents = build_documents(frame, chunk_size=100, chunk_overlap=0)
 
     assert len(documents) == 1
     assert documents[0].page_content == "Concert jazz en plein air a Paris"
     assert documents[0].metadata["event_uid"] == "evt-1"
+    assert documents[0].metadata["chunk_id"] == "evt-1::chunk-0"
+    assert documents[0].metadata["chunk_index"] == 0
+    assert documents[0].metadata["chunk_start"] == 0
     assert documents[0].metadata["categories"] == ["music", "outdoor"]
     assert set(documents[0].metadata) == {
+        "chunk_id",
+        "chunk_index",
+        "chunk_start",
         "event_uid",
         "agenda_uid",
         "title",
@@ -175,14 +205,31 @@ def test_build_documents_preserves_page_content_and_metadata(monkeypatch):
     }
 
 
+def test_build_documents_splits_long_event_text_into_multiple_chunks(monkeypatch):
+    from openagenda_rag import indexing
+
+    monkeypatch.setattr(indexing, "_get_document_class", lambda: FakeDocument)
+    monkeypatch.setattr(indexing, "_get_text_splitter_class", lambda: FakeTextSplitter)
+    frame = _sample_frame().iloc[[0]].copy()
+    frame.loc[frame.index[0], "text_for_embedding"] = "abcdefghij" * 6
+
+    documents = build_documents(frame, chunk_size=20, chunk_overlap=5)
+
+    assert len(documents) > 1
+    assert [doc.metadata["chunk_index"] for doc in documents] == list(range(len(documents)))
+    assert documents[0].metadata["event_uid"] == "evt-1"
+    assert documents[1].metadata["chunk_start"] == 15
+
+
 def test_build_vector_store_and_load_vector_store_roundtrip(monkeypatch, tmp_path: Path):
     from openagenda_rag import indexing
 
     monkeypatch.setattr(indexing, "_get_document_class", lambda: FakeDocument)
+    monkeypatch.setattr(indexing, "_get_text_splitter_class", lambda: FakeTextSplitter)
     monkeypatch.setattr(indexing, "_get_faiss_class", lambda: FakeFAISS)
     monkeypatch.setattr(indexing, "_get_mistral_embeddings_class", lambda: FakeEmbeddings)
     frame = _sample_frame().iloc[[0]].copy()
-    documents = build_documents(frame)
+    documents = build_documents(frame, chunk_size=100, chunk_overlap=0)
 
     vector_store = build_vector_store(
         documents=documents,
@@ -203,9 +250,28 @@ def test_build_vector_store_and_load_vector_store_roundtrip(monkeypatch, tmp_pat
 
     assert matches[0].metadata["event_uid"] == "evt-1"
     assert (output_dir / "fake_index.json").exists()
-    assert ((output_dir.parent / "index_manifest.json").exists())
+    assert (output_dir.parent / "index_manifest.json").exists()
+
+
+def test_build_indexed_documents_frame_tracks_chunk_metadata(monkeypatch):
+    from openagenda_rag import indexing
+
+    monkeypatch.setattr(indexing, "_get_document_class", lambda: FakeDocument)
+    monkeypatch.setattr(indexing, "_get_text_splitter_class", lambda: FakeTextSplitter)
+    frame = _sample_frame().iloc[[0]].copy()
+    frame.loc[frame.index[0], "text_for_embedding"] = "abcdefghij" * 6
+
+    documents = build_documents(frame, chunk_size=20, chunk_overlap=5)
+    indexed_frame = build_indexed_documents_frame(documents)
+
+    assert "raw_event" not in indexed_frame.columns
+    assert "chunk_id" in indexed_frame.columns
+    assert indexed_frame.iloc[0]["event_uid"] == "evt-1"
+    assert indexed_frame.iloc[1]["chunk_index"] == 1
+    assert indexed_frame.columns.tolist().count("text_for_embedding") == 1
 
 
 def test_indexed_document_columns_exclude_raw_payload():
     assert "raw_event" not in INDEXED_DOCUMENT_COLUMNS
     assert "event_uid" in INDEXED_DOCUMENT_COLUMNS
+    assert "chunk_id" in INDEXED_DOCUMENT_COLUMNS

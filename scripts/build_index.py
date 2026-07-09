@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timezone
 import json
 from pathlib import Path
 import sys
@@ -15,13 +14,7 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from openagenda_rag.indexing import (
-    INDEXED_DOCUMENTS_FILENAME,
-    MANIFEST_FILENAME,
-    build_documents,
-    build_indexed_documents_frame,
-    build_vector_store,
-    load_events_for_indexing,
-    save_vector_store,
+    rebuild_index_artifacts,
 )
 from openagenda_rag.settings import load_index_settings
 
@@ -32,6 +25,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=Path, help="Directory where the FAISS index will be saved")
     parser.add_argument("--embedding-model", help="Mistral embedding model name")
     parser.add_argument("--batch-size", type=int, help="Number of documents to embed per batch")
+    parser.add_argument("--chunk-size", type=int, help="Chunk size in characters before vectorization")
+    parser.add_argument("--chunk-overlap", type=int, help="Chunk overlap in characters before vectorization")
     parser.add_argument(
         "--rebuild",
         action="store_true",
@@ -54,54 +49,32 @@ def main() -> int:
     output_dir = _resolve_path(args.output_dir or settings.output_dir)
     embedding_model = args.embedding_model or settings.embedding_model
     batch_size = args.batch_size or settings.batch_size
+    chunk_size = args.chunk_size or settings.chunk_size
+    chunk_overlap = args.chunk_overlap if args.chunk_overlap is not None else settings.chunk_overlap
     api_key = settings.mistral_api_key
-
-    try:
-        frame = load_events_for_indexing(input_path)
-    except Exception as exc:  # pragma: no cover - CLI integration path
-        print(f"Index build failed: {exc}", file=sys.stderr)
-        return 1
 
     if not api_key:
         print("MISTRAL_API_KEY or MISTRALAI_API_KEY is required to build the FAISS index.", file=sys.stderr)
         return 1
 
     try:
-        documents = build_documents(frame)
-        vector_store = build_vector_store(
-            documents=documents,
+        payload = rebuild_index_artifacts(
+            input_path=input_path,
+            output_dir=output_dir,
             embedding_model=embedding_model,
             api_key=api_key,
             batch_size=batch_size,
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            rebuild_requested=args.rebuild,
         )
     except Exception as exc:  # pragma: no cover - CLI integration path
         print(f"Index build failed: {exc}", file=sys.stderr)
         return 1
 
-    manifest = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "source_dataset": str(input_path),
-        "output_dir": str(output_dir),
-        "embedding_model": embedding_model,
-        "batch_size": batch_size,
-        "indexed_event_count": len(frame),
-        "indexed_document_count": len(documents),
-        "rebuild_requested": args.rebuild,
-    }
-    save_vector_store(vector_store, output_dir, manifest)
-
-    indexed_documents_path = output_dir.parent / INDEXED_DOCUMENTS_FILENAME
-    build_indexed_documents_frame(frame).to_parquet(indexed_documents_path, index=False)
-
     print(
         json.dumps(
-            {
-                "manifest_path": str(output_dir.parent / MANIFEST_FILENAME),
-                "indexed_documents_path": str(indexed_documents_path),
-                "indexed_event_count": len(frame),
-                "indexed_document_count": len(documents),
-                "output_dir": str(output_dir),
-            },
+            payload,
             ensure_ascii=True,
             indent=2,
         )

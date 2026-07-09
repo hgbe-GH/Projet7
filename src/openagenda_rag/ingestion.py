@@ -14,6 +14,7 @@ import requests
 DEFAULT_BASE_URL = "https://public.opendatasoft.com/api/explore/v2.1"
 DEFAULT_DATASET = "evenements-publics-openagenda"
 DEFAULT_TIMEOUT = 30
+MAX_PAGE_SIZE = 100
 
 NORMALIZED_COLUMNS = [
     "event_uid",
@@ -108,6 +109,10 @@ def _dedupe_preserving_order(values: list[str]) -> list[str]:
     return deduped
 
 
+def _sanitize_page_size(page_size: int) -> int:
+    return max(1, min(page_size, MAX_PAGE_SIZE))
+
+
 def _extract_location(raw_event: dict[str, Any]) -> dict[str, Any]:
     coordinates = raw_event.get("location_coordinates") or {}
     return {
@@ -192,8 +197,9 @@ def build_records_request_params(
     offset: int = 0,
     page_size: int = 100,
 ) -> dict[str, Any]:
+    effective_page_size = _sanitize_page_size(page_size)
     return {
-        "limit": page_size,
+        "limit": effective_page_size,
         "offset": offset,
         "lang": "fr",
         "timezone": "Europe/Paris",
@@ -293,13 +299,14 @@ class OpenAgendaClient:
         total_count = None
 
         while True:
+            effective_page_size = _sanitize_page_size(page_size)
             params = build_records_request_params(
                 start_date=start_date,
                 end_date=end_date,
                 city=city,
                 agenda_uid=agenda_uid,
                 offset=offset,
-                page_size=page_size,
+                page_size=effective_page_size,
             )
             response = self.session.get(
                 self.records_url,
@@ -314,8 +321,8 @@ class OpenAgendaClient:
 
             events.extend(page_events)
             total_count = payload.get("total_count")
-            offset += page_size
-            if len(page_events) < page_size:
+            offset += effective_page_size
+            if len(page_events) < effective_page_size:
                 break
             if isinstance(total_count, int) and offset >= total_count:
                 break

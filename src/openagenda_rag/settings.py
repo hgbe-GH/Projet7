@@ -31,7 +31,27 @@ class IndexSettings:
     output_dir: Path
     embedding_model: str
     batch_size: int
+    chunk_size: int
+    chunk_overlap: int
     mistral_api_key: str | None
+
+
+@dataclass
+class RagSettings:
+    index_output_dir: Path
+    embedding_model: str
+    chat_model: str
+    top_k: int
+    temperature: float
+    max_tokens: int
+    mistral_api_key: str | None
+
+
+@dataclass
+class ApiSettings:
+    host: str
+    port: int
+    rebuild_token: str | None
 
 
 def _default_start_date() -> str:
@@ -67,5 +87,29 @@ def load_index_settings() -> IndexSettings:
         output_dir=Path(os.getenv("INDEX_OUTPUT_DIR", "data/index/faiss")),
         embedding_model=os.getenv("INDEX_EMBEDDING_MODEL", "mistral-embed"),
         batch_size=int(os.getenv("INDEX_BATCH_SIZE", "50")),
+        chunk_size=int(os.getenv("INDEX_CHUNK_SIZE", "1000")),
+        chunk_overlap=int(os.getenv("INDEX_CHUNK_OVERLAP", "200")),
         mistral_api_key=os.getenv("MISTRAL_API_KEY") or os.getenv("MISTRALAI_API_KEY"),
+    )
+
+
+def load_rag_settings() -> RagSettings:
+    load_dotenv()
+    return RagSettings(
+        index_output_dir=Path(os.getenv("INDEX_OUTPUT_DIR", "data/index/faiss")),
+        embedding_model=os.getenv("INDEX_EMBEDDING_MODEL", "mistral-embed"),
+        chat_model=os.getenv("RAG_CHAT_MODEL", "mistral-small-latest"),
+        top_k=int(os.getenv("RAG_TOP_K", "4")),
+        temperature=float(os.getenv("RAG_TEMPERATURE", "0.1")),
+        max_tokens=int(os.getenv("RAG_MAX_TOKENS", "700")),
+        mistral_api_key=os.getenv("MISTRAL_API_KEY") or os.getenv("MISTRALAI_API_KEY"),
+    )
+
+
+def load_api_settings() -> ApiSettings:
+    load_dotenv()
+    return ApiSettings(
+        host=os.getenv("API_HOST", "127.0.0.1"),
+        port=int(os.getenv("API_PORT", "8000")),
+        rebuild_token=os.getenv("API_REBUILD_TOKEN") or None,
     )

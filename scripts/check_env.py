@@ -23,12 +23,17 @@ def check_imports() -> None:
         category=DeprecationWarning,
     )
     import faiss  # noqa: F401
+    import fastapi  # noqa: F401
     from langchain_community.vectorstores import FAISS  # noqa: F401
     from langchain_huggingface import HuggingFaceEmbeddings  # noqa: F401
     from langchain_mistralai import MistralAIEmbeddings  # noqa: F401
+    from langchain_text_splitters import RecursiveCharacterTextSplitter  # noqa: F401
     from mistralai.client import Mistral  # noqa: F401
+    import uvicorn  # noqa: F401
 
-    print("[ok] Core imports succeeded: faiss, FAISS vectorstore, HuggingFace embeddings, Mistral integrations")
+    print(
+        "[ok] Core imports succeeded: fastapi, uvicorn, faiss, FAISS vectorstore, text splitter, HuggingFace embeddings, Mistral integrations"
+    )
 
 
 def check_mistral_api() -> None:
