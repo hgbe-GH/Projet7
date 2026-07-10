@@ -58,6 +58,10 @@ def _default_start_date() -> str:
     return (date.today() - timedelta(days=DEFAULT_LOOKBACK_DAYS)).isoformat()
 
 
+def _default_end_date() -> str:
+    return date.today().isoformat()
+
+
 def _split_csv(value: str | None) -> list[str]:
     if not value:
         return []
@@ -66,6 +70,10 @@ def _split_csv(value: str | None) -> list[str]:
 
 def load_fetch_settings() -> FetchSettings:
     load_dotenv()
+    raw_end_date = os.getenv("OPENAGENDA_END_DATE")
+    end_date = raw_end_date.strip() if raw_end_date else ""
+    if not end_date:
+        end_date = _default_end_date()
     return FetchSettings(
         opendatasoft_base_url=os.getenv("OPENDATASOFT_BASE_URL", "https://public.opendatasoft.com/api/explore/v2.1"),
         opendatasoft_dataset=os.getenv("OPENDATASOFT_DATASET", "evenements-publics-openagenda"),
@@ -73,7 +81,7 @@ def load_fetch_settings() -> FetchSettings:
         agenda_search=os.getenv("OPENAGENDA_SEARCH"),
         city=os.getenv("OPENAGENDA_CITY"),
         start_date=os.getenv("OPENAGENDA_START_DATE", _default_start_date()),
-        end_date=os.getenv("OPENAGENDA_END_DATE") or None,
+        end_date=end_date,
         category_field=os.getenv("OPENAGENDA_CATEGORY_FIELD") or None,
         category_ids=_split_csv(os.getenv("OPENAGENDA_CATEGORY_IDS")),
         mistral_api_key=os.getenv("MISTRAL_API_KEY"),

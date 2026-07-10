@@ -1,0 +1,5 @@
+question,expected_answer,expected_event_titles,notes
+"Parle-moi de Concert Fishers a Paris","Le systeme doit presenter Concert Fishers a Paris avec au moins un element factuel utile, par exemple la date, le lieu ou le type de concert.","[""Concert Fishers""]","positive_precise"
+"Parle-moi de SALON DE LA PHOTO a Paris","Le systeme doit presenter SALON DE LA PHOTO a Paris avec au moins un element factuel utile, par exemple la date, le lieu ou le type d'evenement.","[""SALON DE LA PHOTO""]","positive_precise"
+"Je cherche une sortie en famille a Paris avec une visite theatricalisee","Le systeme doit proposer les deux visites theatralisees en famille retrouvees dans le corpus Paris et citer des sources coherentes.","[""Activité en famille : une visite théâtralisée dans le Marais"",""Une expérience insolite en famille : une visite théâtralisée des Passages Couverts""]","positive_aggregate"
+"Quelles expositions photo a Lyon ?","Je ne sais pas, car le corpus livre est borne a Paris et ne couvre pas cette demande.","[]","negative_out_of_scope"

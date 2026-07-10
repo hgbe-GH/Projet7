@@ -1,0 +1,230 @@
+{"kind":"deck","id":"pr/wzfu2e","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/2x4nap4r","slide":1,"title":"Assistant RAG pour la recommandation d'evenements culturels","textShapes":6}
+{"kind":"shape","id":"sh/nap4r65w","slide":1,"bbox":[760,58,420,604]}
+{"kind":"shape","id":"sh/cvixczed","slide":1,"bbox":[72,112,132,8]}
+{"kind":"textbox","id":"sh/5gbq1ory","slide":1,"text":"Assistant RAG pour la recommandation d'evenements culturels","textPreview":"Assistant RAG pour la recommandation d'evenements culturels","textChars":59,"textLines":1,"bbox":[72,152,620,190]}
+{"kind":"textbox","id":"sh/udg7adsj","slide":1,"text":"POC OpenClassrooms pour Puls-Events\nCorpus Paris borne + Mistral + FAISS + FastAPI + Docker","textPreview":"POC OpenClassrooms pour Puls-Events | Corpus Paris borne + Mistral + FAISS + FastAPI + Docker","textChars":91,"textLines":2,"bbox":[72,360,560,120]}
+{"kind":"textbox","id":"sh/nyd0z610","slide":1,"text":"Soutenance - 10 juillet 2026","textPreview":"Soutenance - 10 juillet 2026","textChars":28,"textLines":1,"bbox":[72,560,260,42]}
+{"kind":"textbox","id":"sh/cj6tovah","slide":1,"text":"Corpus livre","textPreview":"Corpus livre","textChars":12,"textLines":1,"bbox":[808,106,320,54]}
+{"kind":"textbox","id":"sh/54zidony","slide":1,"text":"Paris uniquement\n\nFenetre collecte: du 2025-07-10 au 2026-07-10\n\n7 586 evenements normalises\n\n14 903 chunks FAISS","textPreview":"Paris uniquement |  | Fenetre collecte: du 2025-07-10 au 2026-07-10 |  | 7 586 evenements normalises |  | 14 903 chunks FAISS","textChars":113,"textLines":7,"bbox":[808,174,320,290]}
+{"kind":"textbox","id":"sh/u9knih4b","slide":1,"text":"POC operationnel, evalue et conteneurise.","textPreview":"POC operationnel, evalue et conteneurise.","textChars":41,"textLines":1,"bbox":[808,520,320,80]}
+{"kind":"notes","id":"nt/2x4nap4r","slide":1,"text":""}
+{"kind":"slide","id":"sl/pg3ex0nu","slide":2,"title":"CONTEXTE","textShapes":10}
+{"kind":"textbox","id":"sh/yxobm58z","slide":2,"text":"CONTEXTE","textPreview":"CONTEXTE","textChars":8,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/5o7qpg3e","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/g3ex0nux","slide":2,"text":"Le probleme metier","textPreview":"Le probleme metier","textChars":18,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":2,"text":"Puls-Events veut tester un chatbot capable de recommander des evenements culturels a partir d'un corpus reel et evolutif.","textPreview":"Puls-Events veut tester un chatbot capable de recommander des evenements culturels a partir d'un corpus reel et evolutif.","textChars":121,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/ylc7u54z","slide":2,"bbox":[72,218,340,360]}
+{"kind":"textbox","id":"sh/9cvixcze","slide":2,"text":"Attente metier","textPreview":"Attente metier","textChars":14,"textLines":1,"bbox":[96,238,292,32]}
+{"kind":"textbox","id":"sh/gr2p8nqx","slide":2,"text":"• Poser une question naturelle\n• Obtenir des suggestions utiles\n• Justifier la reponse par des sources verifiables\n• Donner une interface testable aux equipes produit","textPreview":"• Poser une question naturelle | • Obtenir des suggestions utiles | • Justifier la reponse par des sources verifiables | • Donner une int...","textChars":166,"textLines":4,"bbox":[96,282,292,272]}
+{"kind":"shape","id":"sh/rytsvu9k","slide":2,"bbox":[436,218,340,360]}
+{"kind":"textbox","id":"sh/yd0z6103","slide":2,"text":"Difficulte","textPreview":"Difficulte","textChars":10,"textLines":1,"bbox":[460,238,292,32]}
+{"kind":"textbox","id":"sh/wb2hwfyx","slide":2,"text":"• Donnees evenementielles heterogenes\n• Descriptions longues et bruites\n• Besoin de recherche semantique, pas seulement par mots-clés\n• Necessite de garder les metadonnees date / lieu / URL","textPreview":"• Donnees evenementielles heterogenes | • Descriptions longues et bruites | • Besoin de recherche semantique, pas seulement par mots-clés...","textChars":189,"textLines":4,"bbox":[460,282,292,272]}
+{"kind":"shape","id":"sh/lwval87e","slide":2,"bbox":[800,218,408,360]}
+{"kind":"textbox","id":"sh/e9cvixcz","slide":2,"text":"Reponse proposee","textPreview":"Reponse proposee","textChars":16,"textLines":1,"bbox":[824,238,360,32]}
+{"kind":"textbox","id":"sh/3q5o7qpg","slide":2,"text":"• Preparation d'un dataset propre\n• Vectorisation Mistral\n• Index local FAISS\n• Generation de reponse via Mistral\n• Exposition par API FastAPI puis Docker","textPreview":"• Preparation d'un dataset propre | • Vectorisation Mistral | • Index local FAISS | • Generation de reponse via Mistral | • Exposition pa...","textChars":154,"textLines":5,"bbox":[824,282,360,272]}
+{"kind":"notes","id":"nt/pg3ex0nu","slide":2,"text":""}
+{"kind":"slide","id":"sl/s72x4nap","slide":3,"title":"PEDAGOGIE","textShapes":11}
+{"kind":"textbox","id":"sh/vmtwra5g","slide":3,"text":"PEDAGOGIE","textPreview":"PEDAGOGIE","textChars":9,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/o7qpg3ex","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/dsji5sne","slide":3,"text":"RAG en termes simples","textPreview":"RAG en termes simples","textChars":21,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/6dcbulwv","slide":3,"text":"Le systeme combine recherche documentaire et generation de texte, pour repondre avec contexte.","textPreview":"Le systeme combine recherche documentaire et generation de texte, pour repondre avec contexte.","textChars":94,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/vy90je9c","slide":3,"bbox":[72,230,320,260]}
+{"kind":"textbox","id":"sh/oj2t83it","slide":3,"text":"1. Retrieval","textPreview":"1. Retrieval","textChars":12,"textLines":1,"bbox":[96,250,272,32]}
+{"kind":"textbox","id":"sh/d4vmtwra","slide":3,"text":"La question utilisateur est transformee en vecteur puis comparee a l'index FAISS pour retrouver les evenements les plus proches semantiquement.","textPreview":"La question utilisateur est transformee en vecteur puis comparee a l'index FAISS pour retrouver les evenements les plus proches semantiqu...","textChars":143,"textLines":1,"bbox":[96,294,272,172]}
+{"kind":"shape","id":"sh/6hcrmhk3","slide":3,"bbox":[480,230,320,260]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":3,"text":"2. Augmented","textPreview":"2. Augmented","textChars":12,"textLines":1,"bbox":[504,250,272,32]}
+{"kind":"textbox","id":"sh/vy90je9c","slide":3,"text":"Les titres, descriptions, dates, lieux et URL des meilleurs evenements sont reformates en contexte de travail pour le LLM.","textPreview":"Les titres, descriptions, dates, lieux et URL des meilleurs evenements sont reformates en contexte de travail pour le LLM.","textChars":122,"textLines":1,"bbox":[504,294,272,172]}
+{"kind":"shape","id":"sh/6dcbulwv","slide":3,"bbox":[888,230,320,260]}
+{"kind":"textbox","id":"sh/d4vmtwra","slide":3,"text":"3. Generation","textPreview":"3. Generation","textChars":13,"textLines":1,"bbox":[912,250,272,32]}
+{"kind":"textbox","id":"sh/oj2t83it","slide":3,"text":"Mistral redige une reponse claire, limitee au contexte fourni, avec retour des sources pour verifier les recommandations.","textPreview":"Mistral redige une reponse claire, limitee au contexte fourni, avec retour des sources pour verifier les recommandations.","textChars":121,"textLines":1,"bbox":[912,294,272,172]}
+{"kind":"textbox","id":"sh/vmtwra5g","slide":3,"text":"Valeur business: une reponse plus pertinente qu'une recherche plein texte brute, et plus fiable qu'un LLM sans contexte.","textPreview":"Valeur business: une reponse plus pertinente qu'une recherche plein texte brute, et plus fiable qu'un LLM sans contexte.","textChars":120,"textLines":1,"bbox":[72,540,1136,60]}
+{"kind":"notes","id":"nt/s72x4nap","slide":3,"text":""}
+{"kind":"slide","id":"sl/val87ed8","slide":4,"title":"DONNEES","textShapes":10}
+{"kind":"textbox","id":"sh/1gvy90je","slide":4,"text":"DONNEES","textPreview":"DONNEES","textChars":7,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/qtcj6tov","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/je9cvixc","slide":4,"text":"Jeu de donnees OpenAgenda / Opendatasoft utilise","textPreview":"Jeu de donnees OpenAgenda / Opendatasoft utilise","textChars":48,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/87ed8bat","slide":4,"text":"Le projet s'appuie sur le dataset public evenements-publics-openagenda et livre un seed Paris borne.","textPreview":"Le projet s'appuie sur le dataset public evenements-publics-openagenda et livre un seed Paris borne.","textChars":100,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/xs72x4na","slide":4,"bbox":[72,214,360,330]}
+{"kind":"textbox","id":"sh/q1orytsv","slide":4,"text":"Source retenue","textPreview":"Source retenue","textChars":14,"textLines":1,"bbox":[96,234,312,32]}
+{"kind":"textbox","id":"sh/fmlkjm1c","slide":4,"text":"• API Opendatasoft v2.1\n• Dataset: evenements-publics-openagenda\n• Collecte scriptable via `fetch_events.py`\n• Export brut JSON + parquet structure + manifeste","textPreview":"• API Opendatasoft v2.1 | • Dataset: evenements-publics-openagenda | • Collecte scriptable via `fetch_events.py` | • Export brut JSON + p...","textChars":159,"textLines":4,"bbox":[96,278,312,242]}
+{"kind":"shape","id":"sh/8jqh0fep","slide":4,"bbox":[460,214,330,330]}
+{"kind":"textbox","id":"sh/x4nap4r6","slide":4,"text":"Filtre de travail actuel","textPreview":"Filtre de travail actuel","textChars":24,"textLines":1,"bbox":[484,234,282,32]}
+{"kind":"textbox","id":"sh/1w7mp0bi","slide":4,"text":"• Ville: Paris\n• Fenetre: du 2025-07-10 au 2026-07-10\n• Agenda source: non restreint\n• Categories: non restreintes","textPreview":"• Ville: Paris | • Fenetre: du 2025-07-10 au 2026-07-10 | • Agenda source: non restreint | • Categories: non restreintes","textChars":114,"textLines":4,"bbox":[484,278,282,242]}
+{"kind":"shape","id":"sh/8bat47y1","slide":4,"bbox":[818,214,390,330]}
+{"kind":"textbox","id":"sh/jqh0fepk","slide":4,"text":"Chiffres observes","textPreview":"Chiffres observes","textChars":17,"textLines":1,"bbox":[842,234,342,32]}
+{"kind":"textbox","id":"sh/q5o7qpg3","slide":4,"text":"• 7 586 evenements bruts\n• 7 586 evenements normalises\n• 1 ville dans le seed livre\n• Manifeste: fetch_manifest.json","textPreview":"• 7 586 evenements bruts | • 7 586 evenements normalises | • 1 ville dans le seed livre | • Manifeste: fetch_manifest.json","textChars":116,"textLines":4,"bbox":[842,278,342,242]}
+{"kind":"notes","id":"nt/val87ed8","slide":4,"text":""}
+{"kind":"slide","id":"sl/mlkjm1cf","slide":5,"title":"PIPELINE","textShapes":22}
+{"kind":"textbox","id":"sh/vahoza1g","slide":5,"text":"PIPELINE","textPreview":"PIPELINE","textChars":8,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/ovahoza1","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/dg7adsji","slide":5,"text":"Pipeline technique de bout en bout","textPreview":"Pipeline technique de bout en bout","textChars":34,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":5,"text":"Le POC est structure en etapes distinctes pour rester reproductible et testable.","textPreview":"Le POC est structure en etapes distinctes pour rester reproductible et testable.","textChars":80,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/z25kb6xk","slide":5,"bbox":[72,250,164,210]}
+{"kind":"textbox","id":"sh/onyd0z61","slide":5,"text":"Collecte","textPreview":"Collecte","textChars":8,"textLines":1,"bbox":[96,270,116,32]}
+{"kind":"textbox","id":"sh/d8v6psfi","slide":5,"text":"Opendatasoft / OpenAgenda\nfetch_events.py","textPreview":"Opendatasoft / OpenAgenda | fetch_events.py","textChars":41,"textLines":2,"bbox":[96,314,116,122]}
+{"kind":"textbox","id":"sh/6dcbulwv","slide":5,"text":">","textPreview":">","textChars":1,"textLines":1,"bbox":[242,332,24,24]}
+{"kind":"shape","id":"sh/vy90je9c","slide":5,"bbox":[254,250,164,210]}
+{"kind":"textbox","id":"sh/nuxc3ylc","slide":5,"text":"Nettoyage","textPreview":"Nettoyage","textChars":9,"textLines":1,"bbox":[278,270,116,32]}
+{"kind":"textbox","id":"sh/y90je9cv","slide":5,"text":"normalisation schema\ntext_for_embedding","textPreview":"normalisation schema | text_for_embedding","textChars":39,"textLines":2,"bbox":[278,314,116,122]}
+{"kind":"textbox","id":"sh/5wjudg7a","slide":5,"text":">","textPreview":">","textChars":1,"textLines":1,"bbox":[424,332,24,24]}
+{"kind":"shape","id":"sh/gbq1oryt","slide":5,"bbox":[436,250,164,210]}
+{"kind":"textbox","id":"sh/n29gr2p8","slide":5,"text":"Indexation","textPreview":"Indexation","textChars":10,"textLines":1,"bbox":[460,270,116,32]}
+{"kind":"textbox","id":"sh/yhgn29gr","slide":5,"text":"chunks + Mistral embeddings\nFAISS local","textPreview":"chunks + Mistral embeddings | FAISS local","textChars":39,"textLines":2,"bbox":[460,314,116,122]}
+{"kind":"textbox","id":"sh/58z25kb6","slide":5,"text":">","textPreview":">","textChars":1,"textLines":1,"bbox":[606,332,24,24]}
+{"kind":"shape","id":"sh/gn29gr2p","slide":5,"bbox":[618,250,164,210]}
+{"kind":"textbox","id":"sh/neloj2t8","slide":5,"text":"RAG","textPreview":"RAG","textChars":3,"textLines":1,"bbox":[642,270,116,32]}
+{"kind":"textbox","id":"sh/ytsvu9kn","slide":5,"text":"retriever + prompt\nMistral chat","textPreview":"retriever + prompt | Mistral chat","textChars":31,"textLines":2,"bbox":[642,314,116,122]}
+{"kind":"textbox","id":"sh/2x4nap4r","slide":5,"text":">","textPreview":">","textChars":1,"textLines":1,"bbox":[788,332,24,24]}
+{"kind":"shape","id":"sh/vixczed8","slide":5,"bbox":[800,250,164,210]}
+{"kind":"textbox","id":"sh/k3q5o7qp","slide":5,"text":"API","textPreview":"API","textChars":3,"textLines":1,"bbox":[824,270,116,32]}
+{"kind":"textbox","id":"sh/donyd0z6","slide":5,"text":"FastAPI\n/ask /rebuild /health","textPreview":"FastAPI | /ask /rebuild /health","textChars":29,"textLines":2,"bbox":[824,314,116,122]}
+{"kind":"textbox","id":"sh/6psfil0r","slide":5,"text":">","textPreview":">","textChars":1,"textLines":1,"bbox":[970,332,24,24]}
+{"kind":"shape","id":"sh/val87ed8","slide":5,"bbox":[982,250,164,210]}
+{"kind":"textbox","id":"sh/kre1w7mp","slide":5,"text":"Docker","textPreview":"Docker","textChars":6,"textLines":1,"bbox":[1006,270,116,32]}
+{"kind":"textbox","id":"sh/dcbulwva","slide":5,"text":"image seedee + volume runtime\ndemo locale","textPreview":"image seedee + volume runtime | demo locale","textChars":41,"textLines":2,"bbox":[1006,314,116,122]}
+{"kind":"textbox","id":"sh/2lszqtcj","slide":5,"text":"Separation claire des responsabilites: ingestion, indexation, generation et exposition HTTP sont decouplees dans `src/openagenda_rag/`.","textPreview":"Separation claire des responsabilites: ingestion, indexation, generation et exposition HTTP sont decouplees dans `src/openagenda_rag/`.","textChars":135,"textLines":1,"bbox":[72,520,1136,74]}
+{"kind":"notes","id":"nt/mlkjm1cf","slide":5,"text":""}
+{"kind":"slide","id":"sl/58z25kb6","slide":6,"title":"INDEX","textShapes":10}
+{"kind":"textbox","id":"sh/9cvixcze","slide":6,"text":"INDEX","textPreview":"INDEX","textChars":5,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/ylc7u54z","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":6,"text":"Vectorisation Mistral + base FAISS","textPreview":"Vectorisation Mistral + base FAISS","textChars":34,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/g3ex0nux","slide":6,"text":"Chaque evenement est converti en chunks textes puis indexe avec ses metadonnees dans FAISS.","textPreview":"Chaque evenement est converti en chunks textes puis indexe avec ses metadonnees dans FAISS.","textChars":91,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/5o7qpg3e","slide":6,"bbox":[72,220,360,320]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":6,"text":"Parametres du build","textPreview":"Parametres du build","textChars":19,"textLines":1,"bbox":[96,240,312,32]}
+{"kind":"textbox","id":"sh/nih4byhg","slide":6,"text":"• Modele d'embedding: mistral-embed\n• Batch size: 50\n• Chunk size: 1 000 caracteres\n• Overlap: 200 caracteres\n• Script: python scripts/build_index.py","textPreview":"• Modele d'embedding: mistral-embed | • Batch size: 50 | • Chunk size: 1 000 caracteres | • Overlap: 200 caracteres | • Script: python sc...","textChars":149,"textLines":5,"bbox":[96,284,312,232]}
+{"kind":"shape","id":"sh/g7adsji5","slide":6,"bbox":[460,220,350,320]}
+{"kind":"textbox","id":"sh/9s36hcrm","slide":6,"text":"Artefacts produits","textPreview":"Artefacts produits","textChars":18,"textLines":1,"bbox":[484,240,302,32]}
+{"kind":"textbox","id":"sh/d8v6psfi","slide":6,"text":"• data/index/faiss/\n• index_manifest.json\n• indexed_documents.parquet\n• index rechargeable localement","textPreview":"• data/index/faiss/ | • index_manifest.json | • indexed_documents.parquet | • index rechargeable localement","textChars":101,"textLines":4,"bbox":[484,284,302,232]}
+{"kind":"shape","id":"sh/onyd0z61","slide":6,"bbox":[838,220,370,320]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":6,"text":"Chiffres observes","textPreview":"Chiffres observes","textChars":17,"textLines":1,"bbox":[862,240,322,32]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":6,"text":"• 7 586 evenements indexes\n• 14 903 documents/chunks FAISS\n• Index rechargeable localement\n• Metadonnees: titre, ville, dates, URL","textPreview":"• 7 586 evenements indexes | • 14 903 documents/chunks FAISS | • Index rechargeable localement | • Metadonnees: titre, ville, dates, URL","textChars":130,"textLines":4,"bbox":[862,284,322,232]}
+{"kind":"notes","id":"nt/58z25kb6","slide":6,"text":""}
+{"kind":"slide","id":"sl/0z61032l","slide":7,"title":"APPLICATION","textShapes":10}
+{"kind":"textbox","id":"sh/qd4vmtwr","slide":7,"text":"APPLICATION","textPreview":"APPLICATION","textChars":11,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/x4nap4r6","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":7,"text":"Chatbot RAG + API FastAPI","textPreview":"Chatbot RAG + API FastAPI","textChars":25,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":7,"text":"Le service garde retriever et modele en memoire et se reinitialise proprement apres /rebuild.","textPreview":"Le service garde retriever et modele en memoire et se reinitialise proprement apres /rebuild.","textChars":93,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/qpg3ex0n","slide":7,"bbox":[72,220,330,320]}
+{"kind":"textbox","id":"sh/xczed8v6","slide":7,"text":"Chatbot","textPreview":"Chatbot","textChars":7,"textLines":1,"bbox":[96,240,282,32]}
+{"kind":"textbox","id":"sh/8v6psfil","slide":7,"text":"• Recherche top-k dans FAISS\n• Prompt contraint en francais\n• Generation Mistral `mistral-small-latest`\n• Reponse + liste de sources","textPreview":"• Recherche top-k dans FAISS | • Prompt contraint en francais | • Generation Mistral `mistral-small-latest` | • Reponse + liste de sources","textChars":132,"textLines":4,"bbox":[96,284,282,232]}
+{"kind":"shape","id":"sh/je9cvixc","slide":7,"bbox":[430,220,330,320]}
+{"kind":"textbox","id":"sh/qtcj6tov","slide":7,"text":"Endpoints","textPreview":"Endpoints","textChars":9,"textLines":1,"bbox":[454,240,282,32]}
+{"kind":"textbox","id":"sh/svu9knih","slide":7,"text":"• GET /health\n• POST /ask\n• POST /rebuild\n• Swagger automatique sur /docs","textPreview":"• GET /health | • POST /ask | • POST /rebuild | • Swagger automatique sur /docs","textChars":73,"textLines":4,"bbox":[454,284,282,232]}
+{"kind":"shape","id":"sh/hgn29gr2","slide":7,"bbox":[788,220,420,320]}
+{"kind":"textbox","id":"sh/ap4r65wj","slide":7,"text":"Validation observee","textPreview":"Validation observee","textChars":19,"textLines":1,"bbox":[812,240,372,32]}
+{"kind":"textbox","id":"sh/za1gvy90","slide":7,"text":"• 35 tests Python passent\n• python scripts/api_test.py valide /health et /ask\n• python scripts/evaluate_rag.py passe en direct et via API\n• reponses non vides avec sources exploitables","textPreview":"• 35 tests Python passent | • python scripts/api_test.py valide /health et /ask | • python scripts/evaluate_rag.py passe en direct et via...","textChars":184,"textLines":4,"bbox":[812,284,372,232]}
+{"kind":"notes","id":"nt/0z61032l","slide":7,"text":""}
+{"kind":"slide","id":"sl/fu18jqh0","slide":8,"title":"DEPLOYMENT","textShapes":10}
+{"kind":"textbox","id":"sh/1032lszq","slide":8,"text":"DEPLOYMENT","textPreview":"DEPLOYMENT","textChars":10,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/u9knih4b","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/judg7ads","slide":8,"text":"Conteneurisation Docker","textPreview":"Conteneurisation Docker","textChars":23,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/c7u54zid","slide":8,"text":"La livraison locale embarque un seed du corpus et de l'index pour une demo plus fiable.","textPreview":"La livraison locale embarque un seed du corpus et de l'index pour une demo plus fiable.","textChars":87,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/1orytsvu","slide":8,"bbox":[72,220,350,330]}
+{"kind":"textbox","id":"sh/u18jqh0f","slide":8,"text":"Image","textPreview":"Image","textChars":5,"textLines":1,"bbox":[96,240,302,32]}
+{"kind":"textbox","id":"sh/jm1cfa9w","slide":8,"text":"• Base python:3.12-slim\n• dependances Python installees\n• code source + scripts copies\n• seed de data/processed et data/index integre","textPreview":"• Base python:3.12-slim | • dependances Python installees | • code source + scripts copies | • seed de data/processed et data/index integre","textChars":133,"textLines":4,"bbox":[96,284,302,242]}
+{"kind":"shape","id":"sh/cvixczed","slide":8,"bbox":[450,220,350,330]}
+{"kind":"textbox","id":"sh/5gbq1ory","slide":8,"text":"Runtime","textPreview":"Runtime","textChars":7,"textLines":1,"bbox":[474,240,302,32]}
+{"kind":"textbox","id":"sh/18jqh0fe","slide":8,"text":"• entrypoint copie le seed vers /app/runtime-data\n• volume nomme Docker pour persister l'index\n• chemins runtime injectes via variables d'environnement","textPreview":"• entrypoint copie le seed vers /app/runtime-data | • volume nomme Docker pour persister l'index | • chemins runtime injectes via variabl...","textChars":151,"textLines":3,"bbox":[474,284,302,242]}
+{"kind":"shape","id":"sh/8nqxs72x","slide":8,"bbox":[828,220,380,330]}
+{"kind":"textbox","id":"sh/j2t83itg","slide":8,"text":"Securite et exploitation","textPreview":"Securite et exploitation","textChars":24,"textLines":1,"bbox":[852,240,332,32]}
+{"kind":"textbox","id":"sh/qh0fepkz","slide":8,"text":"• cle Mistral uniquement via .env\n• /rebuild peut etre protege par X-Admin-Token\n• demarrage: docker compose up --build\n• volume runtime pour conserver un rebuild","textPreview":"• cle Mistral uniquement via .env | • /rebuild peut etre protege par X-Admin-Token | • demarrage: docker compose up --build | • volume ru...","textChars":162,"textLines":4,"bbox":[852,284,332,242]}
+{"kind":"notes","id":"nt/fu18jqh0","slide":8,"text":""}
+{"kind":"slide","id":"sl/qh0fepkz","slide":9,"title":"DEMO","textShapes":8}
+{"kind":"textbox","id":"sh/vahoza1g","slide":9,"text":"DEMO","textPreview":"DEMO","textChars":4,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/ovahoza1","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/dg7adsji","slide":9,"text":"Scenario 1 - Parle-moi de Concert Fishers a Paris","textPreview":"Scenario 1 - Parle-moi de Concert Fishers a Paris","textChars":49,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":9,"text":"Question de demo precise sur un evenement reel du corpus livre.","textPreview":"Question de demo precise sur un evenement reel du corpus livre.","textChars":63,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/z25kb6xk","slide":9,"bbox":[72,220,540,360]}
+{"kind":"textbox","id":"sh/onyd0z61","slide":9,"text":"Question","textPreview":"Question","textChars":8,"textLines":1,"bbox":[96,240,492,32]}
+{"kind":"textbox","id":"sh/d8v6psfi","slide":9,"text":"Parle-moi de Concert Fishers a Paris","textPreview":"Parle-moi de Concert Fishers a Paris","textChars":36,"textLines":1,"bbox":[96,284,492,272]}
+{"kind":"shape","id":"sh/6dcbulwv","slide":9,"bbox":[640,220,568,360]}
+{"kind":"textbox","id":"sh/vy90je9c","slide":9,"text":"Observation","textPreview":"Observation","textChars":11,"textLines":1,"bbox":[664,240,520,32]}
+{"kind":"textbox","id":"sh/nuxc3ylc","slide":9,"text":"• reponse stable avec date, lieu et URL\n• source principale: Concert Fishers\n• cas positif precis du jeu annote","textPreview":"• reponse stable avec date, lieu et URL | • source principale: Concert Fishers | • cas positif precis du jeu annote","textChars":111,"textLines":3,"bbox":[664,284,520,272]}
+{"kind":"notes","id":"nt/qh0fepkz","slide":9,"text":""}
+{"kind":"slide","id":"sl/29gr2p8n","slide":10,"title":"DEMO","textShapes":8}
+{"kind":"textbox","id":"sh/2p8nqxs7","slide":10,"text":"DEMO","textPreview":"DEMO","textChars":4,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/9gr2p8nq","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/gvy90je9","slide":10,"text":"Scenario 2 - Parle-moi de SALON DE LA PHOTO a Paris","textPreview":"Scenario 2 - Parle-moi de SALON DE LA PHOTO a Paris","textChars":51,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/r2p8nqxs","slide":10,"text":"Question precise sur un evenement photo reel et stable du corpus livre.","textPreview":"Question precise sur un evenement photo reel et stable du corpus livre.","textChars":71,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/2hwfyxob","slide":10,"bbox":[72,220,430,330]}
+{"kind":"textbox","id":"sh/94fu18jq","slide":10,"text":"Question","textPreview":"Question","textChars":8,"textLines":1,"bbox":[96,240,382,32]}
+{"kind":"textbox","id":"sh/kjm1cfa9","slide":10,"text":"Parle-moi de SALON DE LA PHOTO a Paris","textPreview":"Parle-moi de SALON DE LA PHOTO a Paris","textChars":38,"textLines":1,"bbox":[96,284,382,242]}
+{"kind":"shape","id":"sh/rqd4vmtw","slide":10,"bbox":[530,220,678,330]}
+{"kind":"textbox","id":"sh/25kb6xkf","slide":10,"text":"Observation","textPreview":"Observation","textChars":11,"textLines":1,"bbox":[554,240,630,32]}
+{"kind":"textbox","id":"sh/4fu18jqh","slide":10,"text":"• reponse stable avec date, lieu et URL\n• source principale: SALON DE LA PHOTO\n• bon cas positif precis pour la demo","textPreview":"• reponse stable avec date, lieu et URL | • source principale: SALON DE LA PHOTO | • bon cas positif precis pour la demo","textChars":116,"textLines":3,"bbox":[554,284,630,242]}
+{"kind":"notes","id":"nt/29gr2p8n","slide":10,"text":""}
+{"kind":"slide","id":"sl/re1w7mp0","slide":11,"title":"DEMO","textShapes":8}
+{"kind":"textbox","id":"sh/dg7adsji","slide":11,"text":"DEMO","textPreview":"DEMO","textChars":4,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/6tovahoz","slide":11,"text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/vahoza1g","slide":11,"text":"Scenario 3 - Sortie en famille avec visite theatricalisee","textPreview":"Scenario 3 - Sortie en famille avec visite theatricalisee","textChars":57,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/onyd0z61","slide":11,"text":"Question orientee usage, utile pour verifier le rappel de plusieurs sources proches.","textPreview":"Question orientee usage, utile pour verifier le rappel de plusieurs sources proches.","textChars":84,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/d8v6psfi","slide":11,"bbox":[72,220,430,330]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":11,"text":"Question","textPreview":"Question","textChars":8,"textLines":1,"bbox":[96,240,382,32]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":11,"text":"Je cherche une sortie en famille a Paris avec une visite theatricalisee","textPreview":"Je cherche une sortie en famille a Paris avec une visite theatricalisee","textChars":71,"textLines":1,"bbox":[96,284,382,242]}
+{"kind":"shape","id":"sh/oj2t83it","slide":11,"bbox":[530,220,678,330]}
+{"kind":"textbox","id":"sh/d4vmtwra","slide":11,"text":"Observation","textPreview":"Observation","textChars":11,"textLines":1,"bbox":[554,240,630,32]}
+{"kind":"textbox","id":"sh/h4byhgn2","slide":11,"text":"• le systeme retrouve deux visites theatralisees familiales\n• reponse contextualisee avec dates, lieux et URL\n• bon scenario de demo et du jeu annote","textPreview":"• le systeme retrouve deux visites theatralisees familiales | • reponse contextualisee avec dates, lieux et URL | • bon scenario de demo ...","textChars":149,"textLines":3,"bbox":[554,284,630,242]}
+{"kind":"notes","id":"nt/re1w7mp0","slide":11,"text":""}
+{"kind":"slide","id":"sl/4fu18jqh","slide":12,"title":"BILAN","textShapes":10}
+{"kind":"textbox","id":"sh/3m94fu18","slide":12,"text":"BILAN","textPreview":"BILAN","textChars":5,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/s72x4nap","slide":12,"text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/lszqtcj6","slide":12,"text":"Resultats observes et points forts","textPreview":"Resultats observes et points forts","textChars":34,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/adsji5sn","slide":12,"text":"Le POC est presentable en local et defendable avec corpus, evaluation et demo alignes.","textPreview":"Le POC est presentable en local et defendable avec corpus, evaluation et demo alignes.","textChars":86,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/3ylc7u54","slide":12,"bbox":[72,220,360,330]}
+{"kind":"textbox","id":"sh/sji5snel","slide":12,"text":"Ce qui fonctionne","textPreview":"Ce qui fonctionne","textChars":17,"textLines":1,"bbox":[96,240,312,32]}
+{"kind":"textbox","id":"sh/h4byhgn2","slide":12,"text":"• chainage complet collecte -> index -> chatbot -> API -> Docker\n• artefacts inspectables a chaque etape\n• README, demo et deck racontent le meme etat projet","textPreview":"• chainage complet collecte -> index -> chatbot -> API -> Docker | • artefacts inspectables a chaque etape | • README, demo et deck racon...","textChars":157,"textLines":3,"bbox":[96,284,312,242]}
+{"kind":"shape","id":"sh/ap4r65wj","slide":12,"bbox":[460,220,350,330]}
+{"kind":"textbox","id":"sh/za1gvy90","slide":12,"text":"Verification","textPreview":"Verification","textChars":12,"textLines":1,"bbox":[484,240,302,32]}
+{"kind":"textbox","id":"sh/z61032ls","slide":12,"text":"• 35 tests automatises passent\n• 4/4 cas corrects en evaluation directe\n• 4/4 cas corrects en evaluation via API\n• scripts/demo_scenarios.sh joue 3 cas solides","textPreview":"• 35 tests automatises passent | • 4/4 cas corrects en evaluation directe | • 4/4 cas corrects en evaluation via API | • scripts/demo_sce...","textChars":159,"textLines":4,"bbox":[484,284,302,242]}
+{"kind":"shape","id":"sh/al87ed8b","slide":12,"bbox":[838,220,370,330]}
+{"kind":"textbox","id":"sh/hcrmhk3q","slide":12,"text":"Valeur pour Puls-Events","textPreview":"Valeur pour Puls-Events","textChars":23,"textLines":1,"bbox":[862,240,322,32]}
+{"kind":"textbox","id":"sh/orytsvu9","slide":12,"text":"• prototype concret pour arbitrer la suite\n• API testable par les equipes produit et marketing\n• fondation reutilisable pour une version produit","textPreview":"• prototype concret pour arbitrer la suite | • API testable par les equipes produit et marketing | • fondation reutilisable pour une vers...","textChars":144,"textLines":3,"bbox":[862,284,322,242]}
+{"kind":"notes","id":"nt/4fu18jqh","slide":12,"text":""}
+{"kind":"slide","id":"sl/lwval87e","slide":13,"title":"LIMITES","textShapes":10}
+{"kind":"textbox","id":"sh/ed8bat47","slide":13,"text":"LIMITES","textPreview":"LIMITES","textChars":7,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":13,"text":"13","textPreview":"13","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/wfyxobm5","slide":13,"text":"Limites actuelles du POC","textPreview":"Limites actuelles du POC","textChars":24,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/36hcrmhk","slide":13,"text":"Les choix sont volontaires pour avancer vite, mais ils fixent un perimetre de soutenance clair.","textPreview":"Les choix sont volontaires pour avancer vite, mais ils fixent un perimetre de soutenance clair.","textChars":95,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/eloj2t83","slide":13,"bbox":[72,220,360,330]}
+{"kind":"textbox","id":"sh/lc7u54zi","slide":13,"text":"Donnees","textPreview":"Donnees","textChars":7,"textLines":1,"bbox":[96,240,312,32]}
+{"kind":"textbox","id":"sh/wra5gbq1","slide":13,"text":"• seed de demo actuellement centre sur Paris\n• bruit et qualite variables selon les descriptions source\n• certaines categories restent peu normalisees","textPreview":"• seed de demo actuellement centre sur Paris | • bruit et qualite variables selon les descriptions source | • certaines categories resten...","textChars":150,"textLines":3,"bbox":[96,284,312,242]}
+{"kind":"shape","id":"sh/7adsji5s","slide":13,"bbox":[460,220,350,330]}
+{"kind":"textbox","id":"sh/epkzupwb","slide":13,"text":"Technique","textPreview":"Technique","textChars":9,"textLines":1,"bbox":[484,240,302,32]}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":13,"text":"• generation dependante de Mistral en ligne\n• `/rebuild` complet sur corpus large est long\n• pas d'historique conversationnel dans ce POC","textPreview":"• generation dependante de Mistral en ligne | • `/rebuild` complet sur corpus large est long | • pas d'historique conversationnel dans ce...","textChars":137,"textLines":3,"bbox":[484,284,302,242]}
+{"kind":"shape","id":"sh/x4nap4r6","slide":13,"bbox":[838,220,370,330]}
+{"kind":"textbox","id":"sh/qd4vmtwr","slide":13,"text":"Produit","textPreview":"Produit","textChars":7,"textLines":1,"bbox":[862,240,322,32]}
+{"kind":"textbox","id":"sh/fyxobm58","slide":13,"text":"• pas encore d'authentification forte\n• pas de front utilisateur final\n• jeu annote volontairement petit","textPreview":"• pas encore d'authentification forte | • pas de front utilisateur final | • jeu annote volontairement petit","textChars":104,"textLines":3,"bbox":[862,284,322,242]}
+{"kind":"notes","id":"nt/lwval87e","slide":13,"text":""}
+{"kind":"slide","id":"sl/25kb6xkf","slide":14,"title":"EVALUATION","textShapes":10}
+{"kind":"textbox","id":"sh/val87ed8","slide":14,"text":"EVALUATION","textPreview":"EVALUATION","textChars":10,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/kre1w7mp","slide":14,"text":"14","textPreview":"14","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/dcbulwva","slide":14,"text":"Evaluation automatisee livree","textPreview":"Evaluation automatisee livree","textChars":29,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/2x4nap4r","slide":14,"text":"Le depot contient un petit jeu annote versionne et un script reproductible.","textPreview":"Le depot contient un petit jeu annote versionne et un script reproductible.","textChars":75,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/vixczed8","slide":14,"bbox":[72,220,360,330]}
+{"kind":"textbox","id":"sh/k3q5o7qp","slide":14,"text":"Mesures simples","textPreview":"Mesures simples","textChars":15,"textLines":1,"bbox":[96,240,312,32]}
+{"kind":"textbox","id":"sh/donyd0z6","slide":14,"text":"• exact match souple\n• similarite lexicale\n• hit de titres attendus\n• classification correct / partial / incorrect","textPreview":"• exact match souple | • similarite lexicale | • hit de titres attendus | • classification correct / partial / incorrect","textChars":114,"textLines":4,"bbox":[96,284,312,242]}
+{"kind":"shape","id":"sh/29gr2p8n","slide":14,"bbox":[460,220,350,330]}
+{"kind":"textbox","id":"sh/vu9knih4","slide":14,"text":"Ragas","textPreview":"Ragas","textChars":5,"textLines":1,"bbox":[484,240,302,32]}
+{"kind":"textbox","id":"sh/3ylc7u54","slide":14,"text":"• mode par defaut sans dependance lourde\n• option --ragas si la bibliotheque est disponible\n• Ragas reste une extension, pas la source de verite","textPreview":"• mode par defaut sans dependance lourde | • option --ragas si la bibliotheque est disponible | • Ragas reste une extension, pas la sourc...","textChars":144,"textLines":3,"bbox":[484,284,302,242]}
+{"kind":"shape","id":"sh/adsji5sn","slide":14,"bbox":[838,220,370,330]}
+{"kind":"textbox","id":"sh/h4byhgn2","slide":14,"text":"Resultat observe","textPreview":"Resultat observe","textChars":16,"textLines":1,"bbox":[862,240,322,32]}
+{"kind":"textbox","id":"sh/sji5snel","slide":14,"text":"Le 10 juillet 2026 : 4 cas sur 4 corrects en direct et via API sur le corpus Paris livre.","textPreview":"Le 10 juillet 2026 : 4 cas sur 4 corrects en direct et via API sur le corpus Paris livre.","textChars":89,"textLines":1,"bbox":[862,284,322,242]}
+{"kind":"notes","id":"nt/25kb6xkf","slide":14,"text":""}
+{"kind":"slide","id":"sl/7y1kre1w","slide":15,"title":"PERSPECTIVES","textShapes":10}
+{"kind":"textbox","id":"sh/90je9cvi","slide":15,"text":"PERSPECTIVES","textPreview":"PERSPECTIVES","textChars":12,"textLines":1,"bbox":[72,28,500,24]}
+{"kind":"textbox","id":"sh/yd0z6103","slide":15,"text":"15","textPreview":"15","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
+{"kind":"textbox","id":"sh/rytsvu9k","slide":15,"text":"Perspectives d'amelioration et conclusion","textPreview":"Perspectives d'amelioration et conclusion","textChars":41,"textLines":1,"bbox":[72,70,920,64]}
+{"kind":"textbox","id":"sh/g7adsji5","slide":15,"text":"Le POC est exploitable maintenant, et extensible sans rearchitecture majeure.","textPreview":"Le POC est exploitable maintenant, et extensible sans rearchitecture majeure.","textChars":77,"textLines":1,"bbox":[72,136,980,52]}
+{"kind":"shape","id":"sh/9s36hcrm","slide":15,"bbox":[72,220,360,330]}
+{"kind":"textbox","id":"sh/y1kre1w7","slide":15,"text":"Ameliorations prioritaires","textPreview":"Ameliorations prioritaires","textChars":26,"textLines":1,"bbox":[96,240,312,32]}
+{"kind":"textbox","id":"sh/rmhk3q5o","slide":15,"text":"• seeds multi-villes\n• filtrage plus fin par date, categorie et public\n• evaluation plus large et continue\n• rebuild asynchrone ou incremental","textPreview":"• seeds multi-villes | • filtrage plus fin par date, categorie et public | • evaluation plus large et continue | • rebuild asynchrone ou ...","textChars":142,"textLines":4,"bbox":[96,284,312,242]}
+{"kind":"shape","id":"sh/g3ex0nux","slide":15,"bbox":[460,220,350,330]}
+{"kind":"textbox","id":"sh/5o7qpg3e","slide":15,"text":"Message cle","textPreview":"Message cle","textChars":11,"textLines":1,"bbox":[484,240,302,32]}
+{"kind":"textbox","id":"sh/5gbq1ory","slide":15,"text":"La faisabilite technique est validee: corpus borne, index local, API Dockerisee et evaluation reproductible.","textPreview":"La faisabilite technique est validee: corpus borne, index local, API Dockerisee et evaluation reproductible.","textChars":108,"textLines":1,"bbox":[484,284,302,242]}
+{"kind":"shape","id":"sh/cvixczed","slide":15,"bbox":[838,220,370,330]}
+{"kind":"textbox","id":"sh/nap4r65w","slide":15,"text":"Q&A","textPreview":"Q&A","textChars":3,"textLines":1,"bbox":[862,240,322,32]}
+{"kind":"textbox","id":"sh/upwb2hwf","slide":15,"text":"Points defendables en soutenance:\n• pourquoi FAISS ?\n• pourquoi Mistral ?\n• pourquoi Paris et ce corpus borne ?\n• quelles limites restent a lever ?","textPreview":"Points defendables en soutenance: | • pourquoi FAISS ? | • pourquoi Mistral ? | • pourquoi Paris et ce corpus borne ? | • quelles limites...","textChars":147,"textLines":5,"bbox":[862,284,322,242]}
+{"kind":"notes","id":"nt/7y1kre1w","slide":15,"text":""}

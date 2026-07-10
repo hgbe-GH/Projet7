@@ -1,12 +1,28 @@
 # OpenAgenda RAG Setup
 
-Ce depot couvre actuellement les etapes 1 a 3 du projet OpenClassrooms :
+POC RAG pour la mission OpenClassrooms "assistant de recommandation d'evenements culturels" pour Puls-Events.
+
+Le depot couvre les etapes 1 a 6 :
 
 - environnement Python reproductible ;
-- collecte et normalisation des evenements OpenAgenda via le dataset public Opendatasoft fourni dans la mission ;
-- vectorisation Mistral et index FAISS local.
+- collecte et structuration d'evenements OpenAgenda via la source publique Opendatasoft de la mission ;
+- vectorisation Mistral et index FAISS local ;
+- chatbot RAG ;
+- API REST FastAPI ;
+- livraison Docker et support de soutenance.
 
-L'evaluation automatisee, Docker et la demo produit restent hors perimetre a ce stade.
+Le POC reste local, mais la generation de reponses depend de l'API Mistral en ligne.
+
+## Perimetre final livre
+
+Le corpus versionne dans ce depot correspond au POC de soutenance livre le `10 juillet 2026` avec les choix suivants :
+
+- zone retenue : `Paris` ;
+- fenetre de collecte : du `10 juillet 2025` au `10 juillet 2026` inclus ;
+- nombre d'evenements normalises : `7586` ;
+- nombre de chunks indexes dans FAISS : `14903`.
+
+La borne temporelle est appliquee au moment de la collecte. Certaines lignes peuvent avoir un `last_timing` ulterieur a la borne haute lorsqu'un evenement recurrent a sa premiere occurrence dans la fenetre mais se prolonge ensuite.
 
 ## Structure
 
@@ -15,20 +31,44 @@ L'evaluation automatisee, Docker et la demo produit restent hors perimetre a ce 
 ├── environment.yml
 ├── requirements.txt
 ├── README.md
+├── Dockerfile
+├── docker-compose.yml
+├── data/
+│   ├── index/
+│   ├── processed/
+│   └── raw/
+├── outputs/
+│   ├── evaluation/
+│   └── openagenda-rag-soutenance.pptx
 ├── scripts/
-│   ├── check_env.py
+│   ├── api_test.py
 │   ├── build_index.py
+│   ├── chatbot.py
+│   ├── check_env.py
+│   ├── demo_scenarios.sh
+│   ├── docker_entrypoint.sh
+│   ├── evaluate_rag.py
 │   ├── fetch_events.py
-│   └── find_agendas.py
+│   ├── find_agendas.py
+│   └── run_api.py
 ├── src/
 │   └── openagenda_rag/
-│       ├── ingestion.py
+│       ├── api.py
+│       ├── evaluation.py
 │       ├── indexing.py
+│       ├── ingestion.py
+│       ├── rag.py
+│       ├── service.py
 │       └── settings.py
 └── tests/
+    ├── fixtures/
+    │   └── rag_eval_dataset.csv
     ├── conftest.py
+    ├── test_api.py
+    ├── test_evaluation.py
     ├── test_indexing.py
-    └── test_ingestion.py
+    ├── test_ingestion.py
+    └── test_settings.py
 ```
 
 ## Etape 1 - Environnement reproductible
@@ -36,11 +76,13 @@ L'evaluation automatisee, Docker et la demo produit restent hors perimetre a ce 
 ### Prerequis
 
 - Conda installe localement.
-- Python 3.12 sera provisionne par `environment.yml`.
-- Une connexion internet pour installer les dependances.
-- Une cle Mistral uniquement si vous voulez executer le smoke test d'embedding reel.
+- Python `3.12` provisionne par `environment.yml`.
+- Connexion internet pour installer les dependances.
+- Cle Mistral uniquement pour les appels reels d'embedding et de generation.
 
 ### Installation
+
+Toutes les commandes hors Docker supposent que l'environnement Conda du projet est actif.
 
 ```bash
 conda env create -f environment.yml
@@ -48,14 +90,14 @@ conda activate openagenda-rag
 PYTHONNOUSERSITE=1 python -m pip install --no-user -r requirements.txt
 ```
 
-`environment.yml` fournit la base Conda.
-`requirements.txt` reste la source de verite des bibliotheques Python du projet.
+`environment.yml` est la base de reproduction locale.
+`requirements.txt` est conserve pour Docker et les installs `pip`.
 
 ### Variables d'environnement
 
-Copiez `.env.example` vers `.env`.
+Copier `.env.example` vers `.env`.
 
-Exemple minimal pour les etapes 1 et 2 :
+Exemple minimal :
 
 ```bash
 OPENDATASOFT_BASE_URL=https://public.opendatasoft.com/api/explore/v2.1
@@ -64,34 +106,34 @@ OPENAGENDA_CITY=Paris
 MISTRAL_API_KEY=...
 ```
 
-Variables disponibles :
+Variables principales :
 
-- `OPENDATASOFT_BASE_URL` : base de l'API publique exposee par la source de la mission.
-- `OPENDATASOFT_DATASET` : dataset a interroger. Par defaut `evenements-publics-openagenda`.
+- `OPENDATASOFT_BASE_URL` : base URL de l'API publique.
+- `OPENDATASOFT_DATASET` : dataset source, par defaut `evenements-publics-openagenda`.
 - `OPENAGENDA_AGENDA_UID` : filtre optionnel sur `originagenda_uid`.
-- `OPENAGENDA_SEARCH` : mot-cle pour le helper `scripts/find_agendas.py`.
-- `OPENAGENDA_CITY` : filtre de ville.
-- `OPENAGENDA_START_DATE` : borne basse inclusive. Par defaut : aujourd'hui - 365 jours.
-- `OPENAGENDA_END_DATE` : borne haute inclusive.
-- `OPENAGENDA_CATEGORY_FIELD` : champ utilise pour le filtrage local des categories, par exemple `keywords_fr`.
-- `OPENAGENDA_CATEGORY_IDS` : liste separee par des virgules des categories a conserver.
-- `MISTRAL_API_KEY` : cle Mistral pour le smoke test et l'etape 3.
-- `MISTRALAI_API_KEY` : alias accepte par certaines integrations.
+- `OPENAGENDA_SEARCH` : mot-cle pour `scripts/find_agendas.py`.
+- `OPENAGENDA_CITY` : filtre de ville. Le POC livre utilise `Paris`.
+- `OPENAGENDA_START_DATE` : borne basse inclusive. Par defaut `aujourd'hui - 365 jours`.
+- `OPENAGENDA_END_DATE` : borne haute inclusive. Par defaut `aujourd'hui`.
+- `OPENAGENDA_CATEGORY_FIELD` : champ texte pour un filtrage local de categories.
+- `OPENAGENDA_CATEGORY_IDS` : liste de categories separees par des virgules.
+- `MISTRAL_API_KEY` : cle Mistral principale.
+- `MISTRALAI_API_KEY` : alias compatible avec certaines integrations.
 - `INDEX_INPUT_PATH` : parquet normalise a indexer.
-- `INDEX_OUTPUT_DIR` : dossier de sortie de l'index FAISS.
-- `INDEX_EMBEDDING_MODEL` : modele d'embedding Mistral, par defaut `mistral-embed`.
-- `INDEX_BATCH_SIZE` : taille de lot employee pendant la construction de l'index.
-- `INDEX_CHUNK_SIZE` : taille des chunks en caracteres avant vectorisation.
-- `INDEX_CHUNK_OVERLAP` : chevauchement entre chunks consecutifs.
-- `RAG_CHAT_MODEL` : modele de chat Mistral utilise pour generer la reponse, par defaut `mistral-small-latest`.
-- `RAG_TOP_K` : nombre de chunks recuperes dans FAISS avant generation.
+- `INDEX_OUTPUT_DIR` : dossier de l'index FAISS.
+- `INDEX_EMBEDDING_MODEL` : modele d'embedding, par defaut `mistral-embed`.
+- `INDEX_BATCH_SIZE` : taille de lot pour l'indexation.
+- `INDEX_CHUNK_SIZE` : taille des chunks texte.
+- `INDEX_CHUNK_OVERLAP` : recouvrement des chunks.
+- `RAG_CHAT_MODEL` : modele de chat Mistral, par defaut `mistral-small-latest`.
+- `RAG_TOP_K` : nombre de chunks recuperes avant generation.
 - `RAG_TEMPERATURE` : temperature du modele de chat.
-- `RAG_MAX_TOKENS` : longueur maximale de la reponse.
-- `API_HOST` : hote local de l'API FastAPI.
-- `API_PORT` : port local de l'API FastAPI.
+- `RAG_MAX_TOKENS` : longueur maximale de reponse.
+- `API_HOST` : hote FastAPI.
+- `API_PORT` : port FastAPI.
 - `API_REBUILD_TOKEN` : jeton optionnel pour proteger `/rebuild`.
 
-### Smoke test
+### Verification de l'environnement
 
 ```bash
 PYTHONNOUSERSITE=1 python scripts/check_env.py
@@ -106,11 +148,11 @@ PYTHONNOUSERSITE=1 python -m pip check
 - `from langchain_mistralai import MistralAIEmbeddings`
 - `from mistralai.client import Mistral`
 
-Si `MISTRAL_API_KEY` est defini, le script execute aussi un appel reel d'embedding.
+Si `MISTRAL_API_KEY` est defini, le script lance aussi un appel reel d'embedding.
 
 ### Note sur les imports du brief
 
-Le brief cite des imports historiques :
+Le brief cite des imports legacy :
 
 ```python
 from langchain.vectorstores import FAISS
@@ -118,72 +160,68 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from mistral import MistralClient
 ```
 
-Ils sont maintenant remplaces par les chemins maintenus :
+Le projet utilise les chemins maintenus :
 
 ```python
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_mistralai import MistralAIEmbeddings
 from mistralai.client import Mistral
 ```
 
-Ce choix evite de figer le projet sur des APIs devenues legacy.
-
 ## Etape 2 - Collecte et structuration OpenAgenda
 
-La mission renvoie vers cette source publique :
+La mission renvoie vers la source publique :
 
 - `https://public.opendatasoft.com/explore/assets/evenements-publics-openagenda/view/`
 
-L'etape 2 est donc implementee a partir du dataset Opendatasoft `evenements-publics-openagenda`, qui reproduit les evenements OpenAgenda dans un format public interrogeable sans cle API.
+Le projet interroge donc le dataset Opendatasoft `evenements-publics-openagenda`, expose sans cle.
 
 ### Ce que fait la collecte
 
-- filtre les evenements par periode via l'API ;
+- filtre les evenements par periode cote API ;
 - peut filtrer par ville et agenda d'origine ;
-- normalise les champs utiles pour l'indexation future ;
+- normalise les champs utiles a l'indexation ;
 - prepare `text_for_embedding` des cette etape ;
-- tolere les donnees manquantes sans casser le pipeline ;
-- exporte le brut, le dataset structure et un manifeste de collecte.
+- tolere les donnees manquantes ;
+- exporte le brut, le parquet et un manifeste de collecte.
 
-### Aide au choix d'un agenda
+### Helper agenda
 
-Si vous voulez restreindre la collecte a un agenda d'origine :
+Pour chercher un agenda d'origine avant de figer un `originagenda_uid` :
 
 ```bash
 python scripts/find_agendas.py --search "paris"
 ```
 
-Ce helper balaie des evenements recents du dataset public et deduit les couples `originagenda_uid` / `originagenda_title`.
-
 ### Commande de collecte
 
-Exemple simple par ville :
+Exemple principal du POC livre :
+
+```bash
+python scripts/fetch_events.py --city Paris
+```
+
+Exemple explicite avec bornes :
 
 ```bash
 python scripts/fetch_events.py \
   --city Paris \
-  --start-date 2025-07-09
+  --start-date 2025-07-10 \
+  --end-date 2026-07-10
 ```
 
-Exemple avec borne haute :
-
-```bash
-python scripts/fetch_events.py \
-  --city Paris \
-  --start-date 2025-07-09 \
-  --end-date 2026-07-09
-```
-
-Exemple avec agenda d'origine et filtrage local par categories :
+Exemple avec agenda et categories :
 
 ```bash
 python scripts/fetch_events.py \
   --agenda-uid 979472 \
   --city Paris \
-  --start-date 2025-07-09 \
+  --start-date 2025-07-10 \
+  --end-date 2026-07-10 \
   --category-field keywords_fr \
-  --category-id nature \
-  --category-id culture
+  --category-id culture \
+  --category-id musique
 ```
 
 Priorite de configuration : `CLI > .env > valeurs par defaut`.
@@ -214,28 +252,23 @@ Priorite de configuration : `CLI > .env > valeurs par defaut`.
 - `source_updated_at`
 - `raw_event`
 
-### Tests couverts
+### Corpus versionne actuellement
 
-- pagination multi-pages ;
-- construction de la clause `where` ;
-- normalisation d'evenements incomplets ;
-- nettoyage HTML ;
-- filtrage par ville ;
-- filtrage par categorie ;
-- deduplication par `event_uid`.
+Le manifeste [data/processed/fetch_manifest.json](/home/hgbe/openclassrooms/Projet7/data/processed/fetch_manifest.json) documente le corpus livre :
 
-Execution :
+- `generated_at` : `2026-07-10T13:10:27.381850+00:00`
+- `city` : `Paris`
+- `start_date` : `2025-07-10`
+- `end_date` : `2026-07-10`
+- `normalized_event_count` : `7586`
 
-```bash
-pytest -q
-```
+## Etape 3 - Vectorisation et index FAISS
 
-## Etape 3 - Index FAISS
+L'etape 3 consomme `data/processed/events.parquet`.
 
-L'etape 3 suppose que `data/processed/events.parquet` existe deja.
-Chaque evenement est d'abord decoupe en chunks de texte, puis chaque chunk est vectorise et indexe dans FAISS.
+Chaque evenement est converti en texte, decoupe en chunks, vectorise avec Mistral puis indexe localement dans FAISS.
 
-Commande minimale :
+### Build de l'index
 
 ```bash
 python scripts/build_index.py
@@ -254,23 +287,20 @@ python scripts/build_index.py \
   --rebuild
 ```
 
-Sorties :
+### Sorties
 
 - `data/index/faiss/`
 - `data/index/index_manifest.json`
 - `data/index/indexed_documents.parquet`
 
-Le script :
+Le manifeste [data/index/index_manifest.json](/home/hgbe/openclassrooms/Projet7/data/index/index_manifest.json) du corpus livre indique :
 
-- charge le parquet normalise ;
-- dedoublonne les evenements ;
-- ignore les lignes sans `text_for_embedding` ;
-- decoupe les textes avec `RecursiveCharacterTextSplitter` ;
-- genere un chunk par segment de texte ;
-- vectorise les chunks avec `langchain_mistralai.MistralAIEmbeddings` ;
-- persiste l'index local avec `langchain_community.vectorstores.FAISS`.
+- `generated_at` : `2026-07-10T13:16:17.439399+00:00`
+- `indexed_event_count` : `7586`
+- `indexed_document_count` : `14903`
+- `embedding_model` : `mistral-embed`
 
-L'indexation conserve les metadonnees suivantes :
+### Metadonnees conservees dans FAISS
 
 - `chunk_id`
 - `chunk_index`
@@ -287,35 +317,25 @@ L'indexation conserve les metadonnees suivantes :
 - `categories`
 - `source_updated_at`
 
-Le fichier `data/index/indexed_documents.parquet` represente les chunks effectivement indexes, un chunk par ligne.
-
 ## Etape 4 - Chatbot RAG
 
-L'etape 4 utilise l'index FAISS local et un modele de chat Mistral pour repondre a une question utilisateur a partir des evenements recuperes.
+Le moteur RAG recharge l'index FAISS, recupere les chunks les plus proches puis interroge Mistral pour produire une reponse en francais avec sources.
 
-Le chatbot :
+### Utilisation
 
-- recharge l'index FAISS local ;
-- recupere les chunks les plus proches semantiquement ;
-- construit un prompt contraint avec le contexte retrouve ;
-- interroge Mistral pour generer une reponse en francais ;
-- renvoie aussi les sources retenues.
-
-Commande one-shot :
+Question simple :
 
 ```bash
-python scripts/chatbot.py --question "Je cherche un concert a Paris ce week-end"
+python scripts/chatbot.py --question "Parle-moi de Concert Fishers a Paris"
 ```
 
-Commande JSON :
+Sortie JSON :
 
 ```bash
-python scripts/chatbot.py \
-  --question "Je cherche une expo photo a Lyon" \
-  --json
+python scripts/chatbot.py --question "Parle-moi de SALON DE LA PHOTO a Paris" --json
 ```
 
-Mode interactif sans historique conversationnel :
+Mode interactif :
 
 ```bash
 python scripts/chatbot.py
@@ -330,55 +350,36 @@ Options principales :
 - `--temperature`
 - `--max-tokens`
 
-Le moteur RAG est implemente dans `src/openagenda_rag/rag.py`.
-Les tests couvrent :
+## Etape 5 - API REST FastAPI
 
-- le formatage du contexte injecte dans le prompt ;
-- la deduplication des sources par evenement ;
-- le fallback quand aucun document n'est retrouve ;
-- la construction du retriever FAISS ;
-- la structure du payload de reponse.
+Routes exposees :
 
-## Etape 5 - API REST
+- `GET /health`
+- `POST /ask`
+- `POST /rebuild`
+- `/docs`
 
-L'etape 5 expose le systeme RAG via FastAPI, avec une documentation Swagger automatique disponible sur `/docs`.
-
-Routes principales :
-
-- `GET /health` : verifie l'etat de l'API et sa configuration courante.
-- `POST /ask` : prend une question utilisateur et renvoie une reponse augmentee.
-- `POST /rebuild` : reconstruit l'index FAISS a la demande.
-
-### Demarrer l'API
-
-Commande la plus simple :
+### Demarrage local
 
 ```bash
 python scripts/run_api.py
 ```
 
-Alternative uvicorn directe :
+Alternative :
 
 ```bash
 uvicorn openagenda_rag.api:app --app-dir src --host 127.0.0.1 --port 8000
 ```
 
-Une fois lancee :
-
-- Swagger UI : `http://127.0.0.1:8000/docs`
-- OpenAPI JSON : `http://127.0.0.1:8000/openapi.json`
-
-### Exemple d'appel `/ask`
+### Exemple `/ask`
 
 ```bash
 curl -X POST http://127.0.0.1:8000/ask \
   -H "Content-Type: application/json" \
-  -d '{"question":"Je cherche un concert a Paris"}'
+  -d '{"question":"Parle-moi de Concert Fishers a Paris"}'
 ```
 
-### Exemple d'appel `/rebuild`
-
-Sans protection :
+### Exemple `/rebuild`
 
 ```bash
 curl -X POST http://127.0.0.1:8000/rebuild \
@@ -392,13 +393,147 @@ Avec protection optionnelle :
 curl -X POST http://127.0.0.1:8000/rebuild \
   -H "Content-Type: application/json" \
   -H "X-Admin-Token: votre_token" \
-  -d '{"chunk_size": 8000, "chunk_overlap": 200}'
+  -d '{"chunk_size": 1000, "chunk_overlap": 200}'
 ```
 
-### Test fonctionnel d'API
+### Test fonctionnel HTTP
 
 ```bash
 python scripts/api_test.py
 ```
 
-Le script teste `/health` et `/ask`, et peut aussi appeler `/rebuild` avec `--include-rebuild`.
+## Etape 6 - Docker et demo
+
+L'image Docker embarque un seed local de `data/processed` et `data/index`, puis le copie dans `/app/runtime-data` au premier demarrage afin de garder `/rebuild` utile avec un volume persistant.
+
+### Variables Docker
+
+- `MISTRAL_API_KEY`
+- `API_HOST`
+- `API_PORT`
+- `API_REBUILD_TOKEN`
+- `INDEX_OUTPUT_DIR=/app/runtime-data/index/faiss`
+- `INDEX_INPUT_PATH=/app/runtime-data/processed/events.parquet`
+
+### Build
+
+```bash
+docker build -t openagenda-rag .
+```
+
+### Run compose
+
+```bash
+docker compose up --build
+```
+
+### Verification
+
+- `http://127.0.0.1:8000/health`
+- `http://127.0.0.1:8000/docs`
+- `http://127.0.0.1:8000/openapi.json`
+
+### Demo script
+
+```bash
+bash scripts/demo_scenarios.sh
+```
+
+Le script utilise trois questions stables sur le corpus livre :
+
+- `Parle-moi de Concert Fishers a Paris`
+- `Parle-moi de SALON DE LA PHOTO a Paris`
+- `Je cherche une sortie en famille a Paris avec une visite theatricalisee`
+
+## Evaluation automatisee
+
+Le depot contient un petit jeu de test annote versionne :
+
+- [tests/fixtures/rag_eval_dataset.csv](/home/hgbe/openclassrooms/Projet7/tests/fixtures/rag_eval_dataset.csv)
+
+Colonnes :
+
+- `question`
+- `expected_answer`
+- `expected_event_titles`
+- `notes`
+
+Le jeu couvre :
+
+- un cas positif precis ;
+- des cas agreges avec plusieurs evenements possibles ;
+- un cas negatif hors corpus.
+
+### Lancer l'evaluation
+
+Mode direct :
+
+```bash
+python scripts/evaluate_rag.py
+```
+
+Mode API :
+
+```bash
+python scripts/evaluate_rag.py --mode api --base-url http://127.0.0.1:8000
+```
+
+Options utiles :
+
+- `--dataset-path`
+- `--mode direct|api`
+- `--base-url`
+- `--output-path`
+- `--summary-path`
+- `--timeout`
+- `--ragas`
+
+### Metriques calculees
+
+- `exact_match_soft` : comparaison sur texte normalise.
+- `lexical_similarity` : similarite lexicale simple.
+- `matched_expected_titles` : titres attendus retrouves dans la reponse ou dans les sources.
+- `classification` : `correct`, `partial`, `incorrect`.
+
+Regle de lecture pratique :
+
+- `correct` : tous les titres attendus du cas sont bien recuperes, ou bien le systeme refuse correctement une question hors corpus.
+- `partial` : couverture utile mais incomplete.
+- `incorrect` : mauvais evenement, absence de source utile, ou refus non justifie.
+
+### Sorties d'evaluation
+
+- `outputs/evaluation/latest_results.json`
+- `outputs/evaluation/latest_summary.json`
+
+## Tests
+
+Suite complete :
+
+```bash
+python -m pytest -q
+```
+
+Les tests couvrent notamment :
+
+- ingestion et pagination ;
+- normalisation et filtres ;
+- construction et rechargement d'index FAISS ;
+- structure de reponse du moteur RAG et de l'API ;
+- lecture du jeu annote et scoring d'evaluation ;
+- valeurs par defaut des dates de collecte.
+
+## Livrables de soutenance
+
+- API FastAPI locale
+- corpus et index FAISS livres dans `data/`
+- evaluation reproductible dans `outputs/evaluation/`
+- presentation PPTX : [outputs/openagenda-rag-soutenance.pptx](/home/hgbe/openclassrooms/Projet7/outputs/openagenda-rag-soutenance.pptx)
+
+## Limites du POC
+
+- Le POC est volontairement borne a `Paris` pour la soutenance.
+- La generation depend de Mistral en ligne ; la demo n'est donc pas completement offline.
+- L'evaluation fournie est petite et orientee reproductibilite, pas benchmark grande echelle.
+- La qualite de reponse depend fortement du corpus livre et de la formulation des questions.
+- `Ragas` n'est pas une dependance obligatoire du flux par defaut ; il reste une extension optionnelle.
