@@ -4,6 +4,7 @@ import csv
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import asyncio
+import importlib.metadata
 import json
 import math
 from pathlib import Path
@@ -188,7 +189,20 @@ def _default_ragas_runtime(
 async def _score_rows_with_modern_metrics(
     rows: list[dict[str, Any]],
     metrics: Sequence[Any],
+    *,
+    max_attempts: int = 3,
+    retry_delay_seconds: float = 2.0,
 ) -> pd.DataFrame:
+    async def call_with_retry(metric: Any, **kwargs: Any) -> Any:
+        for attempt in range(max_attempts):
+            try:
+                return await metric.ascore(**kwargs)
+            except Exception:
+                if attempt + 1 >= max_attempts:
+                    raise
+                await asyncio.sleep(retry_delay_seconds * (2**attempt))
+        raise RuntimeError("Unreachable retry state.")
+
     score_rows: list[dict[str, float]] = []
     for row in rows:
         common = {
@@ -200,24 +214,28 @@ async def _score_rows_with_modern_metrics(
         values: dict[str, float] = {}
         for name, metric in zip(METRIC_NAMES, metrics, strict=True):
             if name == "faithfulness":
-                result = await metric.ascore(
+                result = await call_with_retry(
+                    metric,
                     user_input=common["user_input"],
                     response=common["response"],
                     retrieved_contexts=common["retrieved_contexts"],
                 )
             elif name == "answer_relevancy":
-                result = await metric.ascore(
+                result = await call_with_retry(
+                    metric,
                     user_input=common["user_input"],
                     response=common["response"],
                 )
             elif name == "context_precision":
-                result = await metric.ascore(
+                result = await call_with_retry(
+                    metric,
                     user_input=common["user_input"],
                     reference=common["reference"],
                     retrieved_contexts=common["retrieved_contexts"],
                 )
             else:
-                result = await metric.ascore(
+                result = await call_with_retry(
+                    metric,
                     user_input=common["user_input"],
                     response=common["response"],
                     reference=common["reference"],
@@ -237,6 +255,7 @@ def run_ragas_evaluation(
     llm: Any | None = None,
     embeddings: Any | None = None,
     generated_at: datetime | None = None,
+    dataset_sha256: str | None = None,
 ) -> dict[str, Any]:
     if not api_key:
         raise ValueError("MISTRAL_API_KEY is required for RAGAS evaluation.")
@@ -309,6 +328,10 @@ def run_ragas_evaluation(
         .isoformat(timespec="seconds")
         .replace("+00:00", "Z"),
         "models": {"chat": chat_model, "embedding": embedding_model},
+        "provenance": {
+            "ragas_version": importlib.metadata.version("ragas"),
+            "dataset_sha256": dataset_sha256,
+        },
         "metric_names": list(METRIC_NAMES),
         "summary": summary,
         "examples": examples,

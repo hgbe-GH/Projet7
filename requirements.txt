@@ -18,7 +18,7 @@ pytest==8.4.2
 ragas==0.4.3
 requests==2.34.2
 responses==0.26.2
-rich==15.0.0
+rich==14.3.4
 sentence-transformers==5.6.0
 shellingham==1.5.4
 typer==0.26.8

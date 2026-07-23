@@ -12,6 +12,7 @@ import pytest
 from openagenda_rag.ragas_evaluation import (
     METRIC_NAMES,
     RagasCase,
+    _score_rows_with_modern_metrics,
     build_evaluation_rows,
     interpret_score,
     load_ragas_cases,
@@ -230,6 +231,7 @@ def test_run_and_writers_serialize_complete_deterministic_results(tmp_path: Path
         llm=object(),
         embeddings=object(),
         generated_at=generated_at,
+        dataset_sha256="abc123",
     )
 
     output_json = tmp_path / "results.json"
@@ -248,6 +250,7 @@ def test_run_and_writers_serialize_complete_deterministic_results(tmp_path: Path
         "chat": "judge-model",
         "embedding": "embedding-model",
     }
+    assert json.loads(first_json)["provenance"]["dataset_sha256"] == "abc123"
     assert json.loads(first_json)["metric_names"] == METRIC_NAMES
     assert len(payload["examples"]) == 3
     assert payload["examples"][0]["question"] == "Question A"
@@ -263,3 +266,35 @@ def test_run_and_writers_serialize_complete_deterministic_results(tmp_path: Path
     assert "Contexte A" in csv_rows[0]["retrieved_contexts"]
     assert csv_rows[0]["faithfulness"] == "0.9"
     assert csv_rows[0]["faithfulness_interpretation"] == "fort"
+
+
+def test_modern_metric_execution_retries_transient_failure_without_parallelism():
+    import asyncio
+
+    class Result:
+        value = 0.8
+
+    class FakeMetric:
+        def __init__(self, fail_once: bool = False):
+            self.fail_once = fail_once
+            self.calls = 0
+
+        async def ascore(self, **kwargs):
+            self.calls += 1
+            if self.fail_once and self.calls == 1:
+                raise RuntimeError("temporary rate limit")
+            return Result()
+
+    metrics = [FakeMetric(fail_once=True), FakeMetric(), FakeMetric(), FakeMetric()]
+    frame = asyncio.run(
+        _score_rows_with_modern_metrics(
+            _evaluation_rows()[:1],
+            metrics,
+            retry_delay_seconds=0,
+        )
+    )
+
+    assert frame.to_dict(orient="records") == [
+        {name: 0.8 for name in METRIC_NAMES}
+    ]
+    assert metrics[0].calls == 2

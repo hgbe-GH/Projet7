@@ -194,11 +194,12 @@ def test_answer_question_includes_non_empty_retrieved_contexts_in_order_when_req
         include_contexts=True,
     )
 
-    assert payload["retrieved_contexts"] == [
-        "Concert jazz en plein air a Paris.",
-        "Deuxieme chunk du meme evenement.",
-        "Exposition photo a Lyon.",
-    ]
+    assert len(payload["retrieved_contexts"]) == 3
+    assert "Titre: Concert jazz" in payload["retrieved_contexts"][0]
+    assert "URL: https://example.com/evt-1" in payload["retrieved_contexts"][0]
+    assert "Concert jazz en plein air a Paris." in payload["retrieved_contexts"][0]
+    assert "Deuxieme chunk du meme evenement." in payload["retrieved_contexts"][1]
+    assert "Exposition photo a Lyon." in payload["retrieved_contexts"][2]
 
 
 def test_answer_question_returns_fallback_when_no_document_is_found():

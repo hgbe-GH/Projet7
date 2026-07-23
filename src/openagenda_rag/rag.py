@@ -145,12 +145,11 @@ def build_source_entries(documents: list["Document"]) -> list[SourceEntry]:
     return entries
 
 
-def format_documents_for_prompt(documents: list["Document"]) -> str:
-    if not documents:
-        return "Aucun evenement pertinent n'a ete retrouve."
-
-    blocks = []
+def format_document_blocks_for_prompt(documents: list["Document"]) -> list[str]:
+    blocks: list[str] = []
     for index, document in enumerate(documents, start=1):
+        if not document.page_content.strip():
+            continue
         metadata = document.metadata or {}
         categories = ", ".join(_coerce_categories(metadata.get("categories"))) or "non renseignees"
         blocks.append(
@@ -169,6 +168,13 @@ def format_documents_for_prompt(documents: list["Document"]) -> str:
                 ]
             )
         )
+    return blocks
+
+
+def format_documents_for_prompt(documents: list["Document"]) -> str:
+    blocks = format_document_blocks_for_prompt(documents)
+    if not blocks:
+        return "Aucun evenement pertinent n'a ete retrouve."
     return "\n\n".join(blocks)
 
 
@@ -227,7 +233,5 @@ def answer_question(
         "retrieved_chunk_count": len(documents),
     }
     if include_contexts:
-        payload["retrieved_contexts"] = [
-            document.page_content for document in documents if document.page_content
-        ]
+        payload["retrieved_contexts"] = format_document_blocks_for_prompt(documents)
     return payload

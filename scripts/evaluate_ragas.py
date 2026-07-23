@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 from pathlib import Path
 import sys
@@ -71,6 +72,7 @@ def main() -> int:
         api_key=api_key,
         chat_model=args.chat_model,
         embedding_model=args.embedding_model,
+        dataset_sha256=hashlib.sha256(args.dataset_path.read_bytes()).hexdigest(),
     )
     write_ragas_json(args.output_json, payload)
     write_ragas_csv(args.output_csv, payload["examples"])
