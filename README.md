@@ -22,6 +22,9 @@ Le corpus versionne dans ce depot correspond au POC :
 - nombre d'evenements normalises : `7586` ;
 - nombre de chunks indexes dans FAISS : `14903`.
 
+Le seed reproductible utilise par Docker est versionne dans `seed-data/`.
+Les dossiers `data/` restent des artefacts de travail locaux regenerables.
+
 La borne temporelle est appliquee au moment de la collecte. Certaines lignes peuvent avoir un `last_timing` ulterieur a la borne haute lorsqu'un evenement recurrent a sa premiere occurrence dans la fenetre mais se prolonge ensuite.
 
 ## Structure
@@ -33,6 +36,9 @@ La borne temporelle est appliquee au moment de la collecte. Certaines lignes peu
 ├── README.md
 ├── Dockerfile
 ├── docker-compose.yml
+├── seed-data/
+│   ├── index/
+│   └── processed/
 ├── data/
 │   ├── index/
 │   ├── processed/
@@ -268,7 +274,7 @@ Priorite de configuration : `CLI > .env > valeurs par defaut`.
 
 ### Corpus versionne actuellement
 
-Le manifeste [data/processed/fetch_manifest.json](/home/hgbe/openclassrooms/Projet7/data/processed/fetch_manifest.json) documente le corpus livre :
+Le manifeste [seed-data/processed/fetch_manifest.json](seed-data/processed/fetch_manifest.json) documente le corpus livre :
 
 - `generated_at` : `2026-07-10T13:10:27.381850+00:00`
 - `city` : `Paris`
@@ -307,7 +313,7 @@ python scripts/build_index.py \
 - `data/index/index_manifest.json`
 - `data/index/indexed_documents.parquet`
 
-Le manifeste [data/index/index_manifest.json](/home/hgbe/openclassrooms/Projet7/data/index/index_manifest.json) du corpus livre indique :
+Le manifeste [seed-data/index/index_manifest.json](seed-data/index/index_manifest.json) du corpus livre indique :
 
 - `generated_at` : `2026-07-10T13:16:17.439399+00:00`
 - `indexed_event_count` : `7586`
@@ -418,7 +424,9 @@ python scripts/api_test.py
 
 ## Etape 6 - Docker et demo
 
-L'image Docker embarque un seed local de `data/processed` et `data/index`, puis le copie dans `/app/runtime-data` au premier demarrage afin de garder `/rebuild` utile avec un volume persistant.
+L'image Docker embarque le seed versionne de `seed-data/processed` et
+`seed-data/index`, puis le copie dans `/app/runtime-data` au premier demarrage
+afin de garder `/rebuild` utile avec un volume persistant.
 
 ### Variables Docker
 
@@ -459,7 +467,7 @@ duree totale et ecrit `outputs/demo/demo_api_timing.json`.
 - cas nominal : `Parle-moi de Concert Fishers a Paris`
 - cas limite : `Quelles expositions photo a Lyon ?`
 
-La repetition livree a dure `2,240 s`, sous la limite de cinq minutes. Le cas
+La repetition livree a dure `2,406 s`, sous la limite de cinq minutes. Le cas
 limite repond explicitement qu'aucune exposition photo a Lyon n'est presente,
 sans inventer d'evenement.
 
@@ -473,7 +481,7 @@ bash scripts/demo_scenarios.sh
 
 Le depot contient un petit jeu de test annote versionne :
 
-- [tests/fixtures/rag_eval_dataset.csv](/home/hgbe/openclassrooms/Projet7/tests/fixtures/rag_eval_dataset.csv)
+- [tests/fixtures/rag_eval_dataset.csv](tests/fixtures/rag_eval_dataset.csv)
 
 Colonnes :
 
@@ -532,7 +540,7 @@ Regle de lecture pratique :
 
 ## Evaluation RAGAS reelle
 
-Le fichier [tests/fixtures/ragas_eval_dataset.csv](/home/hgbe/openclassrooms/Projet7/tests/fixtures/ragas_eval_dataset.csv)
+Le fichier [tests/fixtures/ragas_eval_dataset.csv](tests/fixtures/ragas_eval_dataset.csv)
 contient trois references factuelles. L'evaluation utilise les contextes
 exactement transmis au modele de generation, puis calcule quatre metriques
 RAGAS avec Mistral :
@@ -596,8 +604,8 @@ Les tests couvrent notamment :
 - corpus et index FAISS livres dans `data/`
 - evaluation reproductible dans `outputs/evaluation/`
 - demo chronometree : `outputs/demo/demo_api_timing.json`
-- presentation PPTX : [outputs/openagenda-rag-soutenance.pptx](/home/hgbe/openclassrooms/Projet7/outputs/openagenda-rag-soutenance.pptx)
-- rapport technique DOCX : [outputs/rapport-technique-openagenda-rag.docx](/home/hgbe/openclassrooms/Projet7/outputs/rapport-technique-openagenda-rag.docx)
+- presentation PPTX : [outputs/openagenda-rag-soutenance.pptx](outputs/openagenda-rag-soutenance.pptx)
+- rapport technique DOCX : [outputs/rapport-technique-openagenda-rag.docx](outputs/rapport-technique-openagenda-rag.docx)
 - script oral de 15 minutes : `docs/soutenance/script_soutenance_15min.md`
 - 14 questions et reponses : `docs/soutenance/questions_reponses.md`
 

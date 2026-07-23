@@ -26,8 +26,8 @@ RUN pip install --no-cache-dir --upgrade pip \
 COPY src /app/src
 COPY scripts /app/scripts
 COPY README.md /app/README.md
-COPY data/index /app/seed-data/index
-COPY data/processed /app/seed-data/processed
+COPY seed-data/index /app/seed-data/index
+COPY seed-data/processed /app/seed-data/processed
 
 RUN chmod +x /app/scripts/docker_entrypoint.sh
 

@@ -119,8 +119,9 @@ bash scripts/demo_api_5min.sh
 Le script contrôle d'abord `/health`. Le cas nominal demande des informations
 sur Concert Fishers à Paris : l'API renvoie la date, le lieu, le lien et les
 sources. Le cas limite demande une exposition photo à Lyon alors que le corpus
-est limité à Paris : le système répond qu'il ne sait pas. La répétition mesurée
-a duré 2,240 secondes, très en dessous de la limite de cinq minutes.
+est limité à Paris : le système répond qu'il ne sait pas. La répétition mesurée,
+démarrage ou contrôle de disponibilité inclus, a duré 2,406 secondes, très en
+dessous de la limite de cinq minutes.
 
 ## 09:20-10:15 - Slide 11 : méthode RAGAS (55 s)
 

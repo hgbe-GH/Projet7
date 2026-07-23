@@ -1,9 +1,9 @@
 {
-  "duration_seconds": 2.24,
+  "duration_seconds": 2.406,
   "max_seconds": 300.0,
   "scenarios": [
     {
-      "answer": "**Concert Fishers** à Paris :\nUn concert de reprises pop, rock et funk, dans le cadre de la **Fête de la musique 2026**, le **21 juin 2026** de **19h30 à 23h30** au **Gymnase Montparnasse** (Paris).\n🔗 [Plus d'infos](https://openagenda.com/fetedelamusique2026/events/concert-fishers)\n\nSi tu aimes les ambiances festives et les reprises énergiques, ce concert est fait pour toi !",
+      "answer": "**Concert Fishers** à Paris :\nUn concert de reprises pop, rock et funk, dans le cadre de la **Fête de la musique 2026**.\n📅 **Date** : 21 juin 2026 à 19h30\n📍 **Lieu** : Le Gymnase Montparnasse, Paris\n🔗 [Plus d'infos](https://openagenda.com/fetedelamusique2026/events/concert-fishers)\n\nSi tu aimes les ambiances festives et les reprises énergiques, cet événement est fait pour toi !",
       "case_id": "nominal",
       "question": "Parle-moi de Concert Fishers a Paris",
       "sources": [

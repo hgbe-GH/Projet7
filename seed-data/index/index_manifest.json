@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-07-10T13:16:17.439399+00:00",
+  "source_dataset": "/home/hgbe/openclassrooms/Projet7/data/processed/events.parquet",
+  "output_dir": "/home/hgbe/openclassrooms/Projet7/data/index/faiss",
+  "embedding_model": "mistral-embed",
+  "batch_size": 50,
+  "chunk_size": 1000,
+  "chunk_overlap": 200,
+  "indexed_event_count": 7586,
+  "indexed_document_count": 14903,
+  "rebuild_requested": true
+}

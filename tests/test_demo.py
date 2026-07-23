@@ -51,6 +51,19 @@ def test_run_demo_executes_nominal_and_edge_cases_under_limit():
     assert result["within_limit"] is True
 
 
+def test_run_demo_timer_starts_before_health_check():
+    clock = iter([10.0, 12.5])
+
+    result = run_demo(
+        client=FakeClient(),
+        scenarios=[DemoScenario("nominal", "Question")],
+        max_seconds=300,
+        monotonic=lambda: next(clock),
+    )
+
+    assert result["duration_seconds"] == 2.5
+
+
 def test_run_demo_marks_duration_over_five_minutes():
     clock = iter([0.0, 301.0])
     result = run_demo(

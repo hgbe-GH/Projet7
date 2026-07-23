@@ -16,11 +16,12 @@ def run_demo(
     scenarios: list[DemoScenario],
     max_seconds: float = 300.0,
     monotonic: Callable[[], float] = monotonic,
+    started_at: float | None = None,
 ) -> dict[str, Any]:
+    started = monotonic() if started_at is None else started_at
     health = client.get("/health")
     health.raise_for_status()
 
-    started = monotonic()
     results: list[dict[str, Any]] = []
     for scenario in scenarios:
         response = client.post("/ask", json={"question": scenario.question})

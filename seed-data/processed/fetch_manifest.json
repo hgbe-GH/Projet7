@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-07-10T13:10:27.381850+00:00",
+  "source": {
+    "provider": "opendatasoft",
+    "base_url": "https://public.opendatasoft.com/api/explore/v2.1",
+    "dataset": "evenements-publics-openagenda"
+  },
+  "agenda_uid": null,
+  "raw_event_count": 7586,
+  "normalized_event_count": 7586,
+  "filters": {
+    "search": null,
+    "city": "Paris",
+    "start_date": "2025-07-10",
+    "end_date": "2026-07-10",
+    "category_field": null,
+    "category_ids": []
+  },
+  "outputs": {
+    "raw_json": "data/raw/openagenda_events.json",
+    "parquet": "data/processed/events.parquet",
+    "manifest": "data/processed/fetch_manifest.json"
+  }
+}

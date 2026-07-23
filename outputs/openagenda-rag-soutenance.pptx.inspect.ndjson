@@ -1,4 +1,4 @@
-{"kind":"deck","id":"pr/b4vpbn","name":"Deck"}
+{"kind":"deck","id":"pr/g87jwr","name":"Deck"}
 {"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"Master","type":"master"}
 {"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title"}
 {"kind":"slide","id":"sl/2x4nap4r","slide":1,"title":"Assistant RAG pour la recommandation d'evenements culturels","textShapes":6}
@@ -115,7 +115,7 @@
 {"kind":"textbox","id":"sh/svu9knih","slide":7,"text":"• GET /health\n• POST /ask\n• POST /rebuild\n• Swagger automatique sur /docs","textPreview":"• GET /health | • POST /ask | • POST /rebuild | • Swagger automatique sur /docs","textChars":73,"textLines":4,"bbox":[454,284,282,232]}
 {"kind":"shape","id":"sh/hgn29gr2","slide":7,"bbox":[788,220,420,320]}
 {"kind":"textbox","id":"sh/ap4r65wj","slide":7,"text":"Validation observee","textPreview":"Validation observee","textChars":19,"textLines":1,"bbox":[812,240,372,32]}
-{"kind":"textbox","id":"sh/za1gvy90","slide":7,"text":"• 35 tests Python passent\n• python scripts/api_test.py valide /health et /ask\n• python scripts/evaluate_rag.py passe en direct et via API\n• reponses non vides avec sources exploitables","textPreview":"• 35 tests Python passent | • python scripts/api_test.py valide /health et /ask | • python scripts/evaluate_rag.py passe en direct et via...","textChars":184,"textLines":4,"bbox":[812,284,372,232]}
+{"kind":"textbox","id":"sh/za1gvy90","slide":7,"text":"• 59 tests Python passent\n• api_test.py valide /health et /ask\n• évaluation directe et API disponible\n• réponses sourcées et exploitables","textPreview":"• 59 tests Python passent | • api_test.py valide /health et /ask | • évaluation directe et API disponible | • réponses sourcées et exploi...","textChars":137,"textLines":4,"bbox":[812,284,372,232]}
 {"kind":"notes","id":"nt/0z61032l","slide":7,"text":""}
 {"kind":"slide","id":"sl/fu18jqh0","slide":8,"title":"DEPLOYMENT","textShapes":10}
 {"kind":"textbox","id":"sh/1032lszq","slide":8,"text":"DEPLOYMENT","textPreview":"DEPLOYMENT","textChars":10,"textLines":1,"bbox":[72,28,500,24]}
@@ -124,7 +124,7 @@
 {"kind":"textbox","id":"sh/c7u54zid","slide":8,"text":"La livraison locale embarque un seed du corpus et de l'index pour une demo plus fiable.","textPreview":"La livraison locale embarque un seed du corpus et de l'index pour une demo plus fiable.","textChars":87,"textLines":1,"bbox":[72,136,980,52]}
 {"kind":"shape","id":"sh/1orytsvu","slide":8,"bbox":[72,220,350,330]}
 {"kind":"textbox","id":"sh/u18jqh0f","slide":8,"text":"Image","textPreview":"Image","textChars":5,"textLines":1,"bbox":[96,240,302,32]}
-{"kind":"textbox","id":"sh/jm1cfa9w","slide":8,"text":"• Base python:3.12-slim\n• dependances Python installees\n• code source + scripts copies\n• seed de data/processed et data/index integre","textPreview":"• Base python:3.12-slim | • dependances Python installees | • code source + scripts copies | • seed de data/processed et data/index integre","textChars":133,"textLines":4,"bbox":[96,284,302,242]}
+{"kind":"textbox","id":"sh/jm1cfa9w","slide":8,"text":"• base python:3.12-slim\n• dépendances Python figées\n• code source + scripts copiés\n• seed-data versionné et intégré","textPreview":"• base python:3.12-slim | • dépendances Python figées | • code source + scripts copiés | • seed-data versionné et intégré","textChars":115,"textLines":4,"bbox":[96,284,302,242]}
 {"kind":"shape","id":"sh/cvixczed","slide":8,"bbox":[450,220,350,330]}
 {"kind":"textbox","id":"sh/5gbq1ory","slide":8,"text":"Runtime","textPreview":"Runtime","textChars":7,"textLines":1,"bbox":[474,240,302,32]}
 {"kind":"textbox","id":"sh/18jqh0fe","slide":8,"text":"• entrypoint copie le seed vers /app/runtime-data\n• volume nomme Docker pour persister l'index\n• chemins runtime injectes via variables d'environnement","textPreview":"• entrypoint copie le seed vers /app/runtime-data | • volume nomme Docker pour persister l'index | • chemins runtime injectes via variabl...","textChars":151,"textLines":3,"bbox":[474,284,302,242]}
@@ -154,7 +154,7 @@
 {"kind":"textbox","id":"sh/kjm1cfa9","slide":10,"text":"Quelles expositions photo a Lyon ?","textPreview":"Quelles expositions photo a Lyon ?","textChars":34,"textLines":1,"bbox":[96,284,382,242]}
 {"kind":"shape","id":"sh/rqd4vmtw","slide":10,"bbox":[530,220,678,330]}
 {"kind":"textbox","id":"sh/25kb6xkf","slide":10,"text":"Résultat observé","textPreview":"Résultat observé","textChars":16,"textLines":1,"bbox":[554,240,630,32]}
-{"kind":"textbox","id":"sh/4fu18jqh","slide":10,"text":"• réponse explicite : « Je ne sais pas »\n• aucun événement lyonnais inventé\n• démo complète mesurée en 2,240 s","textPreview":"• réponse explicite : « Je ne sais pas » | • aucun événement lyonnais inventé | • démo complète mesurée en 2,240 s","textChars":110,"textLines":3,"bbox":[554,284,630,242]}
+{"kind":"textbox","id":"sh/4fu18jqh","slide":10,"text":"• réponse explicite : « Je ne sais pas »\n• aucun événement lyonnais inventé\n• démo complète mesurée en 2,406 s","textPreview":"• réponse explicite : « Je ne sais pas » | • aucun événement lyonnais inventé | • démo complète mesurée en 2,406 s","textChars":110,"textLines":3,"bbox":[554,284,630,242]}
 {"kind":"notes","id":"nt/29gr2p8n","slide":10,"text":""}
 {"kind":"slide","id":"sl/re1w7mp0","slide":11,"title":"EVALUATION","textShapes":8}
 {"kind":"textbox","id":"sh/dg7adsji","slide":11,"text":"EVALUATION","textPreview":"EVALUATION","textChars":10,"textLines":1,"bbox":[72,28,500,24]}

@@ -41,12 +41,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--fetch-manifest",
         type=Path,
-        default=PROJECT_ROOT / "data/processed/fetch_manifest.json",
+        default=PROJECT_ROOT / "seed-data/processed/fetch_manifest.json",
     )
     parser.add_argument(
         "--index-manifest",
         type=Path,
-        default=PROJECT_ROOT / "data/index/index_manifest.json",
+        default=PROJECT_ROOT / "seed-data/index/index_manifest.json",
     )
     return parser.parse_args()
 
