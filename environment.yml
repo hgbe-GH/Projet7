@@ -4,10 +4,6 @@ channels:
   - nodefaults
 dependencies:
   - python=3.12
-  - numpy
-  - pandas
-  - pyarrow
   - pip
-  - requests
-  - python-dotenv
-  - pytest
+  - pip:
+      - -r requirements.txt

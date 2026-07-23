@@ -1,0 +1,4 @@
+case_id,question,reference,notes
+concert_fishers,"Parle-moi de Concert Fishers a Paris","Concert Fishers est un concert de reprises pop, rock et funk organise le 21 juin 2026 a 19 h 30 au Gymnase Montparnasse a Paris dans le cadre de la Fete de la musique 2026.","cas nominal precis"
+salon_photo,"Parle-moi de SALON DE LA PHOTO a Paris","Le SALON DE LA PHOTO se tient du 9 au 12 octobre 2025, de 10 h a 19 h, a la Grande Halle de la Villette a Paris. Il reunit amateurs et professionnels de la photographie.","cas nominal precis"
+sortie_famille,"Je cherche une sortie en famille a Paris avec une visite theatricalisee","Le corpus propose une visite theatralisee en famille dans le Marais au depart de Pont Marie et une visite theatralisee des Passages Couverts autour du Passage Jouffroy.","cas agrege"

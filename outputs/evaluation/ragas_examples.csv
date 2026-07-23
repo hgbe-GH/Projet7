@@ -1,0 +1,156 @@
+case_id,question,retrieved_contexts,response,reference,source_titles,faithfulness,answer_relevancy,context_precision,answer_correctness,faithfulness_interpretation,answer_relevancy_interpretation,context_precision_interpretation,answer_correctness_interpretation,overall_score,overall_interpretation,notes
+concert_fishers,Parle-moi de Concert Fishers a Paris,"Concert Fishers
+
+Reprises pop, rock, funk
+
+Reprises pop, rock, funk
+
+200
+
+Le Gymnase Montparnasse
+
+Paris
+
+Fête de la musique 2026
+
+Fiddler On The Seine
+
+Fiddler (violiniste) qui joue de la musique traditionnelle irlandaise
+
+Fiddler (violiniste) qui joue de la musique traditionnelle irlandaise
+
+dans la rue
+
+Fontaine, rue du pot de fer, Paris 75005
+
+Paris
+
+Fête de la musique 2026
+
+Entrée libre
+
+La Félicità
+
+Paris
+
+Unidivers Oui sortir, vos deux agendas !
+
+Convivialité dégustation Partage Vins Soirée Paris
+
+PAAFclash2.0
+
+Nous organisons un concert de musique électronique, une soirée rythmée et immersive dédiée au son et à l’énergie du live.
+
+Nous organisons un concert de musique électronique, une soirée rythmée et immersive dédiée au son et à l’énergie du live.
+
+places limitées a 50 personnes
+
+5 rue Jean Poulmarch, 75010 Paris
+
+Paris
+
+Fête de la musique 2026","**Concert Fishers** à Paris :
+Un concert de reprises pop, rock et funk, dans le cadre de la **Fête de la musique 2026**.
+📅 **Date** : 21 juin 2026 à 19h30
+📍 **Lieu** : Le Gymnase Montparnasse, Paris
+🔗 [Plus d'infos](https://openagenda.com/fetedelamusique2026/events/concert-fishers)
+
+Si tu aimes les ambiances festives et les reprises énergiques, cet événement est fait pour toi !","Concert Fishers est un concert de reprises pop, rock et funk organise le 21 juin 2026 a 19 h 30 au Gymnase Montparnasse a Paris dans le cadre de la Fete de la musique 2026.",Concert Fishers | Fiddler On The Seine | Génération Crozes Hermitage | PAAFclash2.0,0.5,0.818038,1.0,0.881108,a ameliorer,fort,fort,fort,0.799786,acceptable,cas nominal precis
+salon_photo,Parle-moi de SALON DE LA PHOTO a Paris,"SALON DE LA PHOTO
+
+Rendez-vous incontournable des amateurs et des professionnels de la photographie
+
+Du 9 au 12 octobre 2025, de 10h à 19h, les portes d’un lieu hors du temps s’ouvrent aux photographes, vidéastes et créateurs de tous horizons — passionnés curieux, débutants rêveurs ou professionnels aguerris. Quatre jours pour vivre une parenthèse inspirante, où chacun peut exposer sa vision, nourrir son imaginaire, affûter son regard, s’équiper, expérimenter, se former… Un espace de rencontres, d’émotions partagées et de créativité en mouvement, où chaque instant devient image, et chaque image, une histoire.
+
+Entrée payante mais possibilité de trouver des places gratuites
+
+Grande Halle de la Villette
+
+Paris
+
+Béatrice Landré
+
+photographie amateurs professionnels matériels exposition salon
+
+Gratuit, réservation conseillée sur Eventbrite
+
+Centre tchèque de Paris
+
+Paris
+
+Centre tchèque de Paris
+
+photographie conférence exposition Pixels et poétique
+
+Parc des expositions - Porte de Versailles
+
+Paris
+
+Oriane
+
+salons education grandes écoles
+
+Le Salon formations et métiers artistiques
+
+Vous cherchez à orienter votre avenir dans l'animation, le design, le graphisme, la mode ou le cinéma ?
+
+Le Salon de l'Etudiant formations et métiers artistiques 2024 à Paris est l'événement idéal pour explorer vos options. Ce salon est un point de rencontre essentiel pour tout aspirant artiste, offrant un accès direct à des écoles d'art, des universités et des instituts spécialisés. Profitez de cette occasion pour vous renseigner sur les programmes disponibles, découvrir les différentes carrières, et rencontrer des experts qui pourront guider vos choix. Venez élargir votre réseau et affiner votre projet d'orientation grâce à des ateliers, des conférences et des stands d'information.
+
+Gratuit, sur inscription
+
+Paris, Porte de Versailles
+
+Paris
+
+Lyli
+
+Salon Salon de l'orientation","**SALON DE LA PHOTO** à Paris
+📅 **Du 9 au 12 octobre 2025** (10h-19h)
+📍 **Grande Halle de la Villette**
+🔗 [En savoir plus](https://openagenda.com/totaleimpro20/events/salon-de-la-photo)
+
+**Pourquoi y aller ?**
+Événement incontournable pour les amateurs et professionnels de photographie, avec expositions, matériel, ateliers et rencontres. Idéal pour s’inspirer, se former ou s’équiper.
+
+*Entrée payante (places gratuites possibles).*","Le SALON DE LA PHOTO se tient du 9 au 12 octobre 2025, de 10 h a 19 h, a la Grande Halle de la Villette a Paris. Il reunit amateurs et professionnels de la photographie.","SALON DE LA PHOTO | Close-up: Art autour de l'exposition Pixels et Poétique | Les Salons de l'Etudiant : Grandes écoles, Étudier à l'étranger, Formations et métiers artistiques et Santé, social, paramédical et sport | Le Salon formations et métiers artistiques",0.875,0.825579,1.0,0.729058,fort,fort,fort,acceptable,0.857409,fort,cas nominal precis
+sortie_famille,Je cherche une sortie en famille a Paris avec une visite theatricalisee,"Activité en famille : une visite théâtralisée dans le Marais
+
+Plongez dans une aventure touristique captivante où des comédiens vous guideront à travers le quartier mythique du Marais.
+
+Une expérience insolite en famille : une visite théâtralisée des Passages Couverts
+
+Partez sur la piste d’un mystérieux crime perpétré dans le Passage Jouffroy. Suivez le guide Jean-Jacques de la Tour et enquêtez dans les plus beaux passages couverts de Paris!
+
+Visite en famille !
+
+Visite commentée
+
+Venez profiter en famille d'un visite de Chaillot - Théâtre national de la Danse et plongez dans l’histoire du théâtre et ces différents univers qui le composent : costumes, coulisses, constructions et fun facts !
+
+Dans la limite des places disponibles, réservation sur theatre-chaillot.fr
+
+Chaillot - Théâtre national de la Danse
+
+Paris
+
+[Archive] Journées européennes du patrimoine 2025 : Île-de-France
+
+Un concept immersif entre théâtre et visite guidée Avec Visites Spectacles, vous ne suivez pas simplement un guide… vous entrez dans une histoire. Des comédiens professionnels, en costume, vous entraînent dans un scénario captivant à travers les rues de Paris. Chaque quartier devient un décor, chaque monument une scène, et chaque visite une véritable aventure. Le résultat ? Une immersion totale où l’on apprend en s’amusant, dans une ambiance vivante et interactive. Plusieurs formats pour vivre l’expérience Visites Spectacles propose différentes façons de découvrir Paris : • Visites-Spectacles : une véritable pièce de théâtre en plein air • Visites-Enquêtes : menez l’enquête aux côtés d’un comédien • Visites Contées : laissez-vous transporter par des récits fascinants Chaque parcours vous fait explorer un quartier emblématique ou plus secret de Paris, tout en vivant une histoire unique et immersive. Des scénarios variés dans les plus beaux quartiers de Paris Parmi les expériences","Voici des suggestions de visites théâtralisées en famille à Paris :
+
+1. **Visite théâtralisée dans le Marais**
+   - **Pourquoi ?** Une aventure immersive avec des comédiens pour explorer le quartier du Marais.
+   - **Quand ?** Du 27 août au 21 septembre 2025 (14h30 - 16h00).
+   - **Où ?** Pont Marie, Paris.
+   - **Lien** : [Plus d'infos](https://openagenda.com/unidivers-oui-sortir/events/activite-en-famille-une-visite-theatralisee-dans-le-marais)
+
+2. **Visite théâtralisée des Passages Couverts**
+   - **Pourquoi ?** Une enquête interactive dans les passages couverts de Paris, idéale pour les familles.
+   - **Quand ?** Du 2 août au 31 octobre 2025 (02h30 - 16h00).
+   - **Où ?** Passages couverts, Paris.
+   - **Lien** : [Plus d'infos](https://openagenda.com/unidivers-oui-sortir/events/une-experience-insolite-en-famille-une-visite-theatralisee-des-passages-couverts)
+
+3. **Visites Spectacles (plusieurs formats)**
+   - **Pourquoi ?** Des scénarios immersifs entre théâtre et visite guidée, adaptés aux familles.
+   - **Quand ?** Du 28 mars au 27 décembre 2026 (14h30 - 17h00).
+   - **Où ?** Plusieurs quartiers de Paris.
+   - **Lien** : [Plus d'infos](https://openagenda.com/unidivers-oui-sortir/events/visites-spectacles-decouvrez-paris-comme-vous-ne-lavez-jamais-vu)",Le corpus propose une visite theatralisee en famille dans le Marais au depart de Pont Marie et une visite theatralisee des Passages Couverts autour du Passage Jouffroy.,Activité en famille : une visite théâtralisée dans le Marais | Une expérience insolite en famille : une visite théâtralisée des Passages Couverts | Visite en famille ! | Visites Spectacles : découvrez Paris comme vous ne l’avez jamais vu,0.692308,0.918149,0.916667,0.833009,acceptable,fort,fort,fort,0.840033,fort,cas agrege

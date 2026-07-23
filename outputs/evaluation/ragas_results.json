@@ -1,0 +1,150 @@
+{
+  "examples": [
+    {
+      "case_id": "concert_fishers",
+      "contexts": [
+        "Concert Fishers\n\nReprises pop, rock, funk\n\nReprises pop, rock, funk\n\n200\n\nLe Gymnase Montparnasse\n\nParis\n\nFête de la musique 2026",
+        "Fiddler On The Seine\n\nFiddler (violiniste) qui joue de la musique traditionnelle irlandaise\n\nFiddler (violiniste) qui joue de la musique traditionnelle irlandaise\n\ndans la rue\n\nFontaine, rue du pot de fer, Paris 75005\n\nParis\n\nFête de la musique 2026",
+        "Entrée libre\n\nLa Félicità\n\nParis\n\nUnidivers Oui sortir, vos deux agendas !\n\nConvivialité dégustation Partage Vins Soirée Paris",
+        "PAAFclash2.0\n\nNous organisons un concert de musique électronique, une soirée rythmée et immersive dédiée au son et à l’énergie du live.\n\nNous organisons un concert de musique électronique, une soirée rythmée et immersive dédiée au son et à l’énergie du live.\n\nplaces limitées a 50 personnes\n\n5 rue Jean Poulmarch, 75010 Paris\n\nParis\n\nFête de la musique 2026"
+      ],
+      "interpretations": {
+        "answer_correctness": "fort",
+        "answer_relevancy": "fort",
+        "context_precision": "fort",
+        "faithfulness": "a ameliorer"
+      },
+      "notes": "cas nominal precis",
+      "overall_interpretation": "acceptable",
+      "overall_score": 0.799786,
+      "question": "Parle-moi de Concert Fishers a Paris",
+      "reference": "Concert Fishers est un concert de reprises pop, rock et funk organise le 21 juin 2026 a 19 h 30 au Gymnase Montparnasse a Paris dans le cadre de la Fete de la musique 2026.",
+      "response": "**Concert Fishers** à Paris :\nUn concert de reprises pop, rock et funk, dans le cadre de la **Fête de la musique 2026**.\n📅 **Date** : 21 juin 2026 à 19h30\n📍 **Lieu** : Le Gymnase Montparnasse, Paris\n🔗 [Plus d'infos](https://openagenda.com/fetedelamusique2026/events/concert-fishers)\n\nSi tu aimes les ambiances festives et les reprises énergiques, cet événement est fait pour toi !",
+      "retrieved_contexts": [
+        "Concert Fishers\n\nReprises pop, rock, funk\n\nReprises pop, rock, funk\n\n200\n\nLe Gymnase Montparnasse\n\nParis\n\nFête de la musique 2026",
+        "Fiddler On The Seine\n\nFiddler (violiniste) qui joue de la musique traditionnelle irlandaise\n\nFiddler (violiniste) qui joue de la musique traditionnelle irlandaise\n\ndans la rue\n\nFontaine, rue du pot de fer, Paris 75005\n\nParis\n\nFête de la musique 2026",
+        "Entrée libre\n\nLa Félicità\n\nParis\n\nUnidivers Oui sortir, vos deux agendas !\n\nConvivialité dégustation Partage Vins Soirée Paris",
+        "PAAFclash2.0\n\nNous organisons un concert de musique électronique, une soirée rythmée et immersive dédiée au son et à l’énergie du live.\n\nNous organisons un concert de musique électronique, une soirée rythmée et immersive dédiée au son et à l’énergie du live.\n\nplaces limitées a 50 personnes\n\n5 rue Jean Poulmarch, 75010 Paris\n\nParis\n\nFête de la musique 2026"
+      ],
+      "scores": {
+        "answer_correctness": 0.881108,
+        "answer_relevancy": 0.818038,
+        "context_precision": 1.0,
+        "faithfulness": 0.5
+      },
+      "source_titles": [
+        "Concert Fishers",
+        "Fiddler On The Seine",
+        "Génération Crozes Hermitage",
+        "PAAFclash2.0"
+      ],
+      "user_input": "Parle-moi de Concert Fishers a Paris"
+    },
+    {
+      "case_id": "salon_photo",
+      "contexts": [
+        "SALON DE LA PHOTO\n\nRendez-vous incontournable des amateurs et des professionnels de la photographie\n\nDu 9 au 12 octobre 2025, de 10h à 19h, les portes d’un lieu hors du temps s’ouvrent aux photographes, vidéastes et créateurs de tous horizons — passionnés curieux, débutants rêveurs ou professionnels aguerris. Quatre jours pour vivre une parenthèse inspirante, où chacun peut exposer sa vision, nourrir son imaginaire, affûter son regard, s’équiper, expérimenter, se former… Un espace de rencontres, d’émotions partagées et de créativité en mouvement, où chaque instant devient image, et chaque image, une histoire.\n\nEntrée payante mais possibilité de trouver des places gratuites\n\nGrande Halle de la Villette\n\nParis\n\nBéatrice Landré\n\nphotographie amateurs professionnels matériels exposition salon",
+        "Gratuit, réservation conseillée sur Eventbrite\n\nCentre tchèque de Paris\n\nParis\n\nCentre tchèque de Paris\n\nphotographie conférence exposition Pixels et poétique",
+        "Parc des expositions - Porte de Versailles\n\nParis\n\nOriane\n\nsalons education grandes écoles",
+        "Le Salon formations et métiers artistiques\n\nVous cherchez à orienter votre avenir dans l'animation, le design, le graphisme, la mode ou le cinéma ?\n\nLe Salon de l'Etudiant formations et métiers artistiques 2024 à Paris est l'événement idéal pour explorer vos options. Ce salon est un point de rencontre essentiel pour tout aspirant artiste, offrant un accès direct à des écoles d'art, des universités et des instituts spécialisés. Profitez de cette occasion pour vous renseigner sur les programmes disponibles, découvrir les différentes carrières, et rencontrer des experts qui pourront guider vos choix. Venez élargir votre réseau et affiner votre projet d'orientation grâce à des ateliers, des conférences et des stands d'information.\n\nGratuit, sur inscription\n\nParis, Porte de Versailles\n\nParis\n\nLyli\n\nSalon Salon de l'orientation"
+      ],
+      "interpretations": {
+        "answer_correctness": "acceptable",
+        "answer_relevancy": "fort",
+        "context_precision": "fort",
+        "faithfulness": "fort"
+      },
+      "notes": "cas nominal precis",
+      "overall_interpretation": "fort",
+      "overall_score": 0.857409,
+      "question": "Parle-moi de SALON DE LA PHOTO a Paris",
+      "reference": "Le SALON DE LA PHOTO se tient du 9 au 12 octobre 2025, de 10 h a 19 h, a la Grande Halle de la Villette a Paris. Il reunit amateurs et professionnels de la photographie.",
+      "response": "**SALON DE LA PHOTO** à Paris\n📅 **Du 9 au 12 octobre 2025** (10h-19h)\n📍 **Grande Halle de la Villette**\n🔗 [En savoir plus](https://openagenda.com/totaleimpro20/events/salon-de-la-photo)\n\n**Pourquoi y aller ?**\nÉvénement incontournable pour les amateurs et professionnels de photographie, avec expositions, matériel, ateliers et rencontres. Idéal pour s’inspirer, se former ou s’équiper.\n\n*Entrée payante (places gratuites possibles).*",
+      "retrieved_contexts": [
+        "SALON DE LA PHOTO\n\nRendez-vous incontournable des amateurs et des professionnels de la photographie\n\nDu 9 au 12 octobre 2025, de 10h à 19h, les portes d’un lieu hors du temps s’ouvrent aux photographes, vidéastes et créateurs de tous horizons — passionnés curieux, débutants rêveurs ou professionnels aguerris. Quatre jours pour vivre une parenthèse inspirante, où chacun peut exposer sa vision, nourrir son imaginaire, affûter son regard, s’équiper, expérimenter, se former… Un espace de rencontres, d’émotions partagées et de créativité en mouvement, où chaque instant devient image, et chaque image, une histoire.\n\nEntrée payante mais possibilité de trouver des places gratuites\n\nGrande Halle de la Villette\n\nParis\n\nBéatrice Landré\n\nphotographie amateurs professionnels matériels exposition salon",
+        "Gratuit, réservation conseillée sur Eventbrite\n\nCentre tchèque de Paris\n\nParis\n\nCentre tchèque de Paris\n\nphotographie conférence exposition Pixels et poétique",
+        "Parc des expositions - Porte de Versailles\n\nParis\n\nOriane\n\nsalons education grandes écoles",
+        "Le Salon formations et métiers artistiques\n\nVous cherchez à orienter votre avenir dans l'animation, le design, le graphisme, la mode ou le cinéma ?\n\nLe Salon de l'Etudiant formations et métiers artistiques 2024 à Paris est l'événement idéal pour explorer vos options. Ce salon est un point de rencontre essentiel pour tout aspirant artiste, offrant un accès direct à des écoles d'art, des universités et des instituts spécialisés. Profitez de cette occasion pour vous renseigner sur les programmes disponibles, découvrir les différentes carrières, et rencontrer des experts qui pourront guider vos choix. Venez élargir votre réseau et affiner votre projet d'orientation grâce à des ateliers, des conférences et des stands d'information.\n\nGratuit, sur inscription\n\nParis, Porte de Versailles\n\nParis\n\nLyli\n\nSalon Salon de l'orientation"
+      ],
+      "scores": {
+        "answer_correctness": 0.729058,
+        "answer_relevancy": 0.825579,
+        "context_precision": 1.0,
+        "faithfulness": 0.875
+      },
+      "source_titles": [
+        "SALON DE LA PHOTO",
+        "Close-up: Art autour de l'exposition Pixels et Poétique",
+        "Les Salons de l'Etudiant : Grandes écoles, Étudier à l'étranger, Formations et métiers artistiques et Santé, social, paramédical et sport",
+        "Le Salon formations et métiers artistiques"
+      ],
+      "user_input": "Parle-moi de SALON DE LA PHOTO a Paris"
+    },
+    {
+      "case_id": "sortie_famille",
+      "contexts": [
+        "Activité en famille : une visite théâtralisée dans le Marais\n\nPlongez dans une aventure touristique captivante où des comédiens vous guideront à travers le quartier mythique du Marais.",
+        "Une expérience insolite en famille : une visite théâtralisée des Passages Couverts\n\nPartez sur la piste d’un mystérieux crime perpétré dans le Passage Jouffroy. Suivez le guide Jean-Jacques de la Tour et enquêtez dans les plus beaux passages couverts de Paris!",
+        "Visite en famille !\n\nVisite commentée\n\nVenez profiter en famille d'un visite de Chaillot - Théâtre national de la Danse et plongez dans l’histoire du théâtre et ces différents univers qui le composent : costumes, coulisses, constructions et fun facts !\n\nDans la limite des places disponibles, réservation sur theatre-chaillot.fr\n\nChaillot - Théâtre national de la Danse\n\nParis\n\n[Archive] Journées européennes du patrimoine 2025 : Île-de-France",
+        "Un concept immersif entre théâtre et visite guidée Avec Visites Spectacles, vous ne suivez pas simplement un guide… vous entrez dans une histoire. Des comédiens professionnels, en costume, vous entraînent dans un scénario captivant à travers les rues de Paris. Chaque quartier devient un décor, chaque monument une scène, et chaque visite une véritable aventure. Le résultat ? Une immersion totale où l’on apprend en s’amusant, dans une ambiance vivante et interactive. Plusieurs formats pour vivre l’expérience Visites Spectacles propose différentes façons de découvrir Paris : • Visites-Spectacles : une véritable pièce de théâtre en plein air • Visites-Enquêtes : menez l’enquête aux côtés d’un comédien • Visites Contées : laissez-vous transporter par des récits fascinants Chaque parcours vous fait explorer un quartier emblématique ou plus secret de Paris, tout en vivant une histoire unique et immersive. Des scénarios variés dans les plus beaux quartiers de Paris Parmi les expériences"
+      ],
+      "interpretations": {
+        "answer_correctness": "fort",
+        "answer_relevancy": "fort",
+        "context_precision": "fort",
+        "faithfulness": "acceptable"
+      },
+      "notes": "cas agrege",
+      "overall_interpretation": "fort",
+      "overall_score": 0.840033,
+      "question": "Je cherche une sortie en famille a Paris avec une visite theatricalisee",
+      "reference": "Le corpus propose une visite theatralisee en famille dans le Marais au depart de Pont Marie et une visite theatralisee des Passages Couverts autour du Passage Jouffroy.",
+      "response": "Voici des suggestions de visites théâtralisées en famille à Paris :\n\n1. **Visite théâtralisée dans le Marais**\n   - **Pourquoi ?** Une aventure immersive avec des comédiens pour explorer le quartier du Marais.\n   - **Quand ?** Du 27 août au 21 septembre 2025 (14h30 - 16h00).\n   - **Où ?** Pont Marie, Paris.\n   - **Lien** : [Plus d'infos](https://openagenda.com/unidivers-oui-sortir/events/activite-en-famille-une-visite-theatralisee-dans-le-marais)\n\n2. **Visite théâtralisée des Passages Couverts**\n   - **Pourquoi ?** Une enquête interactive dans les passages couverts de Paris, idéale pour les familles.\n   - **Quand ?** Du 2 août au 31 octobre 2025 (02h30 - 16h00).\n   - **Où ?** Passages couverts, Paris.\n   - **Lien** : [Plus d'infos](https://openagenda.com/unidivers-oui-sortir/events/une-experience-insolite-en-famille-une-visite-theatralisee-des-passages-couverts)\n\n3. **Visites Spectacles (plusieurs formats)**\n   - **Pourquoi ?** Des scénarios immersifs entre théâtre et visite guidée, adaptés aux familles.\n   - **Quand ?** Du 28 mars au 27 décembre 2026 (14h30 - 17h00).\n   - **Où ?** Plusieurs quartiers de Paris.\n   - **Lien** : [Plus d'infos](https://openagenda.com/unidivers-oui-sortir/events/visites-spectacles-decouvrez-paris-comme-vous-ne-lavez-jamais-vu)",
+      "retrieved_contexts": [
+        "Activité en famille : une visite théâtralisée dans le Marais\n\nPlongez dans une aventure touristique captivante où des comédiens vous guideront à travers le quartier mythique du Marais.",
+        "Une expérience insolite en famille : une visite théâtralisée des Passages Couverts\n\nPartez sur la piste d’un mystérieux crime perpétré dans le Passage Jouffroy. Suivez le guide Jean-Jacques de la Tour et enquêtez dans les plus beaux passages couverts de Paris!",
+        "Visite en famille !\n\nVisite commentée\n\nVenez profiter en famille d'un visite de Chaillot - Théâtre national de la Danse et plongez dans l’histoire du théâtre et ces différents univers qui le composent : costumes, coulisses, constructions et fun facts !\n\nDans la limite des places disponibles, réservation sur theatre-chaillot.fr\n\nChaillot - Théâtre national de la Danse\n\nParis\n\n[Archive] Journées européennes du patrimoine 2025 : Île-de-France",
+        "Un concept immersif entre théâtre et visite guidée Avec Visites Spectacles, vous ne suivez pas simplement un guide… vous entrez dans une histoire. Des comédiens professionnels, en costume, vous entraînent dans un scénario captivant à travers les rues de Paris. Chaque quartier devient un décor, chaque monument une scène, et chaque visite une véritable aventure. Le résultat ? Une immersion totale où l’on apprend en s’amusant, dans une ambiance vivante et interactive. Plusieurs formats pour vivre l’expérience Visites Spectacles propose différentes façons de découvrir Paris : • Visites-Spectacles : une véritable pièce de théâtre en plein air • Visites-Enquêtes : menez l’enquête aux côtés d’un comédien • Visites Contées : laissez-vous transporter par des récits fascinants Chaque parcours vous fait explorer un quartier emblématique ou plus secret de Paris, tout en vivant une histoire unique et immersive. Des scénarios variés dans les plus beaux quartiers de Paris Parmi les expériences"
+      ],
+      "scores": {
+        "answer_correctness": 0.833009,
+        "answer_relevancy": 0.918149,
+        "context_precision": 0.916667,
+        "faithfulness": 0.692308
+      },
+      "source_titles": [
+        "Activité en famille : une visite théâtralisée dans le Marais",
+        "Une expérience insolite en famille : une visite théâtralisée des Passages Couverts",
+        "Visite en famille !",
+        "Visites Spectacles : découvrez Paris comme vous ne l’avez jamais vu"
+      ],
+      "user_input": "Je cherche une sortie en famille a Paris avec une visite theatricalisee"
+    }
+  ],
+  "generated_at": "2026-07-23T14:22:25Z",
+  "metric_names": [
+    "faithfulness",
+    "answer_relevancy",
+    "context_precision",
+    "answer_correctness"
+  ],
+  "models": {
+    "chat": "mistral-small-latest",
+    "embedding": "mistral-embed"
+  },
+  "summary": {
+    "example_count": 3,
+    "metric_interpretations": {
+      "answer_correctness": "fort",
+      "answer_relevancy": "fort",
+      "context_precision": "fort",
+      "faithfulness": "acceptable"
+    },
+    "metric_means": {
+      "answer_correctness": 0.814392,
+      "answer_relevancy": 0.853922,
+      "context_precision": 0.972222,
+      "faithfulness": 0.689103
+    }
+  }
+}
