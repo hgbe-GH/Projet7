@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import os
 from pathlib import Path
+import subprocess
 import sys
 
 from dotenv import load_dotenv
@@ -43,6 +44,11 @@ def parse_args() -> argparse.Namespace:
         default=PROJECT_ROOT / "outputs/evaluation/ragas_examples.csv",
     )
     parser.add_argument(
+        "--index-manifest",
+        type=Path,
+        default=PROJECT_ROOT / "data/index/index_manifest.json",
+    )
+    parser.add_argument(
         "--chat-model",
         default=os.getenv("RAG_EVALUATION_MODEL")
         or os.getenv("RAG_CHAT_MODEL")
@@ -73,6 +79,16 @@ def main() -> int:
         chat_model=args.chat_model,
         embedding_model=args.embedding_model,
         dataset_sha256=hashlib.sha256(args.dataset_path.read_bytes()).hexdigest(),
+        git_commit=subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=PROJECT_ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip(),
+        index_manifest_sha256=hashlib.sha256(
+            args.index_manifest.read_bytes()
+        ).hexdigest(),
     )
     write_ragas_json(args.output_json, payload)
     write_ragas_csv(args.output_csv, payload["examples"])

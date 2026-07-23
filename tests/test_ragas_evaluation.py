@@ -232,6 +232,8 @@ def test_run_and_writers_serialize_complete_deterministic_results(tmp_path: Path
         embeddings=object(),
         generated_at=generated_at,
         dataset_sha256="abc123",
+        git_commit="deadbeef",
+        index_manifest_sha256="index123",
     )
 
     output_json = tmp_path / "results.json"
@@ -251,6 +253,11 @@ def test_run_and_writers_serialize_complete_deterministic_results(tmp_path: Path
         "embedding": "embedding-model",
     }
     assert json.loads(first_json)["provenance"]["dataset_sha256"] == "abc123"
+    assert json.loads(first_json)["provenance"]["git_commit"] == "deadbeef"
+    assert (
+        json.loads(first_json)["provenance"]["index_manifest_sha256"]
+        == "index123"
+    )
     assert json.loads(first_json)["metric_names"] == METRIC_NAMES
     assert len(payload["examples"]) == 3
     assert payload["examples"][0]["question"] == "Question A"

@@ -256,6 +256,8 @@ def run_ragas_evaluation(
     embeddings: Any | None = None,
     generated_at: datetime | None = None,
     dataset_sha256: str | None = None,
+    git_commit: str | None = None,
+    index_manifest_sha256: str | None = None,
 ) -> dict[str, Any]:
     if not api_key:
         raise ValueError("MISTRAL_API_KEY is required for RAGAS evaluation.")
@@ -331,6 +333,8 @@ def run_ragas_evaluation(
         "provenance": {
             "ragas_version": importlib.metadata.version("ragas"),
             "dataset_sha256": dataset_sha256,
+            "git_commit": git_commit,
+            "index_manifest_sha256": index_manifest_sha256,
         },
         "metric_names": list(METRIC_NAMES),
         "summary": summary,

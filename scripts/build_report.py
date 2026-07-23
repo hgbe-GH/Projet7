@@ -535,6 +535,8 @@ def build_report(
         [
             f"RAGAS : version {provenance.get('ragas_version', 'non renseignée')}.",
             f"Jeu annoté SHA-256 : {provenance.get('dataset_sha256', 'non renseigné')}.",
+            f"Manifeste FAISS SHA-256 : {provenance.get('index_manifest_sha256', 'non renseigné')}.",
+            f"Commit de l'évaluation : {provenance.get('git_commit', 'non renseigné')}.",
             f"Modèle juge : {ragas['models']['chat']}.",
             f"Modèle d'embedding : {ragas['models']['embedding']}.",
             f"Évaluation générée le {ragas['generated_at']}.",

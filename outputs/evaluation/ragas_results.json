@@ -134,6 +134,8 @@
   },
   "provenance": {
     "dataset_sha256": "baa353ade6616233685ddc08cf0d28f24b56754f69631ced12c7b635da65b502",
+    "git_commit": "07365f3",
+    "index_manifest_sha256": "0d8c452633033b6dfd89afaa7069369dfbe65c501821ce3d8fc8998021922fb9",
     "ragas_version": "0.4.3"
   },
   "summary": {

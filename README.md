@@ -15,7 +15,7 @@ Le POC reste local, mais la generation de reponses depend de l'API Mistral en li
 
 ## Perimetre final livre
 
-Le corpus versionne dans ce depot correspond au POC de soutenance livre le `10 juillet 2026` avec les choix suivants :
+Le corpus versionne dans ce depot correspond au POC :
 
 - zone retenue : `Paris` ;
 - fenetre de collecte : du `10 juillet 2025` au `10 juillet 2026` inclus ;
@@ -38,36 +38,50 @@ La borne temporelle est appliquee au moment de la collecte. Certaines lignes peu
 │   ├── processed/
 │   └── raw/
 ├── outputs/
+│   ├── demo/
 │   ├── evaluation/
-│   └── openagenda-rag-soutenance.pptx
+│   ├── openagenda-rag-soutenance.pptx
+│   └── rapport-technique-openagenda-rag.docx
+├── docs/
+│   ├── soutenance/
+│   └── templates/
 ├── scripts/
 │   ├── api_test.py
+│   ├── build_report.py
 │   ├── build_index.py
 │   ├── chatbot.py
 │   ├── check_env.py
+│   ├── demo_api_5min.py
+│   ├── demo_api_5min.sh
 │   ├── demo_scenarios.sh
 │   ├── docker_entrypoint.sh
 │   ├── evaluate_rag.py
+│   ├── evaluate_ragas.py
 │   ├── fetch_events.py
 │   ├── find_agendas.py
 │   └── run_api.py
 ├── src/
 │   └── openagenda_rag/
 │       ├── api.py
+│       ├── demo.py
 │       ├── evaluation.py
 │       ├── indexing.py
 │       ├── ingestion.py
 │       ├── rag.py
+│       ├── ragas_evaluation.py
 │       ├── service.py
 │       └── settings.py
 └── tests/
     ├── fixtures/
-    │   └── rag_eval_dataset.csv
+    │   ├── rag_eval_dataset.csv
+    │   └── ragas_eval_dataset.csv
     ├── conftest.py
     ├── test_api.py
     ├── test_evaluation.py
     ├── test_indexing.py
     ├── test_ingestion.py
+    ├── test_demo.py
+    ├── test_ragas_evaluation.py
     └── test_settings.py
 ```
 
@@ -436,14 +450,24 @@ docker compose up --build
 ### Demo script
 
 ```bash
-bash scripts/demo_scenarios.sh
+bash scripts/demo_api_5min.sh
 ```
 
-Le script utilise trois questions stables sur le corpus livre :
+Ce script verifie `/health`, execute un cas nominal et un cas limite, mesure la
+duree totale et ecrit `outputs/demo/demo_api_timing.json`.
 
-- `Parle-moi de Concert Fishers a Paris`
-- `Parle-moi de SALON DE LA PHOTO a Paris`
-- `Je cherche une sortie en famille a Paris avec une visite theatricalisee`
+- cas nominal : `Parle-moi de Concert Fishers a Paris`
+- cas limite : `Quelles expositions photo a Lyon ?`
+
+La repetition livree a dure `2,240 s`, sous la limite de cinq minutes. Le cas
+limite repond explicitement qu'aucune exposition photo a Lyon n'est presente,
+sans inventer d'evenement.
+
+Le script historique a trois questions reste disponible :
+
+```bash
+bash scripts/demo_scenarios.sh
+```
 
 ## Evaluation automatisee
 
@@ -506,6 +530,46 @@ Regle de lecture pratique :
 - `outputs/evaluation/latest_results.json`
 - `outputs/evaluation/latest_summary.json`
 
+## Evaluation RAGAS reelle
+
+Le fichier [tests/fixtures/ragas_eval_dataset.csv](/home/hgbe/openclassrooms/Projet7/tests/fixtures/ragas_eval_dataset.csv)
+contient trois references factuelles. L'evaluation utilise les contextes
+exactement transmis au modele de generation, puis calcule quatre metriques
+RAGAS avec Mistral :
+
+```bash
+python scripts/evaluate_ragas.py
+```
+
+L'execution est sequentielle avec reprises automatiques pour respecter les
+limites d'un compte Mistral gratuit.
+
+### Resultats livres
+
+| Metrique | Moyenne | Interpretation |
+|---|---:|---|
+| Fidelite au contexte | `0,900` | fort |
+| Pertinence de la reponse | `0,846` | fort |
+| Precision du contexte | `1,000` | fort |
+| Correction de la reponse | `0,683` | acceptable |
+
+Les trois exemples documentes sont :
+
+| Question | Score global | Lecture |
+|---|---:|---|
+| Concert Fishers a Paris | `0,823` | contexte principal correctement classe |
+| SALON DE LA PHOTO a Paris | `0,887` | fidelite et precision du contexte fortes |
+| Sortie en famille avec visite theatralisee | `0,862` | plusieurs sources utiles retrouvees |
+
+Chaque ligne conserve la question, les contextes recuperes, la reponse, la
+reference humaine, les scores et leur interpretation dans :
+
+- `outputs/evaluation/ragas_results.json`
+- `outputs/evaluation/ragas_examples.csv`
+
+Ces trois cas demontrent la methode d'evaluation ; ils ne constituent pas un
+benchmark statistique.
+
 ## Tests
 
 Suite complete :
@@ -521,6 +585,9 @@ Les tests couvrent notamment :
 - construction et rechargement d'index FAISS ;
 - structure de reponse du moteur RAG et de l'API ;
 - lecture du jeu annote et scoring d'evaluation ;
+- construction et serialisation des exemples RAGAS ;
+- reprises des erreurs temporaires de metriques ;
+- chronometrage de la demonstration API ;
 - valeurs par defaut des dates de collecte.
 
 ## Livrables de soutenance
@@ -528,7 +595,17 @@ Les tests couvrent notamment :
 - API FastAPI locale
 - corpus et index FAISS livres dans `data/`
 - evaluation reproductible dans `outputs/evaluation/`
+- demo chronometree : `outputs/demo/demo_api_timing.json`
 - presentation PPTX : [outputs/openagenda-rag-soutenance.pptx](/home/hgbe/openclassrooms/Projet7/outputs/openagenda-rag-soutenance.pptx)
+- rapport technique DOCX : [outputs/rapport-technique-openagenda-rag.docx](/home/hgbe/openclassrooms/Projet7/outputs/rapport-technique-openagenda-rag.docx)
+- script oral de 15 minutes : `docs/soutenance/script_soutenance_15min.md`
+- 14 questions et reponses : `docs/soutenance/questions_reponses.md`
+
+Regenerer le rapport technique depuis le template versionne :
+
+```bash
+python scripts/build_report.py
+```
 
 ## Limites du POC
 
@@ -536,4 +613,5 @@ Les tests couvrent notamment :
 - La generation depend de Mistral en ligne ; la demo n'est donc pas completement offline.
 - L'evaluation fournie est petite et orientee reproductibilite, pas benchmark grande echelle.
 - La qualite de reponse depend fortement du corpus livre et de la formulation des questions.
-- `Ragas` n'est pas une dependance obligatoire du flux par defaut ; il reste une extension optionnelle.
+- Les scores RAGAS peuvent varier legerement entre deux appels au modele juge.
+- Le POC ne comprend pas encore de seuil de similarite bloquant avant la generation.
