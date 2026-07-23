@@ -38,6 +38,7 @@ class FakeService:
                 }
             ],
             "retrieved_chunk_count": 1,
+            "retrieved_contexts": ["Contexte brut interne"],
         }
 
     def rebuild(self, **kwargs):
@@ -70,7 +71,25 @@ def test_ask_endpoint_returns_answer_payload():
     response = client.post("/ask", json={"question": "Je cherche un concert"})
 
     assert response.status_code == 200
-    assert response.json()["answer"] == "Reponse de test"
+    assert response.json() == {
+        "question": "Je cherche un concert",
+        "answer": "Reponse de test",
+        "sources": [
+            {
+                "event_uid": "evt-1",
+                "chunk_id": "evt-1::chunk-0",
+                "title": "Concert jazz",
+                "city": "Paris",
+                "location_name": "Parc floral",
+                "first_timing": "2025-06-21T18:00:00Z",
+                "last_timing": "2025-06-21T20:00:00Z",
+                "canonical_url": "https://example.com/evt-1",
+                "categories": ["music"],
+            }
+        ],
+        "retrieved_chunk_count": 1,
+    }
+    assert "retrieved_contexts" not in response.json()
     assert service.ask_calls == ["Je cherche un concert"]
 
 

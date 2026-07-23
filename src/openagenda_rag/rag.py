@@ -192,6 +192,8 @@ def answer_question(
     question: str,
     retriever: Any,
     chat_model: Any,
+    *,
+    include_contexts: bool = False,
 ) -> dict[str, Any]:
     cleaned_question = question.strip()
     if not cleaned_question:
@@ -200,12 +202,15 @@ def answer_question(
     documents = list(retriever.invoke(cleaned_question))
     sources = build_source_entries(documents)
     if not documents:
-        return {
+        payload = {
             "question": cleaned_question,
             "answer": "Je ne sais pas, car aucun evenement pertinent n'a ete retrouve dans l'index.",
             "sources": [],
             "retrieved_chunk_count": 0,
         }
+        if include_contexts:
+            payload["retrieved_contexts"] = []
+        return payload
 
     prompt = build_prompt()
     messages = prompt.invoke(
@@ -215,9 +220,14 @@ def answer_question(
         }
     )
     response = chat_model.invoke(messages)
-    return {
+    payload = {
         "question": cleaned_question,
         "answer": _coerce_response_text(response),
         "sources": [asdict(source) for source in sources],
         "retrieved_chunk_count": len(documents),
     }
+    if include_contexts:
+        payload["retrieved_contexts"] = [
+            document.page_content for document in documents if document.page_content
+        ]
+    return payload

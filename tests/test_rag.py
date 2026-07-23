@@ -9,6 +9,7 @@ from openagenda_rag.rag import (
     build_source_entries,
     format_documents_for_prompt,
 )
+from openagenda_rag.service import OpenAgendaRAGService
 
 
 @dataclass
@@ -174,9 +175,30 @@ def test_answer_question_returns_answer_sources_and_chunk_count():
     assert payload["question"] == "Je cherche un concert a Paris"
     assert payload["answer"] == "Je recommande le concert jazz a Paris."
     assert payload["retrieved_chunk_count"] == 3
+    assert "retrieved_contexts" not in payload
     assert len(payload["sources"]) == 2
     assert retriever.queries == ["Je cherche un concert a Paris"]
     assert chat_model.messages
+
+
+def test_answer_question_includes_non_empty_retrieved_contexts_in_order_when_requested():
+    documents = _sample_documents()
+    documents.insert(1, FakeDocument(page_content="", metadata={}))
+    retriever = FakeRetriever(documents)
+    chat_model = FakeChatModel()
+
+    payload = answer_question(
+        question="Je cherche un evenement",
+        retriever=retriever,
+        chat_model=chat_model,
+        include_contexts=True,
+    )
+
+    assert payload["retrieved_contexts"] == [
+        "Concert jazz en plein air a Paris.",
+        "Deuxieme chunk du meme evenement.",
+        "Exposition photo a Lyon.",
+    ]
 
 
 def test_answer_question_returns_fallback_when_no_document_is_found():
@@ -192,7 +214,45 @@ def test_answer_question_returns_fallback_when_no_document_is_found():
     assert "Je ne sais pas" in payload["answer"]
     assert payload["sources"] == []
     assert payload["retrieved_chunk_count"] == 0
+    assert "retrieved_contexts" not in payload
     assert chat_model.messages == []
+
+
+def test_answer_question_includes_empty_retrieved_contexts_when_no_document_is_found():
+    payload = answer_question(
+        question="Quel evenement sur Mars ?",
+        retriever=FakeRetriever([]),
+        chat_model=FakeChatModel("unused"),
+        include_contexts=True,
+    )
+
+    assert payload["retrieved_contexts"] == []
+
+
+def test_service_ask_for_evaluation_requests_retrieved_contexts(monkeypatch):
+    service = object.__new__(OpenAgendaRAGService)
+    retriever = FakeRetriever([])
+    chat_model = FakeChatModel()
+    service._ensure_runtime = lambda: (retriever, chat_model)
+    calls = []
+
+    def fake_answer_question(**kwargs):
+        calls.append(kwargs)
+        return {"retrieved_contexts": []}
+
+    monkeypatch.setattr("openagenda_rag.service.answer_question", fake_answer_question)
+
+    payload = service.ask_for_evaluation("Quel evenement ?")
+
+    assert payload == {"retrieved_contexts": []}
+    assert calls == [
+        {
+            "question": "Quel evenement ?",
+            "retriever": retriever,
+            "chat_model": chat_model,
+            "include_contexts": True,
+        }
+    ]
 
 
 def test_build_retriever_uses_similarity_search_kwargs(monkeypatch):

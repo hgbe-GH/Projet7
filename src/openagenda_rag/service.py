@@ -52,6 +52,15 @@ class OpenAgendaRAGService:
         retriever, chat_model = self._ensure_runtime()
         return answer_question(question=question, retriever=retriever, chat_model=chat_model)
 
+    def ask_for_evaluation(self, question: str) -> dict[str, Any]:
+        retriever, chat_model = self._ensure_runtime()
+        return answer_question(
+            question=question,
+            retriever=retriever,
+            chat_model=chat_model,
+            include_contexts=True,
+        )
+
     def rebuild(
         self,
         *,
