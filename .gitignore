@@ -23,3 +23,11 @@ data/processed/
 data/index/
 !tests/fixtures/
 !tests/fixtures/**
+
+# Local presentation, review, and generated artifacts
+/outputs/
+/docs/soutenance/
+/docs/superpowers/
+/docs/templates/
+/scripts/build_report.py
+/Projet 7 392c145b461180e18609d683e6bde85f.html

@@ -1,4 +1,4 @@
-# OpenAgenda RAG Setup
+# Rapport technique — assistant RAG de recommandation culturelle
 
 POC RAG pour la mission OpenClassrooms "assistant de recommandation d'evenements culturels" pour Puls-Events.
 
@@ -9,7 +9,7 @@ Le depot couvre les etapes 1 a 6 :
 - vectorisation Mistral et index FAISS local ;
 - chatbot RAG ;
 - API REST FastAPI ;
-- livraison Docker et support de soutenance.
+- livraison Docker reproductible.
 
 Le POC reste local, mais la generation de reponses depend de l'API Mistral en ligne.
 
@@ -27,10 +27,13 @@ Les dossiers `data/` restent des artefacts de travail locaux regenerables.
 
 La borne temporelle est appliquee au moment de la collecte. Certaines lignes peuvent avoir un `last_timing` ulterieur a la borne haute lorsqu'un evenement recurrent a sa premiere occurrence dans la fenetre mais se prolonge ensuite.
 
-## Structure
+## Structure du depot public
 
 ```text
 .
+├── .env.example
+├── .dockerignore
+├── .gitignore
 ├── environment.yml
 ├── requirements.txt
 ├── README.md
@@ -39,21 +42,8 @@ La borne temporelle est appliquee au moment de la collecte. Certaines lignes peu
 ├── seed-data/
 │   ├── index/
 │   └── processed/
-├── data/
-│   ├── index/
-│   ├── processed/
-│   └── raw/
-├── outputs/
-│   ├── demo/
-│   ├── evaluation/
-│   ├── openagenda-rag-soutenance.pptx
-│   └── rapport-technique-openagenda-rag.docx
-├── docs/
-│   ├── soutenance/
-│   └── templates/
 ├── scripts/
 │   ├── api_test.py
-│   ├── build_report.py
 │   ├── build_index.py
 │   ├── chatbot.py
 │   ├── check_env.py
@@ -87,6 +77,7 @@ La borne temporelle est appliquee au moment de la collecte. Certaines lignes peu
     ├── test_indexing.py
     ├── test_ingestion.py
     ├── test_demo.py
+    ├── test_rag.py
     ├── test_ragas_evaluation.py
     └── test_settings.py
 ```
@@ -462,7 +453,7 @@ bash scripts/demo_api_5min.sh
 ```
 
 Ce script verifie `/health`, execute un cas nominal et un cas limite, mesure la
-duree totale et ecrit `outputs/demo/demo_api_timing.json`.
+duree totale et enregistre un compte rendu local ignore par Git.
 
 - cas nominal : `Parle-moi de Concert Fishers a Paris`
 - cas limite : `Quelles expositions photo a Lyon ?`
@@ -533,10 +524,9 @@ Regle de lecture pratique :
 - `partial` : couverture utile mais incomplete.
 - `incorrect` : mauvais evenement, absence de source utile, ou refus non justifie.
 
-### Sorties d'evaluation
-
-- `outputs/evaluation/latest_results.json`
-- `outputs/evaluation/latest_summary.json`
+Les resultats detailles et leur synthese sont generes localement et ignores par
+Git afin de conserver un depot public centre sur le code, les donnees de
+reference et la reproductibilite.
 
 ## Evaluation RAGAS reelle
 
@@ -569,11 +559,8 @@ Les trois exemples documentes sont :
 | SALON DE LA PHOTO a Paris | `0,887` | fidelite et precision du contexte fortes |
 | Sortie en famille avec visite theatralisee | `0,862` | plusieurs sources utiles retrouvees |
 
-Chaque ligne conserve la question, les contextes recuperes, la reponse, la
-reference humaine, les scores et leur interpretation dans :
-
-- `outputs/evaluation/ragas_results.json`
-- `outputs/evaluation/ragas_examples.csv`
+Chaque ligne generee conserve la question, les contextes recuperes, la reponse,
+la reference humaine, les scores et leur interpretation.
 
 Ces trois cas demontrent la methode d'evaluation ; ils ne constituent pas un
 benchmark statistique.
@@ -598,22 +585,20 @@ Les tests couvrent notamment :
 - chronometrage de la demonstration API ;
 - valeurs par defaut des dates de collecte.
 
-## Livrables de soutenance
+## Matrice de conformite aux livrables
 
-- API FastAPI locale
-- corpus et index FAISS livres dans `data/`
-- evaluation reproductible dans `outputs/evaluation/`
-- demo chronometree : `outputs/demo/demo_api_timing.json`
-- presentation PPTX : [outputs/openagenda-rag-soutenance.pptx](outputs/openagenda-rag-soutenance.pptx)
-- rapport technique DOCX : [outputs/rapport-technique-openagenda-rag.docx](outputs/rapport-technique-openagenda-rag.docx)
-- script oral de 15 minutes : `docs/soutenance/script_soutenance_15min.md`
-- 14 questions et reponses : `docs/soutenance/questions_reponses.md`
-
-Regenerer le rapport technique depuis le template versionne :
-
-```bash
-python scripts/build_report.py
-```
+| Exigence de la mission | Element public fourni |
+|---|---|
+| Systeme RAG LangChain, Mistral et FAISS | `src/openagenda_rag/rag.py`, `src/openagenda_rag/indexing.py`, `src/openagenda_rag/service.py` |
+| Reconstruction de l'index depuis les donnees | `scripts/fetch_events.py`, `scripts/build_index.py` |
+| API REST exploitable | `src/openagenda_rag/api.py`, `scripts/run_api.py`, documentation Swagger sur `/docs` |
+| Rapport technique | ce `README.md` : architecture, technologies, modeles, resultats, limites et ameliorations |
+| Tests unitaires | `tests/` |
+| Jeu de test annote | `tests/fixtures/rag_eval_dataset.csv`, `tests/fixtures/ragas_eval_dataset.csv` |
+| Metriques automatisees | `scripts/evaluate_rag.py`, `scripts/evaluate_ragas.py` |
+| Corpus recent et reproductible | `seed-data/processed/`, fenetre de moins d'un an documentee ci-dessus |
+| Index FAISS pret a tester | `seed-data/index/` |
+| Conteneurisation et demo API | `Dockerfile`, `docker-compose.yml`, `scripts/demo_api_5min.sh` |
 
 ## Limites du POC
 
@@ -623,3 +608,12 @@ python scripts/build_report.py
 - La qualite de reponse depend fortement du corpus livre et de la formulation des questions.
 - Les scores RAGAS peuvent varier legerement entre deux appels au modele juge.
 - Le POC ne comprend pas encore de seuil de similarite bloquant avant la generation.
+
+## Pistes d'amelioration
+
+- elargir le corpus a plusieurs villes et automatiser son rafraichissement ;
+- ajouter un seuil de pertinence et une strategie de refus plus robuste ;
+- enrichir les filtres metier sur la date, la distance, le public et l'accessibilite ;
+- augmenter et diversifier le jeu annote pour produire des intervalles de confiance ;
+- suivre latence, cout, qualite et derive des donnees dans un environnement de production ;
+- ajouter authentification, limitation de debit et observabilite avant industrialisation.
