@@ -147,6 +147,34 @@
     .step-head span { flex: 0 0 auto; color: var(--coral); font-size: .78rem; font-weight: 800; }
     .step-head h3 { margin: 0; }
     .step-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .oral-script {
+      padding: 1.4rem;
+      border-bottom: 1px solid var(--line);
+      background: #fff7df;
+    }
+    .oral-script h4 {
+      margin-bottom: .75rem;
+      color: var(--coral);
+      font-size: .82rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .oral-script p { max-width: 920px; }
+    .oral-script .stage {
+      padding: .65rem .8rem;
+      border-left: 4px solid var(--teal);
+      background: rgba(11, 107, 105, .08);
+      color: var(--muted);
+      font-size: .92rem;
+      font-style: italic;
+    }
+    .short-version {
+      margin-top: 1rem;
+      padding-top: .85rem;
+      border-top: 1px dashed #c9b98d;
+      color: var(--muted);
+      font-size: .92rem;
+    }
     .note {
       min-width: 0;
       padding: 1.05rem 1.15rem;
@@ -226,7 +254,7 @@
     <aside class="nav" aria-label="Sommaire">
       <strong>Guide de soutenance</strong>
       <ul>
-        <li><a href="#urgence">Avant de commencer</a></li>
+        <li><a href="#avant-appel">Avant de commencer</a></li>
         <li><a href="#slide-1">01 · Mission</a></li>
         <li><a href="#slide-2">02 · Pourquoi le RAG</a></li>
         <li><a href="#slide-3">03 · RAG en 3 étapes</a></li>
@@ -239,10 +267,11 @@
         <li><a href="#slide-10">10 · Résultats</a></li>
         <li><a href="#slide-11">11 · Limites</a></li>
         <li><a href="#slide-12">12 · Suite</a></li>
-        <li><a href="#demo">Démo détaillée</a></li>
-        <li><a href="#depot">Rapport et dépôt</a></li>
-        <li><a href="#questions">Questions du jury</a></li>
-        <li><a href="#secours">Mode secours</a></li>
+        <li><a href="#demo-live">Démo détaillée</a></li>
+        <li><a href="#rapport-depot">Rapport et dépôt</a></li>
+        <li><a href="#questions-jury">Questions du jury</a></li>
+        <li><a href="#plans-secours">Mode secours</a></li>
+        <li><a href="#debrief">Débrief</a></li>
       </ul>
       <small>Je parle 12 à 15 minutes. Les fiches expliquent ce que je fais et pourquoi.</small>
     </aside>
@@ -264,7 +293,7 @@
         </div>
       </header>
 
-      <section class="chapter" id="urgence">
+      <section class="chapter" id="avant-appel">
         <p class="eyebrow">Préparation immédiate</p>
         <h2>Ce que je vérifie avant l’appel</h2>
         <div class="grid-2">
@@ -291,6 +320,37 @@ curl http://localhost:8000/health</code></pre>
           <strong>Mon fil rouge :</strong> « Je retrouve d’abord des données réelles, puis Mistral formule une
           réponse à partir de ces données. » Si je perds le fil, je reviens à cette phrase.
         </div>
+        <div class="grid-3">
+          <div class="panel">
+            <h3>Trente minutes avant</h3>
+            <ul>
+              <li>Je branche l’ordinateur et je vérifie le micro.</li>
+              <li>Je ferme les applications et onglets personnels.</li>
+              <li>Je lance Docker et je contrôle <code>/health</code>.</li>
+              <li>Je réalise une fois la démo sans partager l’écran.</li>
+              <li>Je garde la sortie réussie accessible comme preuve de secours.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Dix minutes avant</h3>
+            <ul>
+              <li>J’ouvre le PowerPoint sur la première slide.</li>
+              <li>J’ouvre ce guide sur « Slide 1 » dans une fenêtre séparée.</li>
+              <li>J’ouvre le rapport à son sommaire.</li>
+              <li>J’affiche l’arborescence du dépôt dans un onglet.</li>
+              <li>Je place le terminal sur la commande de démo sans l’exécuter.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Au moment de commencer</h3>
+            <p>
+              Je prends une respiration lente. Je regarde la caméra et je dis : « Bonjour Jérémy. Je vais vous
+              présenter le POC RAG que j’ai développé pour Puls-Events, puis je vous montrerai l’API en
+              fonctionnement. » Je ne m’excuse pas, je ne parle pas de mon stress et je n’annonce pas que la
+              présentation sera longue.
+            </p>
+          </div>
+        </div>
         <div class="links">
           <a href="openagenda-rag-soutenance.pptx">Ouvrir le PowerPoint</a>
           <a href="rapport-technique-openagenda-rag.pdf">Ouvrir le rapport</a>
@@ -308,6 +368,34 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-1">
           <div class="step-head"><span>00:00–00:50</span><h3>Slide 1 — Le POC démontre toute la chaîne RAG</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je regarde l’évaluateur, je souris, puis je démarre sans commenter le sommaire. Je pointe les chiffres seulement quand je les prononce.</p>
+            <p>
+              « Bonjour Jérémy. Je vais vous présenter le proof of concept que j’ai réalisé pour Puls-Events. Le
+              besoin était de vérifier qu’un assistant conversationnel pouvait recommander des événements culturels
+              réels à partir des données OpenAgenda. Mon objectif n’était donc pas de fabriquer simplement une
+              interface de chat, mais de démontrer toute la chaîne technique qui permet de produire une réponse
+              utile, vérifiable et exploitable par une équipe produit.
+            </p>
+            <p>
+              Concrètement, j’ai collecté et préparé un corpus centré sur Paris. Il contient 7 586 événements
+              normalisés. Comme les descriptions peuvent être longues, je les ai transformées en 14 903 passages
+              recherchables. Lorsqu’un utilisateur pose une question, le système retrouve les passages les plus
+              proches de son intention, transmet ce contexte à Mistral, puis renvoie une réponse en français avec
+              les sources disponibles. Cette chaîne est exposée par une API FastAPI et peut être lancée localement
+              dans Docker.
+            </p>
+            <p>
+              Pour prouver que le résultat ne repose pas uniquement sur une démonstration préparée, le dépôt contient
+              également les scripts de reconstruction, un jeu de test annoté, une évaluation automatisée et 59 tests
+              passants. Le message important de cette première slide est donc le suivant : le POC couvre bien le
+              chemin complet, depuis la donnée brute jusqu’à une réponse utilisable par une application. En revanche,
+              je le présente comme une preuve de faisabilité et non comme un produit déjà prêt à supporter tous les
+              usages de production. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « J’ai livré un POC RAG complet : 7 586 événements OpenAgenda, 14 903 passages indexés, une génération Mistral, une API Docker et 59 tests. Il démontre la faisabilité de bout en bout, sans prétendre être déjà un produit de production. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>J’ai livré un POC complet, pas seulement un notebook ou un appel à un LLM.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>Des événements OpenAgenda récents, une question en français et une clé Mistral fournie au runtime.</p></div>
@@ -324,6 +412,34 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-2">
           <div class="step-head"><span>00:50–01:45</span><h3>Slide 2 — Le RAG évite deux mauvaises réponses</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je lis les trois colonnes de gauche à droite. Je marque une courte pause avant la solution RAG.</p>
+            <p>
+              « Pour comprendre mon choix d’architecture, je pars du problème utilisateur. Une personne ne connaît
+              pas forcément le titre exact d’un événement. Elle peut écrire : “Je voudrais un concert électro ce
+              week-end”, “Que puis-je faire avec mes enfants ?” ou encore “Je cherche une exposition gratuite”.
+              Une recherche classique par mots-clés sait filtrer des termes précis, mais elle peut manquer une
+              intention formulée avec des synonymes ou avec une phrase naturelle.
+            </p>
+            <p>
+              À l’autre extrême, je pourrais envoyer directement la question à un modèle de langage. La réponse serait
+              probablement fluide, mais le modèle ne connaîtrait pas nécessairement le catalogue à jour de
+              Puls-Events. Il pourrait proposer un événement qui n’existe pas, une mauvaise date ou une adresse
+              inventée. Pour un service culturel, cette erreur est importante : une réponse convaincante mais fausse
+              dégrade immédiatement la confiance de l’utilisateur.
+            </p>
+            <p>
+              Le RAG répond à ce compromis. RAG signifie Retrieval-Augmented Generation, c’est-à-dire génération
+              augmentée par la recherche. Je commence par rechercher sémantiquement dans des données réelles. Ensuite,
+              j’ajoute les passages retrouvés au contexte du modèle. Enfin, Mistral formule une réponse naturelle à
+              partir de ce contexte et je renvoie aussi les sources. La recherche apporte les faits ; le modèle
+              apporte la qualité de formulation. Cette architecture réduit le risque d’hallucination et rend la
+              réponse vérifiable. Elle ne garantit pas mathématiquement qu’aucune erreur ne se produira, mais elle
+              permet de contrôler beaucoup mieux l’origine des informations. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « Les mots-clés sont trop rigides et un LLM seul peut inventer. Le RAG retrouve d’abord des faits OpenAgenda, puis Mistral les transforme en réponse naturelle et sourcée. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>Le choix du RAG répond à un problème concret : comprendre une intention sans inventer d’événement.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>Une demande naturelle telle que « Je cherche un concert électro à Paris ».</p></div>
@@ -340,6 +456,34 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-3">
           <div class="step-head"><span>01:45–02:40</span><h3>Slide 3 — Une question devient une réponse sourcée</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je suis les trois étapes avec le doigt ou le curseur : rechercher, augmenter, générer.</p>
+            <p>
+              « Voici maintenant le trajet précis d’une question dans le système. Première étape : la recherche.
+              La question est convertie en embedding, c’est-à-dire en une représentation numérique de son sens.
+              Cette représentation est comparée aux vecteurs déjà présents dans l’index FAISS. Le système sélectionne
+              alors les quatre passages les plus proches, car le paramètre actuel est <code>top_k=4</code>. Ce nombre
+              n’est pas une vérité universelle ; c’est un compromis de POC entre quantité d’information, bruit et
+              taille du contexte.
+            </p>
+            <p>
+              Deuxième étape : l’augmentation. Le code récupère le texte et les métadonnées des résultats, par exemple
+              le titre, la date, le lieu et l’URL. Il construit ensuite un prompt qui contient la question de
+              l’utilisateur, les consignes de prudence et les passages retrouvés. Le modèle ne reçoit donc pas
+              seulement une question abstraite : il reçoit les éléments du catalogue sur lesquels sa réponse doit
+              s’appuyer.
+            </p>
+            <p>
+              Troisième étape : la génération. Mistral rédige une réponse en français à partir de ce contexte. Mon API
+              ne renvoie pas uniquement cette phrase ; elle renvoie aussi les sources utilisées afin que l’application
+              cliente, puis l’utilisateur, puissent vérifier les propositions. Il faut bien distinguer les rôles :
+              FAISS ne rédige rien et Mistral ne fait pas la recherche dans le corpus. FAISS retrouve des passages ;
+              Mistral les synthétise. Cette séparation rend l’architecture plus explicable et permet d’évaluer
+              séparément la qualité de récupération et la qualité de génération. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « La question est vectorisée, FAISS retrouve quatre passages, ces passages augmentent le prompt, puis Mistral rédige une réponse avec les sources. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>Je maîtrise les trois opérations fondamentales : rechercher, augmenter le prompt, générer.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>La question utilisateur et un index contenant les vecteurs des passages d’événements.</p></div>
@@ -356,6 +500,33 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-4">
           <div class="step-head"><span>02:40–03:35</span><h3>Slide 4 — Le corpus est un instantané reproductible de Paris</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je montre d’abord la source, ensuite la fenêtre de dates, puis le chiffre final. Je prononce clairement « instantané ».</p>
+            <p>
+              « La pertinence d’un RAG dépend d’abord de ses données. Pour ce POC, j’ai utilisé les événements publics
+              OpenAgenda exposés via Opendatasoft. La mission autorisait le choix d’une zone géographique ; j’ai retenu
+              Paris, car cette zone fournit un volume et une diversité culturelle suffisants tout en gardant un
+              périmètre clair pour l’évaluation et la démonstration.
+            </p>
+            <p>
+              J’ai borné la collecte sur une fenêtre d’un an, du 10 juillet 2025 au 10 juillet 2026. Cette contrainte
+              répond à l’exigence de récence du projet. Le script collecte les enregistrements, harmonise les champs,
+              nettoie les valeurs textuelles et écarte les doublons. Je conserve uniquement les informations utiles au
+              chatbot : le titre, la description, les dates, le lieu, la ville, les catégories et l’URL lorsqu’elle
+              est disponible. Après cette préparation, le corpus livré contient 7 586 événements normalisés.
+            </p>
+            <p>
+              Je précise un point important : ce corpus est un snapshot, donc une photographie reproductible au
+              moment de la collecte. C’est volontaire pour un POC, car tous les tests utilisent le même état des
+              données et les résultats peuvent être comparés. En revanche, ce n’est pas un catalogue automatiquement
+              actualisé. Dans une version de production, je planifierais une collecte régulière, je retirerais les
+              événements expirés, je vérifierais la qualité des nouvelles données puis je publierais une nouvelle
+              version de l’index sans interrompre le service. Je préfère annoncer clairement cette limite plutôt que
+              de laisser croire que le corpus est en temps réel. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « Le corpus vient d’OpenAgenda, couvre Paris sur une fenêtre d’un an et contient 7 586 événements nettoyés. C’est un snapshot reproductible ; l’actualisation planifiée reste une étape de production. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>Le périmètre des données est explicite, récent et reproductible.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>L’API OpenAgenda publiée via Opendatasoft, filtrée sur Paris et sur la fenêtre du 10/07/2025 au 10/07/2026.</p></div>
@@ -372,6 +543,35 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-5">
           <div class="step-head"><span>03:35–04:35</span><h3>Slide 5 — Chaque responsabilité reste isolée et testable</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je parcours le pipeline de gauche à droite sans ouvrir le code. Je distingue clairement préparation hors ligne et réponse en ligne.</p>
+            <p>
+              « L’architecture est organisée en étapes qui ont chacune une responsabilité précise. D’abord, la
+              collecte interroge la source OpenAgenda. Ensuite, la préparation nettoie et normalise les événements.
+              Puis l’indexation découpe les descriptions, calcule les embeddings et persiste l’index FAISS. Ces trois
+              étapes correspondent à la préparation hors ligne : elles ne doivent pas être rejouées à chaque question
+              utilisateur.
+            </p>
+            <p>
+              Au moment où l’application fonctionne, le service charge l’index déjà construit. Le composant RAG reçoit
+              une question, retrouve les passages, prépare le prompt et appelle Mistral. FastAPI transforme ce service
+              en endpoints HTTP utilisables par une équipe produit. Enfin, Docker rassemble l’application et ses
+              dépendances dans un environnement reproductible. Cette séparation permet aussi de comprendre où se situe
+              un problème : si la source est mauvaise, je regarde la collecte ; si les documents retrouvés sont
+              mauvais, je regarde l’indexation ; si la réponse utilise mal un bon contexte, je regarde le prompt ou le
+              modèle.
+            </p>
+            <p>
+              Ce découpage facilite les tests. Je peux valider la normalisation sans appeler Mistral, tester
+              l’indexation avec un petit corpus contrôlé, puis tester le contrat de l’API indépendamment de la collecte.
+              Il facilite aussi les évolutions : par exemple, je pourrais remplacer FAISS par une base vectorielle
+              distante sans changer le format de question envoyé à l’API. LangChain m’aide à orchestrer plusieurs
+              briques, mais il ne remplace pas cette conception. Les règles métier, la configuration, la persistance
+              et les contrôles restent explicites dans le dépôt. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « Je sépare collecte, préparation, indexation, RAG, API et Docker. Chaque étape est testable et remplaçable ; surtout, l’index est construit hors ligne et seulement chargé par l’API. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>L’architecture est modulaire : je peux tester ou remplacer une étape sans réécrire toute la chaîne.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>Les données brutes, les variables de configuration et les requêtes HTTP.</p></div>
@@ -388,6 +588,34 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-6">
           <div class="step-head"><span>04:35–05:35</span><h3>Slide 6 — Les descriptions deviennent 14 903 passages recherchables</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je ralentis sur les trois mots techniques : chunk, embedding, index. Je les définis immédiatement en français simple.</p>
+            <p>
+              « Pour rendre les événements recherchables par le sens, je transforme leur texte en trois étapes. La
+              première est le chunking, donc le découpage. Une description complète peut être trop longue ou mélanger
+              plusieurs informations. Je la découpe en passages de 1000 caractères avec un chevauchement de 200
+              caractères. Le chevauchement sert à ne pas perdre une date, un lieu ou une phrase importante qui
+              tomberait exactement entre deux passages. Ces valeurs sont des paramètres raisonnables pour le POC ;
+              je ne les présente pas comme des valeurs optimales tant que je ne les ai pas comparées sur un jeu plus
+              large.
+            </p>
+            <p>
+              La deuxième étape est l’embedding. Le modèle <code>mistral-embed</code> convertit chaque passage en un
+              vecteur de 1024 nombres. Un vecteur n’est pas un résumé lisible : c’est une position mathématique qui
+              représente le sens du texte. Deux formulations proches, même si elles n’utilisent pas exactement les
+              mêmes mots, doivent se retrouver proches dans cet espace.
+            </p>
+            <p>
+              La troisième étape est l’indexation dans FAISS. FAISS stocke les vecteurs et permet de rechercher
+              rapidement les plus similaires au vecteur de la question. Je persiste aussi les métadonnées, afin de
+              pouvoir revenir du vecteur à l’événement réel et à son URL. Les 7 586 événements ont ainsi produit
+              14 903 passages. J’ai choisi FAISS parce que le volume reste adapté à une recherche locale rapide, sans
+              ajouter une infrastructure distante au POC. Pour plusieurs instances, des mises à jour fréquentes ou
+              des filtres complexes, je comparerais ensuite une base vectorielle conçue pour ces usages. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « Je découpe en 1000 caractères avec 200 de chevauchement, je crée des embeddings de dimension 1024 avec Mistral, puis FAISS recherche parmi 14 903 passages. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>Je comprends le chunking, les embeddings et le rôle exact de FAISS.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>Le texte normalisé de chaque événement et ses métadonnées métier.</p></div>
@@ -404,6 +632,35 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-7">
           <div class="step-head"><span>05:35–06:35</span><h3>Slide 7 — L’API expose le RAG sans le recharger à chaque question</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je montre les trois cartes : répondre, exposer, exploiter. Je ne détaille pas tous les endpoints avant la démo.</p>
+            <p>
+              « Une fois l’index créé, FastAPI expose la chaîne RAG comme un service utilisable par une autre
+              application. Le client envoie une requête POST avec une question. FastAPI vérifie la structure de la
+              requête, transmet la question au service RAG puis renvoie un JSON contenant la réponse et les sources.
+              Le contrat est donc clair pour une future interface web, une application mobile ou un outil marketing.
+            </p>
+            <p>
+              L’index et les clients de modèles sont initialisés au démarrage du service. Ils ne sont pas reconstruits
+              à chaque appel. C’est important pour la latence et pour la stabilité : une question utilisateur déclenche
+              seulement l’embedding de la question, la recherche, la construction du prompt et la génération. Le
+              endpoint <code>GET /health</code> permet de vérifier que le service est disponible et indique la
+              configuration active, notamment le modèle et <code>top_k=4</code>. Le endpoint de reconstruction est
+              séparé et protégé par <code>API_REBUILD_TOKEN</code>, car reconstruire l’index est une opération
+              d’administration et non une action utilisateur ordinaire.
+            </p>
+            <p>
+              J’ai conteneurisé l’ensemble avec Docker. Cela fixe la version de Python, installe les dépendances et
+              monte les données nécessaires. Une personne qui lance Docker Compose obtient le même environnement que
+              celui utilisé pour la démonstration. Docker apporte donc la reproductibilité du runtime. Il ne suffit
+              pas, à lui seul, à assurer la montée en charge, la haute disponibilité ou la sécurité complète. Ces
+              sujets nécessiteraient plusieurs instances, une gestion centralisée des secrets, une supervision, des
+              quotas et des tests de charge. La suite actuelle compte 59 tests qui vérifient notamment l’indexation,
+              l’API et les métriques automatisées. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « FastAPI expose la question et la réponse en JSON. L’index est chargé une fois au démarrage, health vérifie le service, rebuild est protégé, et Docker rend le runtime reproductible. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>Le POC est exploitable par une équipe produit et reproductible par Docker.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>Un POST contenant la question, plus l’index et le modèle chargés au démarrage.</p></div>
@@ -420,6 +677,34 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-8">
           <div class="step-head"><span>06:35–08:20</span><h3>Slide 8 — La démo prouve le résultat et rend la limite visible</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je passe du diaporama au terminal déjà prêt. Je garde cette slide affichée si le partage d’écran rend le changement risqué.</p>
+            <p>
+              « Je vais maintenant montrer deux appels réels à l’API. Je commence par vérifier l’état du service.
+              La réponse health confirme que l’API est disponible, que l’index FAISS est chargé et que la configuration
+              utilise Mistral avec quatre résultats récupérés. Je lance ensuite un cas nominal sur Paris. L’objectif
+              n’est pas uniquement d’obtenir une phrase agréable : je vérifie que la réponse cite un événement présent
+              dans le corpus et qu’elle renvoie ses sources.
+            </p>
+            <p>
+              Pendant l’affichage du résultat, je contrôle quatre éléments : le titre de l’événement, la date, le lieu
+              et l’URL. Les sources sont importantes parce qu’elles permettent de vérifier ce que le modèle affirme et
+              de rediriger l’utilisateur vers l’information originale. Le système a retrouvé quatre passages, puis
+              Mistral les a synthétisés. La démonstration de référence s’exécute en environ 9,62 secondes pour les deux
+              scénarios ; cette durée inclut les appels externes et peut varier avec le réseau.
+            </p>
+            <p>
+              Le deuxième appel demande des activités à Lyon alors que mon corpus est limité à Paris. Je choisis
+              volontairement ce cas pour ne pas cacher la limite géographique du POC. J’attends une réponse prudente
+              indiquant que le contexte ne permet pas de recommander correctement Lyon, et surtout aucune invention
+              d’événement lyonnais. Ce comportement repose aujourd’hui sur le corpus et les instructions du prompt.
+              Pour un produit, j’ajouterais un filtre de ville et un seuil de similarité déterministes. Si Mistral ou
+              le réseau est indisponible pendant la soutenance, je montre la sortie de référence, le contrat de l’API
+              et les tests : la preuve du fonctionnement ne dépend alors pas d’un unique appel en direct. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « La démo vérifie health, un cas Paris avec quatre sources, puis Lyon hors périmètre. Le premier prouve la valeur ; le second prouve que je connais la limite et que je ne veux pas inventer. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>L’API fonctionne réellement et le périmètre Paris n’est pas masqué.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>Une question nominale sur un concert parisien, puis une question sur Lyon hors du corpus.</p></div>
@@ -436,6 +721,34 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-9">
           <div class="step-head"><span>08:20–09:20</span><h3>Slide 9 — L’évaluation sépare recherche, fidélité et correction</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je reviens au diaporama. Je distingue les tests du code et l’évaluation de qualité : ce ne sont pas les mêmes preuves.</p>
+            <p>
+              « Une démonstration réussie ne suffit pas pour mesurer un système RAG. J’ai donc mis en place deux
+              niveaux complémentaires. Le premier niveau comprend quatre cas fonctionnels annotés. Ces cas vérifient
+              directement que le système renvoie le type de réponse attendu, respecte le périmètre et fournit des
+              sources exploitables. Ils servent aussi de scénarios de régression : si je change le code, je peux
+              rapidement voir si un comportement métier important a été cassé.
+            </p>
+            <p>
+              Le deuxième niveau utilise trois cas RAGAS. Pour chaque question, je dispose de la réponse générée, des
+              contextes récupérés et d’une réponse de référence. RAGAS calcule plusieurs métriques parce qu’un RAG peut
+              échouer à deux endroits différents. Le retrieval peut ramener de mauvais passages ; ou bien le retrieval
+              peut être bon mais le modèle peut mal utiliser le contexte. Si je mélange tout dans un seul score, je ne
+              sais pas quelle brique améliorer.
+            </p>
+            <p>
+              Je regarde donc la fidélité, qui mesure si les affirmations sont soutenues par le contexte ; la
+              pertinence de la réponse par rapport à la question ; la précision du contexte, qui vérifie si les
+              passages récupérés sont réellement utiles ; et la correction par rapport à la réponse de référence.
+              L’évaluation est automatisée par des scripts et ses résultats sont conservés. Elle peut donc être rejouée
+              après un changement de prompt, de modèle, de chunking ou de paramètre de recherche. Je reste prudent :
+              trois cas RAGAS donnent un premier signal et valident la méthode, mais ne constituent pas encore un
+              benchmark statistiquement représentatif de tous les usages culturels. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « J’ai quatre cas fonctionnels pour les comportements métier et trois cas RAGAS pour séparer retrieval et génération. Cela permet de savoir précisément quelle brique améliorer. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>Je n’évalue pas le système avec une impression subjective ou une seule question réussie.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>Un jeu annoté de quatre cas fonctionnels et un sous-ensemble de trois cas RAGAS avec réponses de référence.</p></div>
@@ -452,6 +765,35 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-10">
           <div class="step-head"><span>09:20–10:20</span><h3>Slide 10 — La recherche est solide, la correction reste prioritaire</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je ne transforme pas les scores en pourcentages. Je donne d’abord le constat positif, puis la priorité d’amélioration.</p>
+            <p>
+              « Voici les résultats observés sur les trois cas RAGAS. La fidélité atteint 0,900. Cela signifie que les
+              affirmations produites sont fortement ancrées dans les passages fournis au modèle. La pertinence de la
+              réponse atteint 0,846 : le contenu répond globalement bien à la question posée. La précision du contexte
+              est de 1,000 sur cet échantillon, ce qui indique que les passages récupérés sont très bien ciblés et
+              utiles pour répondre.
+            </p>
+            <p>
+              Le score le plus faible est la correction de la réponse, à 0,683. Cette métrique compare la réponse
+              générée à la réponse de référence. Je l’interprète ainsi : la chaîne retrouve le bon contexte et reste
+              fidèle à ce contexte, mais la formulation finale ne reprend pas toujours tous les détails attendus, ou
+              les exprime avec un niveau de précision différent de la référence. Cela peut concerner une date, une
+              formulation de lieu ou la sélection d’informations secondaires.
+            </p>
+            <p>
+              Ma priorité n’est donc pas de remplacer immédiatement l’index ou le modèle d’embedding, puisque le
+              contexte est déjà bien ciblé sur ce petit échantillon. Je commencerais par analyser les erreurs cas par
+              cas, rendre le format de réponse plus structuré, préciser dans le prompt les informations obligatoires,
+              puis élargir le jeu annoté pour confirmer le diagnostic. Je comparerais ensuite plusieurs paramètres et
+              modèles sur exactement le même benchmark. Enfin, je ne dis pas que 0,900 signifie 90 % de bonnes
+              réponses : chaque métrique a une définition spécifique et les scores reposent sur seulement trois cas.
+              La conclusion raisonnable est que la recherche est prometteuse et que la correction mérite le prochain
+              cycle d’amélioration. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « Fidélité 0,900, pertinence 0,846 et précision du contexte 1,000 montrent un retrieval solide. La correction à 0,683 devient la priorité : mieux cadrer les détails et élargir le benchmark. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>Je sais interpréter les métriques au lieu de seulement annoncer des scores.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>Les questions, les passages récupérés, les réponses générées et les réponses de référence du jeu annoté.</p></div>
@@ -468,6 +810,35 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-11">
           <div class="step-head"><span>10:20–11:15</span><h3>Slide 11 — Le POC valide la faisabilité, pas la production</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je présente chaque limite avec l’action corrective associée. Mon ton reste factuel, pas défensif.</p>
+            <p>
+              « Le POC valide la faisabilité, mais plusieurs limites doivent être traitées avant un déploiement élargi.
+              La première famille concerne les données. Le corpus couvre uniquement Paris et reste un snapshot figé.
+              Certaines descriptions OpenAgenda peuvent être courtes, incomplètes ou hétérogènes. La réponse est donc
+              limitée par ce que contient la source. L’action correspondante est une collecte planifiée, une meilleure
+              validation des champs et un élargissement progressif à plusieurs villes.
+            </p>
+            <p>
+              La deuxième famille concerne la recherche et la génération. Les paramètres <code>top_k</code>, chunk de
+              1000 et chevauchement de 200 sont cohérents pour le POC, mais ils n’ont pas encore été optimisés sur un
+              benchmark large. Il manque aussi un seuil de similarité métier qui permettrait de refuser
+              déterministement une réponse quand le contexte est trop éloigné. Le jeu RAGAS de trois cas est trop
+              réduit pour conclure sur toutes les catégories d’événements. Les actions sont donc l’élargissement du
+              jeu annoté, des tests de cas ambigus et négatifs, puis des comparaisons contrôlées de paramètres.
+            </p>
+            <p>
+              La troisième famille concerne l’exploitation. Docker rend le lancement reproductible, mais le POC
+              utilise un index local et une instance unique. Une production demanderait authentification, secrets
+              gérés, quotas, logs structurés, métriques, alertes, sauvegarde des versions d’index, stratégie de
+              rollback et tests de charge. Le risque métier principal reste une réponse plausible mais incomplète ou
+              insuffisamment exacte. Je le réduis par l’affichage des sources, la prudence du prompt, les tests, puis
+              des garde-fous plus déterministes. Présenter ces limites ne diminue pas le POC : cela montre précisément
+              ce qui a été validé et ce qui reste à financer. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « Les limites sont Paris et le snapshot, le benchmark réduit et les paramètres à calibrer, puis l’exploitation en instance unique. Chaque limite correspond à une action d’industrialisation précise. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>Je connais les risques résiduels et je ne confonds pas preuve de concept et service industriel.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>Les constats issus du périmètre des données, de l’architecture locale et des résultats d’évaluation.</p></div>
@@ -484,6 +855,39 @@ curl http://localhost:8000/health</code></pre>
 
         <article class="step" id="slide-12">
           <div class="step-head"><span>11:15–12:30</span><h3>Slide 12 — La prochaine étape est un pilote multi-villes mesuré</h3></div>
+          <section class="oral-script">
+            <h4>Script intégral à lire</h4>
+            <p class="stage">Je ralentis, je regarde l’évaluateur et je termine sur une recommandation décisionnelle. Après « merci », je n’ajoute plus rien.</p>
+            <p>
+              « À partir de ces résultats, je recommande de ne pas passer directement à une production nationale.
+              La prochaine étape utile est un pilote multi-villes mesuré. Premièrement, j’élargirais les preuves :
+              plusieurs villes, davantage de catégories culturelles, des questions ambiguës, des cas sans résultat et
+              un jeu annoté plus large. Cela permettra de mesurer la qualité sur des usages réellement représentatifs
+              plutôt que sur quelques exemples.
+            </p>
+            <p>
+              Deuxièmement, j’ajouterais les garde-fous métier : filtres explicites de ville, de date et de catégorie,
+              seuil de similarité, réponse structurée avec les champs obligatoires et message clair quand aucune
+              proposition fiable n’est disponible. Je suivrais comme indicateurs le taux de réponses utiles et
+              sourcées, la proportion de refus corrects, la latence, le coût par requête, les erreurs et la
+              satisfaction des utilisateurs du pilote.
+            </p>
+            <p>
+              Troisièmement, si le pilote confirme la valeur, j’industrialiserais la chaîne : collecte planifiée,
+              versionnement du corpus et de l’index, déploiement de plusieurs instances, authentification, gestion des
+              secrets, supervision et tests de charge. Je pourrais alors comparer FAISS à une base vectorielle adaptée
+              à plusieurs instances et sélectionner les modèles selon un compromis mesuré entre qualité, coût et
+              latence.
+            </p>
+            <p>
+              Pour conclure, le livrable couvre la chaîne attendue : données OpenAgenda récentes, préparation
+              reproductible, index FAISS, embeddings et génération Mistral, orchestration LangChain, API FastAPI,
+              Docker, tests automatisés, jeu annoté, métriques RAGAS, rapport et démonstration. La faisabilité technique
+              et métier est démontrée. Les limites sont identifiées et débouchent sur une feuille de route réaliste.
+              Merci pour votre attention. Je suis prêt à répondre à vos questions. »
+            </p>
+            <p class="short-version"><strong>Version courte si je manque de temps :</strong> « Je recommande un pilote multi-villes, puis des garde-fous et une évaluation élargie, enfin l’industrialisation. Le POC démontre la faisabilité et donne un chemin clair vers un produit fiable. »</p>
+          </section>
           <div class="step-body">
             <div class="note"><h4>Ce que je cherche à démontrer</h4><p>Le POC mène à une décision métier claire et à une feuille de route réaliste.</p></div>
             <div class="note"><h4>Ce qui entre</h4><p>La chaîne validée, les métriques observées et les limites identifiées.</p></div>
@@ -499,107 +903,374 @@ curl http://localhost:8000/health</code></pre>
         </article>
       </section>
 
-      <section class="chapter" id="demo">
-        <p class="eyebrow">Démonstration live · 90 secondes</p>
-        <h2>Je montre le résultat, pas une suite de commandes</h2>
+      <section class="chapter" id="demo-live">
+        <p class="eyebrow">Démonstration live · 90 secondes à 3 minutes</p>
+        <h2>Mon conducteur complet de démonstration</h2>
+        <p class="intro">
+          Je prépare le terminal avant le partage d’écran. Pendant la démo, je ne commente pas chaque ligne : je
+          rappelle la question métier, je montre le résultat attendu et je relie chaque preuve à l’architecture.
+        </p>
         <div class="grid-2">
           <div class="panel">
-            <h3>Commande préparée</h3>
-            <pre><code>conda activate openagenda-rag
-bash scripts/demo_api_5min.sh</code></pre>
-            <p>Le script démarre ou vérifie Docker, attend l’API, exécute les deux scénarios et mesure le temps total.</p>
+            <h3>Avant de partager le terminal</h3>
+            <pre><code>cd /home/hgbe/openclassrooms/Projet7
+conda activate openagenda-rag
+docker compose up -d
+docker compose ps
+curl http://localhost:8000/health</code></pre>
+            <p>
+              Je vérifie que le conteneur est <code>healthy</code>. La réponse health doit indiquer l’index, le modèle
+              de chat, le modèle d’embedding et <code>top_k=4</code>. Je nettoie ensuite l’écran du terminal sans
+              arrêter le service. Je garde le rapport et une sortie de référence ouverts dans un autre onglet.
+            </p>
           </div>
           <div class="panel">
-            <h3>Ce que je verbalise</h3>
-            <ol>
-              <li>« Je vérifie que l’API est saine. »</li>
-              <li>« Voici une question nominale sur Paris. »</li>
-              <li>« Je contrôle la réponse et les quatre sources. »</li>
-              <li>« Voici Lyon, hors du périmètre du corpus. »</li>
-              <li>« Le système ne doit pas inventer un événement lyonnais. »</li>
-            </ol>
+            <h3>Commande de démonstration</h3>
+            <pre><code>conda activate openagenda-rag
+bash scripts/demo_api_5min.sh</code></pre>
+            <p>
+              Ce script vérifie Docker Compose, attend que l’API soit disponible, envoie deux requêtes et mesure la
+              durée totale. Je n’ai donc pas besoin de retaper un JSON complexe devant le jury, ce qui limite les
+              erreurs de manipulation tout en utilisant réellement l’endpoint.
+            </p>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Script exact pendant l’exécution</h3>
+          <p>
+            « Je commence par l’état de santé. Ici, l’API confirme qu’elle a chargé l’index FAISS et qu’elle utilise
+            Mistral avec quatre passages récupérés. Je lance maintenant le scénario nominal. La question porte sur une
+            sortie culturelle à Paris. Pendant l’appel, le système convertit la question en embedding, cherche les
+            quatre passages les plus proches, construit le contexte puis demande à Mistral de rédiger la réponse. »
+          </p>
+          <p>
+            Lorsque la réponse apparaît, je dis : « Je contrôle maintenant le contenu plutôt que la mise en forme.
+            La réponse propose bien un événement du corpus. Ici je retrouve son titre, sa date et son lieu. En dessous,
+            l’API renvoie les sources, notamment l’URL. Cette partie prouve que la recommandation est vérifiable et
+            qu’une interface pourrait proposer un bouton vers la page de l’événement. »
+          </p>
+          <p>
+            Avant le deuxième cas, je dis : « Je teste volontairement une question sur Lyon. Le corpus livré est
+            parisien ; je ne cherche donc pas une bonne recommandation lyonnaise, mais un comportement prudent. Le
+            système ne doit pas fabriquer un événement absent de ses données. » Après le résultat : « La réponse rend
+            la limite visible. Pour la production, je renforcerais ce comportement par un filtre géographique et un
+            seuil de similarité explicites, car un prompt seul n’est pas un garde-fou suffisant. »
+          </p>
+          <p>
+            Je conclus la démo par : « Les deux requêtes ont été traitées par la même API. Le premier cas démontre la
+            valeur du RAG sur le périmètre couvert ; le second montre la limite actuelle et le garde-fou à ajouter. »
+          </p>
+        </div>
+        <div class="grid-3">
+          <div class="panel">
+            <h3>Ce que je pointe dans le JSON</h3>
+            <ul>
+              <li>Le champ de réponse générée.</li>
+              <li>Le nombre de sources retournées.</li>
+              <li>Le titre et le lieu d’un événement.</li>
+              <li>La date lorsqu’elle est disponible.</li>
+              <li>L’URL vérifiable.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Ce que je ne fais pas</h3>
+            <ul>
+              <li>Je n’ouvre jamais le fichier <code>.env</code>.</li>
+              <li>Je ne montre jamais la clé Mistral.</li>
+              <li>Je ne relance pas une construction d’index.</li>
+              <li>Je ne dépanne pas longtemps en direct.</li>
+              <li>Je ne promets pas une latence constante.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Si l’attente dépasse dix secondes</h3>
+            <p>
+              « L’appel au modèle externe est en cours. Cette latence dépend du réseau et du fournisseur. Pendant
+              l’attente, je rappelle que l’index reste local : la partie variable est principalement la génération. »
+            </p>
           </div>
         </div>
         <div class="alert">
-          Si le réseau Mistral ralentit, je n’attends pas silencieusement. Je dis : « L’appel externe est en cours ;
-          pendant ce temps, voici le contrat JSON et le résultat de référence enregistré. »
+          <strong>Plan de secours immédiat :</strong> si l’appel échoue, je dis : « La dépendance externe ne répond pas
+          pendant la fenêtre de démonstration. Je vais utiliser la sortie de référence produite par le même endpoint,
+          puis vous montrer les tests et le contrat de l’API. » Je poursuis la soutenance au lieu de transformer la
+          réunion en séance de dépannage.
         </div>
       </section>
 
-      <section class="chapter" id="depot">
+      <section class="chapter" id="rapport-depot">
         <p class="eyebrow">Livrables</p>
-        <h2>Je parcours le rapport et le dépôt en moins d’une minute</h2>
+        <h2>Mon script pour le rapport et le dépôt</h2>
+        <p class="intro">
+          Cette partie doit durer environ une minute. Je montre que les livrables sont retrouvables et reproductibles.
+          Je n’ouvre le code en détail que si l’évaluateur me le demande.
+        </p>
         <div class="grid-2">
           <div class="panel">
-            <h3>Rapport technique</h3>
-            <p>« Le rapport documente l’architecture, les choix technologiques, les modèles, le protocole d’évaluation, les résultats et les améliorations. Il permet de retrouver les preuves présentées à l’oral. »</p>
+            <h3>1. Rapport technique — environ 25 secondes</h3>
+            <p class="stage">J’ouvre <code>outputs/rapport-technique-openagenda-rag.pdf</code> et j’affiche son sommaire.</p>
+            <p>
+              « Le rapport technique documente le besoin, le périmètre des données, l’architecture et les rôles de
+              chaque composant. Il explique également les choix de chunking, d’embeddings, de FAISS, de Mistral et de
+              FastAPI. La partie évaluation décrit le jeu annoté, les métriques RAGAS, les résultats observés et leurs
+              limites. Enfin, le rapport présente les pistes d’amélioration et le chemin vers l’industrialisation.
+              L’objectif est qu’une autre personne puisse comprendre les décisions et retrouver les preuves sans
+              dépendre uniquement de ma présentation orale. »
+            </p>
           </div>
           <div class="panel">
-            <h3>Dépôt GitHub</h3>
-            <p>« Le dépôt sépare le code applicatif, les scripts reproductibles, les données, les tests et la documentation. Le README donne le chemin rapide pour lancer l’API et reconstruire l’index. »</p>
+            <h3>2. Dépôt GitHub — environ 35 secondes</h3>
+            <p class="stage">J’affiche l’arborescence, puis je pointe les dossiers sans entrer dans chaque fichier.</p>
+            <p>
+              « Le README est le point d’entrée : il donne l’installation, la configuration, les commandes de
+              reconstruction, les tests et le lancement Docker. Le dossier <code>src/</code> contient le code
+              applicatif organisé par responsabilité. Le dossier <code>scripts/</code> contient les traitements
+              reproductibles et le script de démonstration. Le dossier <code>tests/</code> contient les tests
+              automatisés. Les données d’évaluation et leurs références sont séparées dans
+              <code>data/evaluation/</code>. Enfin, <code>docker-compose.yml</code> fournit le chemin rapide pour
+              exécuter l’API dans un environnement reproductible. »
+            </p>
           </div>
         </div>
-        <p class="intro">
-          Je montre uniquement les dossiers principaux, le fichier Docker Compose, le jeu annoté et le rapport.
-          Je ne navigue pas ligne par ligne dans le code sauf si Jérémy le demande.
-        </p>
+        <div class="panel">
+          <h3>Si Jérémy me demande « Montrez-moi le code principal »</h3>
+          <p>
+            Je réponds : « Bien sûr. Je vais suivre le trajet d’une question plutôt que d’ouvrir des fichiers au
+            hasard. » J’ouvre d’abord l’API pour montrer le contrat d’entrée, puis le service RAG pour la récupération
+            et la génération, et enfin le script d’indexation. À chaque fichier, je formule une seule phrase :
+            « ici l’API valide et délègue », « ici la chaîne retrouve et génère », « ici le corpus devient un index
+            persistant ». Je reviens ensuite au diaporama en disant : « Ces trois fichiers correspondent aux étapes
+            que je viens de présenter dans l’architecture. »
+          </p>
+        </div>
       </section>
 
-      <section class="chapter" id="questions">
+      <section class="chapter" id="questions-jury">
         <p class="eyebrow">Discussion · 10 minutes</p>
-        <h2>Mes réponses courtes aux questions du jury</h2>
-        <p class="intro">Je réponds en trois temps : décision, justification, limite ou prochaine action.</p>
+        <h2>Mes réponses prêtes à lire aux questions du jury</h2>
+        <p class="intro">
+          Je commence par la réponse courte et je m’arrête. Je ne lis la partie « Si le jury insiste » que si
+          l’évaluateur relance. Je termine si possible par une limite ou une prochaine action : cela montre que je sais
+          situer le POC sans le dévaloriser.
+        </p>
 
         <h3>Modèles et architecture</h3>
-        <details><summary>Pourquoi Mistral ?</summary><div class="answer"><p><strong>Décision :</strong> j’utilise l’écosystème Mistral pour les embeddings et la génération. <strong>Pourquoi :</strong> l’intégration est cohérente avec le cahier des charges, les modèles gèrent le français et l’API permet un POC rapide. <strong>Limite :</strong> je devrais comparer coût, latence et qualité avec d’autres modèles sur un jeu élargi.</p></div></details>
-        <details><summary>Pourquoi LangChain ?</summary><div class="answer"><p>Il fournit des abstractions utiles pour documents, embeddings, FAISS et chaîne RAG. Je l’utilise comme orchestrateur, mais je garde mes responsabilités métier séparées afin de limiter le verrouillage technique.</p></div></details>
-        <details><summary>Pourquoi FAISS plutôt qu’une base vectorielle distante ?</summary><div class="answer"><p>Pour 14 903 passages et un POC local, FAISS est rapide, simple et sans infrastructure supplémentaire. Pour plusieurs instances, mises à jour concurrentes et filtrage avancé, j’évaluerais une base vectorielle gérée.</p></div></details>
-        <details><summary>Quelle différence entre embedding et LLM ?</summary><div class="answer"><p>L’embedding représente le sens d’un texte sous forme de vecteur pour comparer des similarités. Le LLM produit le texte final. Le premier retrouve ; le second rédige.</p></div></details>
-        <details><summary>Pourquoi charger l’index au démarrage ?</summary><div class="answer"><p>Parce que la construction est un traitement coûteux et peu fréquent. Le runtime doit répondre vite : il charge une version persistée une fois, puis la réutilise.</p></div></details>
+        <details><summary>Pourquoi Mistral ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « J’ai choisi Mistral parce que la mission le demandait, que les modèles gèrent bien le français et que le même fournisseur couvre embeddings et génération, ce qui simplifie un POC cohérent. »</p>
+          <p><strong>Si le jury insiste :</strong> « Ce choix réduit le nombre d’intégrations et accélère la validation de faisabilité. Je ne prétends pas que Mistral est objectivement le meilleur dans tous les cas. Pour une décision de production, je comparerais plusieurs modèles sur le même jeu annoté, avec qualité, latence, coût, disponibilité et contraintes de données. »</p>
+          <p><strong>À éviter :</strong> « Mistral est forcément meilleur » ou « le fournisseur n’a aucune importance ».</p>
+        </div></details>
+        <details><summary>Pourquoi LangChain ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « LangChain fournit des briques compatibles pour les documents, les embeddings, FAISS et l’orchestration RAG. Il m’a permis d’assembler rapidement une chaîne lisible et reproductible. »</p>
+          <p><strong>Si le jury insiste :</strong> « Je limite le couplage en conservant la collecte, la préparation, la configuration et le contrat d’API dans des modules séparés. LangChain facilite l’orchestration, mais ne contient pas toute la logique métier. Si son abstraction devenait contraignante, je pourrais remplacer progressivement une brique derrière les interfaces existantes. »</p>
+          <p><strong>À éviter :</strong> « LangChain fait tout automatiquement. »</p>
+        </div></details>
+        <details><summary>Pourquoi FAISS plutôt qu’une base vectorielle distante ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Pour 14 903 passages et un POC local, FAISS est rapide, persistant et ne demande aucune infrastructure supplémentaire. Il répond au besoin avec un coût opérationnel faible. »</p>
+          <p><strong>Si le jury insiste :</strong> « FAISS convient à une instance qui charge un index versionné. Une production multi-instance avec mises à jour fréquentes, filtrage avancé, réplication et droits d’accès pourrait justifier Qdrant, Weaviate, Pinecone ou une solution PostgreSQL avec extension vectorielle. Je choisirais après mesure du volume et des contraintes d’exploitation. »</p>
+          <p><strong>À éviter :</strong> « FAISS est la meilleure solution pour toute échelle. »</p>
+        </div></details>
+        <details><summary>Quelle différence entre embedding et LLM ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « L’embedding transforme le sens d’un texte en vecteur pour comparer des similarités. Le LLM génère le texte final. Dans mon système, l’embedding retrouve et le LLM rédige. »</p>
+          <p><strong>Si le jury insiste :</strong> « La question et les chunks passent dans le même espace vectoriel afin de mesurer leur proximité. FAISS sélectionne les vecteurs proches. Mistral Small reçoit ensuite les textes correspondant à ces vecteurs. Il ne génère donc pas à partir des nombres, mais à partir du contexte textuel récupéré. »</p>
+          <p><strong>À éviter :</strong> « L’embedding comprend et répond à la question. »</p>
+        </div></details>
+        <details><summary>Pourquoi charger l’index au démarrage ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « La construction de l’index est coûteuse et peu fréquente ; la réponse doit être fréquente et rapide. Je construis donc hors ligne, puis je charge une seule fois au démarrage. »</p>
+          <p><strong>Si le jury insiste :</strong> « Cette séparation rend la latence plus prévisible et évite qu’une requête utilisateur modifie l’état du corpus. Pour une mise à jour, je produirais une nouvelle version, je la testerais, puis je basculerais atomiquement vers elle avec possibilité de revenir à la précédente. »</p>
+          <p><strong>À éviter :</strong> « L’index se reconstruit à chaque question. »</p>
+        </div></details>
 
         <h3>Données et recherche</h3>
-        <details><summary>Comment assurez-vous la récence ?</summary><div class="answer"><p>La collecte livrée est bornée du 10 juillet 2025 au 10 juillet 2026. Je la présente comme un snapshot reproductible. En production, une collecte planifiée supprimerait les événements expirés et reconstruirait une version atomique de l’index.</p></div></details>
-        <details><summary>Pourquoi des chunks de 1000 avec 200 de chevauchement ?</summary><div class="answer"><p>1000 garde suffisamment de contexte événementiel sans créer des passages trop larges. Le chevauchement de 200 protège les informations aux frontières. Ce sont des paramètres de départ à comparer sur les métriques de retrieval.</p></div></details>
-        <details><summary>Pourquoi top_k=4 ?</summary><div class="answer"><p>Quatre sources apportent un contexte suffisamment diversifié sans trop diluer le prompt. Ce n’est pas une constante universelle : je le calibrerais avec précision, rappel, latence et coût.</p></div></details>
-        <details><summary>Comment gérez-vous les doublons ?</summary><div class="answer"><p>La préparation normalise les champs et déduplique avant l’indexation. Je conserve aussi des métadonnées stables pour relier les chunks à leur événement source.</p></div></details>
-        <details><summary>Que se passe-t-il si aucun résultat n’est vraiment pertinent ?</summary><div class="answer"><p>Le prompt demande de rester prudent, mais un produit devrait ajouter un seuil de similarité explicite et une réponse déterministe « je n’ai pas trouvé ». C’est un garde-fou prioritaire.</p></div></details>
+        <details><summary>Comment assurez-vous la récence ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « La collecte livrée est bornée du 10 juillet 2025 au 10 juillet 2026. Elle respecte la fenêtre d’un an demandée et constitue un snapshot reproductible. »</p>
+          <p><strong>Si le jury insiste :</strong> « Reproductible ne signifie pas actualisé en continu. En production, je planifierais la collecte, filtrerais les événements expirés, contrôlerais les volumes et la qualité, reconstruirais une nouvelle version d’index puis effectuerais une bascule atomique. J’exposerais aussi la date de fraîcheur dans les métriques du service. »</p>
+          <p><strong>À éviter :</strong> « Le corpus est en temps réel » ou « les données se mettent à jour seules ».</p>
+        </div></details>
+        <details><summary>Pourquoi des chunks de 1000 avec 200 de chevauchement ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Mille caractères gardent un contexte événementiel cohérent ; le chevauchement de 200 protège les informations placées à la frontière entre deux chunks. »</p>
+          <p><strong>Si le jury insiste :</strong> « Un chunk trop petit perdrait le lien entre titre, date, lieu et description. Un chunk trop grand pourrait diluer la similarité et augmenter le contexte envoyé au modèle. Mes valeurs sont un point de départ raisonnable. Je comparerais plusieurs couples taille-chevauchement sur précision, rappel, correction et coût. »</p>
+          <p><strong>À éviter :</strong> « 1000 et 200 sont des valeurs optimales prouvées. »</p>
+        </div></details>
+        <details><summary>Pourquoi top_k=4 ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Quatre résultats donnent plusieurs sources sans remplir le prompt avec trop de bruit. C’est un compromis entre couverture, précision, latence et coût. »</p>
+          <p><strong>Si le jury insiste :</strong> « Avec un top_k trop faible, je peux manquer une proposition utile. Avec un top_k trop élevé, j’ajoute des passages moins pertinents et je complique la synthèse. Je calibrerais ce paramètre sur un benchmark élargi, éventuellement avec un reranking et un seuil minimal de similarité. »</p>
+          <p><strong>À éviter :</strong> « Quatre est toujours le meilleur nombre. »</p>
+        </div></details>
+        <details><summary>Comment gérez-vous les doublons ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « La préparation normalise les champs et déduplique les événements avant l’indexation. Les chunks conservent ensuite des métadonnées permettant de revenir à l’événement source. »</p>
+          <p><strong>Si le jury insiste :</strong> « Il faut distinguer les doublons d’événements et les chunks multiples d’un même événement. Plusieurs chunks sont normaux pour une longue description. Lors de la restitution, je peux regrouper par identifiant source pour éviter de présenter plusieurs fois le même événement. Une production devrait aussi suivre le taux de doublons à chaque collecte. »</p>
+          <p><strong>À éviter :</strong> « Chaque vecteur correspond forcément à un événement différent. »</p>
+        </div></details>
+        <details><summary>Que se passe-t-il si aucun résultat n’est pertinent ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Le prompt demande une réponse prudente, mais le garde-fou de production serait un seuil de similarité explicite déclenchant un message “je n’ai pas trouvé”. »</p>
+          <p><strong>Si le jury insiste :</strong> « Je ne confierais pas le refus uniquement au LLM. Je mesurerais la distribution des scores sur des cas positifs et négatifs, choisirais un seuil validé métier, puis empêcherais la génération de recommandations si aucun passage ne le dépasse. Je journaliserais ces refus pour améliorer le catalogue et les filtres. »</p>
+          <p><strong>À éviter :</strong> « Le modèle saura toujours quand il ne sait pas. »</p>
+        </div></details>
 
         <h3>Évaluation</h3>
-        <details><summary>Que signifie une fidélité de 0,900 ?</summary><div class="answer"><p>La réponse est fortement soutenue par le contexte récupéré. Cela ne signifie pas que 90 % des réponses sont exactes : la correction par rapport à la référence est une autre métrique.</p></div></details>
-        <details><summary>Pourquoi la correction est-elle seulement à 0,683 ?</summary><div class="answer"><p>Le système utilise bien le contexte, mais certains détails attendus dans la réponse de référence peuvent manquer ou être moins précisément formulés. Je travaillerais le format de réponse, le prompt et un jeu annoté plus large.</p></div></details>
-        <details><summary>Trois cas RAGAS suffisent-ils ?</summary><div class="answer"><p>Non. Ils valident l’automatisation de la méthode et donnent un premier signal. Une conclusion robuste exige davantage de questions, de catégories, de cas négatifs et idéalement plusieurs annotateurs.</p></div></details>
-        <details><summary>Pourquoi avoir aussi quatre cas fonctionnels ?</summary><div class="answer"><p>Les tests directs vérifient le contrat attendu et les scénarios métier. RAGAS analyse plus finement la qualité. Les deux niveaux sont complémentaires.</p></div></details>
-        <details><summary>Comment éviter une régression ?</summary><div class="answer"><p>Je versionne le jeu annoté et les résultats, puis je fixe des seuils dans l’intégration continue. Une nouvelle version n’est acceptée que si les tests passent et si les métriques clés ne reculent pas.</p></div></details>
+        <details><summary>Que signifie une fidélité de 0,900 ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « La fidélité mesure si les affirmations de la réponse sont soutenues par les contextes récupérés. À 0,900, l’ancrage est fort sur les trois cas évalués. »</p>
+          <p><strong>Si le jury insiste :</strong> « Ce n’est pas un taux global d’exactitude et je ne le transforme pas en “90 % de bonnes réponses”. Une réponse peut être fidèle au contexte mais incomplète par rapport à la référence. C’est justement pourquoi je regarde aussi pertinence, précision du contexte et correction. »</p>
+          <p><strong>À éviter :</strong> « Mon chatbot est exact à 90 %. »</p>
+        </div></details>
+        <details><summary>Pourquoi la correction est-elle seulement à 0,683 ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Le contexte est bien retrouvé et bien utilisé, mais la réponse finale ne reprend pas toujours tous les détails attendus dans la référence. C’est ma priorité d’amélioration. »</p>
+          <p><strong>Si le jury insiste :</strong> « J’analyserais chaque écart : information absente du chunk, détail oublié dans la synthèse ou différence de formulation. Je structurerais ensuite le prompt autour de champs obligatoires, puis je réévaluerais sur un jeu plus large avant d’attribuer l’écart au modèle seul. »</p>
+          <p><strong>À éviter :</strong> « 0,683 est bon » sans expliquer la métrique et l’échantillon.</p>
+        </div></details>
+        <details><summary>Trois cas RAGAS suffisent-ils ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Non. Ils valident la faisabilité et l’automatisation de la méthode, mais ils ne suffisent pas pour conclure sur la qualité générale du produit. »</p>
+          <p><strong>Si le jury insiste :</strong> « J’ajouterais des catégories variées, plusieurs villes, des questions temporelles, des cas négatifs, des formulations ambiguës et plusieurs niveaux de difficulté. Je ferais relire les références par plusieurs personnes et je suivrais les résultats par segment plutôt qu’avec une moyenne unique. »</p>
+          <p><strong>À éviter :</strong> « Les métriques prouvent définitivement la performance. »</p>
+        </div></details>
+        <details><summary>Pourquoi avoir aussi quatre cas fonctionnels ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Les cas fonctionnels vérifient le contrat et les comportements métier ; RAGAS diagnostique la qualité du retrieval et de la génération. Les deux niveaux répondent à des questions différentes. »</p>
+          <p><strong>Si le jury insiste :</strong> « Un test fonctionnel peut vérifier qu’une réponse contient des sources ou qu’un cas hors périmètre reste prudent. Une métrique RAGAS mesure la relation entre question, contexte, réponse et référence. Je conserve les deux pour détecter à la fois une régression logicielle et une dégradation qualitative. »</p>
+          <p><strong>À éviter :</strong> « Les tests unitaires suffisent à mesurer la qualité métier. »</p>
+        </div></details>
+        <details><summary>Comment éviter une régression ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Je versionne le jeu annoté et les résultats, puis je rejoue tests et métriques après chaque changement significatif de données, de prompt ou de modèle. »</p>
+          <p><strong>Si le jury insiste :</strong> « Dans une intégration continue, je fixerais des seuils minimaux par métrique et des tests bloquants pour les cas critiques. Je comparerais la nouvelle version à une baseline, examinerais les écarts par question et empêcherais le déploiement si la qualité ou la latence recule sans justification. »</p>
+          <p><strong>À éviter :</strong> « Si les 59 tests passent, la qualité des réponses est forcément stable. »</p>
+        </div></details>
 
         <h3>Industrialisation et métier</h3>
-        <details><summary>L’API est-elle sécurisée ?</summary><div class="answer"><p>Le rebuild est protégé par <code>API_REBUILD_TOKEN</code>. Pour la production, j’ajouterais authentification centralisée, autorisations par rôle, secrets gérés, quotas, réseau privé et audit des actions.</p></div></details>
-        <details><summary>Comment passer à plusieurs villes ?</summary><div class="answer"><p>J’ajoute la ville comme métadonnée et comme filtre explicite, j’élargis la collecte, puis j’évalue chaque zone. Le filtre métier évite que la similarité sémantique mélange des lieux non désirés.</p></div></details>
-        <details><summary>Comment mettre l’index à jour sans coupure ?</summary><div class="answer"><p>Je construis une nouvelle version hors ligne, je la valide, puis je bascule atomiquement le service vers cette version. Je garde la précédente pour un rollback rapide.</p></div></details>
-        <details><summary>Comment surveiller le service ?</summary><div class="answer"><p>Je mesure disponibilité, latence, taux d’erreur, coûts, qualité de retrieval, réponses sans source et dérive des données. Les logs doivent rester structurés sans exposer de secrets ni de données sensibles.</p></div></details>
-        <details><summary>Quelle valeur pour Puls-Events ?</summary><div class="answer"><p>Une découverte culturelle plus naturelle et des recommandations vérifiables, tout en réutilisant un catalogue existant. Le pilote doit mesurer l’usage réel avant d’industrialiser.</p></div></details>
-        <details><summary>Quel serait votre premier investissement ?</summary><div class="answer"><p>Élargir le jeu annoté et ajouter les garde-fous de périmètre. Cela réduit immédiatement le risque de réponse trompeuse et donne une base fiable pour arbitrer les modèles et l’infrastructure.</p></div></details>
+        <details><summary>L’API est-elle sécurisée ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Pour le POC, rebuild est protégé par <code>API_REBUILD_TOKEN</code>. Ce n’est pas encore un dispositif complet de sécurité de production. »</p>
+          <p><strong>Si le jury insiste :</strong> « J’ajouterais une authentification centralisée, des autorisations par rôle, une gestion de secrets, du TLS, des quotas et un réseau privé pour les opérations d’administration. Je limiterais la taille des entrées, journaliserais les actions sensibles et vérifierais que ni prompts ni clés ne sont exposés dans les logs. »</p>
+          <p><strong>À éviter :</strong> « Le token suffit à sécuriser toute l’API. »</p>
+        </div></details>
+        <details><summary>Comment passer à plusieurs villes ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « J’élargis la collecte et j’utilise la ville comme métadonnée et filtre déterministe, puis j’évalue séparément chaque zone. »</p>
+          <p><strong>Si le jury insiste :</strong> « Je ne me contente pas d’ajouter davantage de textes dans le même index. Je normalise les identifiants géographiques, filtre avant ou pendant la recherche, adapte les questions de test et mesure la couverture des sources. Selon le volume, je peux partitionner l’index ou utiliser une base vectorielle avec filtres. »</p>
+          <p><strong>À éviter :</strong> « Il suffit de retirer le mot Paris du code. »</p>
+        </div></details>
+        <details><summary>Comment mettre l’index à jour sans coupure ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Je construis et valide une nouvelle version hors ligne, puis je bascule atomiquement le service vers elle en conservant la version précédente pour rollback. »</p>
+          <p><strong>Si le jury insiste :</strong> « Chaque version porte la date de collecte, les paramètres, le modèle d’embedding et les métriques. Une sonde vérifie la nouvelle version avant exposition. La bascule peut se faire par alias, volume versionné ou déploiement bleu-vert. Si les erreurs augmentent, je reviens immédiatement à l’index précédent. »</p>
+          <p><strong>À éviter :</strong> « Je modifie l’index utilisé pendant que les requêtes arrivent. »</p>
+        </div></details>
+        <details><summary>Comment surveiller le service ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Je surveille disponibilité, latence, erreurs, coût, fraîcheur des données, qualité de retrieval et proportion de réponses sans source ou refusées. »</p>
+          <p><strong>Si le jury insiste :</strong> « Je distingue les métriques techniques des métriques métier. Techniquement : CPU, mémoire, temps d’embedding, recherche et génération. Métier : clic sur source, satisfaction, réponse utile, refus correct, dérive par ville ou catégorie. Les logs restent structurés et ne contiennent ni secret ni donnée personnelle inutile. »</p>
+          <p><strong>À éviter :</strong> « Le endpoint health suffit à superviser la qualité. »</p>
+        </div></details>
+        <details><summary>Quelle valeur pour Puls-Events ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « Le système rend la découverte culturelle plus naturelle tout en gardant les recommandations vérifiables et reliées au catalogue existant. »</p>
+          <p><strong>Si le jury insiste :</strong> « Pour le produit, cela peut réduire la friction de recherche et exposer davantage la longue traîne du catalogue. Pour le marketing, les questions agrégées peuvent révéler des intentions et catégories recherchées, sous réserve de respecter la vie privée. Le pilote doit mesurer clics, satisfaction et conversion vers les pages d’événements. »</p>
+          <p><strong>À éviter :</strong> « Le chatbot augmentera forcément les ventes » sans expérimentation utilisateur.</p>
+        </div></details>
+        <details><summary>Quel serait votre premier investissement ?</summary><div class="answer">
+          <p><strong>Réponse courte :</strong> « J’investirais d’abord dans un jeu annoté plus large et dans les garde-fous de périmètre, car ils réduisent directement le risque de réponse trompeuse. »</p>
+          <p><strong>Si le jury insiste :</strong> « Avant une infrastructure plus complexe, je veux une mesure fiable de la valeur et des erreurs. J’ajoute donc questions réelles, cas négatifs, filtres de ville et seuil de similarité. Ces éléments permettent ensuite de choisir rationnellement le modèle, les paramètres et la base vectorielle au lieu d’optimiser à l’aveugle. »</p>
+          <p><strong>À éviter :</strong> « Je commencerais par acheter une base vectorielle plus puissante. »</p>
+        </div></details>
       </section>
 
-      <section class="chapter" id="secours">
+      <section class="chapter" id="plans-secours">
         <p class="eyebrow">Plan B</p>
-        <h2>Si la démo échoue, ma soutenance continue</h2>
+        <h2>Si quelque chose échoue, ma soutenance continue</h2>
+        <p class="intro">
+          Je ne cache pas le problème et je ne passe pas plusieurs minutes à le corriger. Je le nomme, je montre une
+          preuve alternative et je reviens immédiatement au message métier.
+        </p>
         <div class="grid-3">
           <div class="panel">
             <h3>Docker ne répond pas</h3>
-            <p>Je montre le résultat de <code>docker compose ps</code>, puis les tests et la réponse enregistrée. Je précise le diagnostic sans passer cinq minutes à dépanner.</p>
+            <p>
+              Je dis : « Le conteneur n’est pas disponible dans cette session. Je vais vous montrer l’état observé,
+              puis utiliser la sortie de référence et les 59 tests passants. Le même livrable contient les commandes
+              de lancement reproductibles. » Je montre <code>docker compose ps</code>, puis je quitte le terminal.
+            </p>
           </div>
           <div class="panel">
-            <h3>Mistral est lent</h3>
-            <p>J’explique la dépendance externe, j’affiche le contrat d’API et les sorties de référence, puis je poursuis sur l’évaluation.</p>
+            <h3>L’API répond avec une erreur</h3>
+            <p>
+              Je lis brièvement le code HTTP sans exposer de secret : « L’endpoint signale une erreur au lieu de
+              produire une réponse trompeuse. Je montre maintenant le contrat attendu, le test associé et une réponse
+              enregistrée, puis je poursuis sur l’évaluation. »
+            </p>
           </div>
           <div class="panel">
-            <h3>Je perds le fil</h3>
-            <p>Je regarde le titre de la slide et je réponds : « ce qui entre, ce que mon code fait, ce qui sort, pourquoi ». C’est toute la logique du guide.</p>
+            <h3>Mistral ou le réseau est lent</h3>
+            <p>
+              Je dis : « La recherche locale est prête ; l’attente concerne l’appel externe de génération. En
+              production, cette dépendance serait mesurée, limitée par timeout et protégée par une stratégie de
+              nouvelle tentative contrôlée. Voici la sortie de référence. »
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Le PowerPoint ne s’affiche plus</h3>
+            <p>
+              Je garde le HTML ouvert. Je dis : « Je poursuis à partir de mon conducteur. » J’annonce le titre de la
+              slide, puis je formule l’idée principale. Le support visuel aide la présentation, mais les preuves
+              restent dans le dépôt, l’API et le rapport.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Je perds le fil de mon texte</h3>
+            <p>
+              Je regarde le titre et je reviens à quatre questions : qu’est-ce qui entre, que fait mon code,
+              qu’est-ce qui sort et pourquoi ai-je fait ce choix ? Je conclus par la limite ou la transition indiquée
+              dans la fiche.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Le jury m’interrompt longtemps</h3>
+            <p>
+              Je réponds, puis je dis : « Je vais reprendre à la conclusion de cette slide pour respecter le temps. »
+              J’utilise les versions courtes des slides suivantes et je conserve les résultats, les limites et la
+              recommandation finale.
+            </p>
           </div>
         </div>
         <div class="alert">
-          Une démo live peut rencontrer un problème externe. Ce qui compte est que je reste calme, que je montre
-          les preuves disponibles et que je distingue clairement le défaut observé de la qualité du système livré.
+          <strong>Ma phrase de recentrage :</strong> « L’incident concerne la démonstration dans cette session. Pour
+          évaluer le livrable, je m’appuie aussi sur les tests automatisés, les résultats enregistrés, le rapport et
+          la reproductibilité du dépôt. » Je ne prétends pas qu’une panne n’a aucune importance ; je montre que je
+          sais la gérer professionnellement.
+        </div>
+      </section>
+
+      <section class="chapter" id="debrief">
+        <p class="eyebrow">Débrief · 5 minutes</p>
+        <h2>Quand Jérémy quitte son rôle, je sais quoi dire</h2>
+        <p class="intro">
+          Le débrief n’est plus la soutenance technique. J’écoute d’abord le retour de l’évaluateur, je prends une
+          note et je réponds sans me justifier trop vite.
+        </p>
+        <div class="grid-3">
+          <div class="panel">
+            <h3>Ce dont je suis satisfait</h3>
+            <p>
+              « Je suis satisfait d’avoir livré une chaîne complète et reproductible, pas seulement une expérimentation
+              isolée. Le lien entre données, recherche, génération, API, tests et évaluation est explicite. »
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Ce que j’améliorerais d’abord</h3>
+            <p>
+              « Avec plus de temps, j’élargirais le jeu annoté et j’ajouterais les filtres et seuils de refus. Ce sont
+              les améliorations qui renforcent le plus directement la confiance dans les réponses. »
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Ce que j’ai appris</h3>
+            <p>
+              « J’ai appris qu’un RAG ne s’évalue pas comme un seul bloc. Il faut distinguer la qualité des données,
+              la récupération du contexte, la fidélité de la génération et les contraintes d’exploitation. »
+            </p>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Si l’évaluateur me donne une critique</h3>
+          <p>
+            Je réponds : « Merci, je comprends le point. Dans mon approche actuelle, j’ai choisi cette solution pour
+            limiter le périmètre du POC. Pour la suite, je vois comment votre remarque peut être intégrée de cette
+            manière… » Je reformule ensuite l’action concrète. Si je ne suis pas certain, je dis : « Je préfère
+            vérifier ce point plutôt que de vous répondre au hasard. »
+          </p>
         </div>
       </section>
 
