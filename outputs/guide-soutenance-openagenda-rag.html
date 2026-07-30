@@ -1,0 +1,2203 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>Guide de soutenance - Assistant RAG OpenAgenda</title>
+  <style>
+    :root {
+      --paper: #f4f0e8;
+      --paper-strong: #ebe4d8;
+      --ink: #142a3a;
+      --muted: #60707a;
+      --line: #cfc6b8;
+      --accent: #e35b43;
+      --accent-dark: #a83423;
+      --teal: #0b6b69;
+      --blue-soft: #dce9ec;
+      --coral-soft: #f7dfd8;
+      --yellow-soft: #f3e8bd;
+      --green-soft: #dce9dc;
+      --white: #fffdf9;
+      --shadow: 0 18px 45px rgba(20, 42, 58, 0.08);
+      --nav-width: 260px;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.62;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: var(--accent-dark);
+    }
+
+    code,
+    pre {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    code {
+      padding: 0.12em 0.35em;
+      border-radius: 5px;
+      background: rgba(20, 42, 58, 0.08);
+      font-size: 0.92em;
+    }
+
+    pre {
+      margin: 1rem 0;
+      padding: 1.1rem 1.25rem;
+      overflow-x: auto;
+      border-left: 5px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      background: #102736;
+      color: #f8f5ef;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      box-shadow: var(--shadow);
+    }
+
+    kbd {
+      padding: 0.1rem 0.35rem;
+      border: 1px solid #a9a092;
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      background: var(--white);
+      font-size: 0.85em;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: var(--nav-width) minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .side-nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 1.5rem 1.2rem;
+      overflow-y: auto;
+      border-right: 1px solid var(--line);
+      background: #112b3b;
+      color: #f7f2e9;
+    }
+
+    .side-nav .eyebrow {
+      margin: 0 0 0.4rem;
+      color: #eaa18e;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .side-nav h2 {
+      margin: 0 0 1.5rem;
+      color: #fff;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.45rem;
+      line-height: 1.16;
+    }
+
+    .side-nav ul {
+      display: grid;
+      gap: 0.25rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .side-nav a {
+      display: block;
+      padding: 0.58rem 0.7rem;
+      border-radius: 8px;
+      color: #dae2e5;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .side-nav a:hover,
+    .side-nav a:focus-visible {
+      transform: translateX(3px);
+      background: rgba(255, 255, 255, 0.09);
+      color: #fff;
+    }
+
+    .side-nav .nav-note {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      color: #adbdc4;
+      font-size: 0.78rem;
+    }
+
+    .page {
+      min-width: 0;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 72vh;
+      display: grid;
+      align-content: center;
+      padding: clamp(3rem, 8vw, 7rem) clamp(1.5rem, 7vw, 7rem);
+      overflow: hidden;
+      background:
+        linear-gradient(105deg, rgba(244, 240, 232, 0.98) 0 55%, rgba(244, 240, 232, 0.76) 78%),
+        repeating-linear-gradient(90deg, transparent 0 64px, rgba(20, 42, 58, 0.04) 64px 65px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero::after {
+      content: "RAG";
+      position: absolute;
+      right: -0.04em;
+      bottom: -0.24em;
+      color: rgba(227, 91, 67, 0.12);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(10rem, 28vw, 27rem);
+      font-weight: 800;
+      letter-spacing: -0.11em;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      animation: rise 550ms ease-out both;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .kicker {
+      margin: 0 0 0.8rem;
+      color: var(--accent-dark);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      text-wrap: balance;
+    }
+
+    h1 {
+      max-width: 12ch;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.1rem, 7vw, 7rem);
+      font-weight: 700;
+      letter-spacing: -0.055em;
+      line-height: 0.95;
+    }
+
+    .hero .lead {
+      max-width: 720px;
+      margin: 1.5rem 0 0;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 2vw, 1.4rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 46px;
+      padding: 0.65rem 1rem;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 750;
+      text-decoration: none;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 3rem));
+      margin: 0 auto;
+      padding: 3rem 0 7rem;
+    }
+
+    .chapter {
+      padding: 3.2rem 0;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 1rem;
+    }
+
+    .chapter:last-child {
+      border-bottom: 0;
+    }
+
+    .chapter-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0 0 0.5rem;
+      color: var(--accent-dark);
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .chapter-label::before {
+      content: "";
+      width: 2.5rem;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .chapter > h2 {
+      max-width: 18ch;
+      margin: 0 0 0.75rem;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 5vw, 4.3rem);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .chapter-intro {
+      max-width: 760px;
+      margin: 0 0 2rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      margin: 2rem 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--line);
+    }
+
+    .status-item {
+      min-height: 132px;
+      padding: 1.25rem;
+      background: var(--white);
+    }
+
+    .status-item strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--teal);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .status-item span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 1.35rem 1.45rem;
+      border-top: 4px solid var(--ink);
+      background: rgba(255, 253, 249, 0.74);
+    }
+
+    .panel h3,
+    .panel h4 {
+      margin-top: 0;
+    }
+
+    .panel p:last-child,
+    .panel ul:last-child {
+      margin-bottom: 0;
+    }
+
+    .checklist {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      position: relative;
+      padding: 0.5rem 0 0.5rem 2rem;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .checklist li:last-child {
+      border-bottom: 0;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0.4rem;
+      color: var(--teal);
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .alert {
+      margin: 1.4rem 0;
+      padding: 1.1rem 1.25rem;
+      border-left: 5px solid var(--accent);
+      background: var(--coral-soft);
+    }
+
+    .alert strong {
+      color: var(--accent-dark);
+    }
+
+    .good {
+      border-left-color: var(--teal);
+      background: var(--green-soft);
+    }
+
+    .good strong {
+      color: var(--teal);
+    }
+
+    .step {
+      margin: 2rem 0 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--ink);
+      scroll-margin-top: 1rem;
+    }
+
+    .step-heading {
+      display: grid;
+      grid-template-columns: 145px minmax(0, 1fr);
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .time {
+      color: var(--accent-dark);
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.92rem;
+      font-weight: 850;
+    }
+
+    .step h3 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.65rem, 3vw, 2.45rem);
+      line-height: 1.08;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 0.85fr;
+      gap: 1.2rem;
+      align-items: start;
+    }
+
+    .say,
+    .do,
+    .notes,
+    .qa-item {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .say,
+    .do {
+      padding: 1.3rem 1.45rem;
+    }
+
+    .say {
+      border-top: 5px solid var(--teal);
+    }
+
+    .do {
+      border-top: 5px solid var(--accent);
+    }
+
+    .say h4,
+    .do h4 {
+      margin: 0 0 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .say h4 {
+      color: var(--teal);
+    }
+
+    .do h4 {
+      color: var(--accent-dark);
+    }
+
+    .say p:first-of-type,
+    .do p:first-of-type {
+      margin-top: 0;
+    }
+
+    .say p:last-child,
+    .do p:last-child {
+      margin-bottom: 0;
+    }
+
+    details.notes,
+    details.qa-item {
+      margin-top: 1rem;
+      overflow: hidden;
+    }
+
+    details summary {
+      cursor: pointer;
+      padding: 1rem 1.25rem;
+      font-weight: 800;
+      transition: background 160ms ease;
+    }
+
+    details summary:hover,
+    details summary:focus-visible {
+      background: var(--yellow-soft);
+    }
+
+    details[open] summary {
+      border-bottom: 1px solid var(--line);
+      background: var(--blue-soft);
+    }
+
+    .notes-body,
+    .answer {
+      padding: 0.3rem 1.25rem 1.2rem;
+    }
+
+    .transition {
+      margin: 1rem 0 0;
+      padding-left: 1rem;
+      border-left: 3px solid var(--line);
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .walkthrough {
+      margin: 2.5rem 0;
+      padding: 1.6rem;
+      border: 2px solid var(--teal);
+      border-radius: var(--radius);
+      background: var(--blue-soft);
+    }
+
+    .walkthrough h3 {
+      margin-top: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.8rem;
+    }
+
+    .sequence {
+      counter-reset: sequence;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sequence li {
+      position: relative;
+      min-height: 54px;
+      padding: 0.4rem 0 1rem 3.5rem;
+    }
+
+    .sequence li::before {
+      counter-increment: sequence;
+      content: counter(sequence);
+      position: absolute;
+      left: 0;
+      top: 0.2rem;
+      display: grid;
+      width: 2.25rem;
+      height: 2.25rem;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .definition-list {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      margin: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .definition-list dt,
+    .definition-list dd {
+      margin: 0;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .definition-list dt {
+      padding-right: 1rem;
+      color: var(--teal);
+      font-weight: 900;
+    }
+
+    .definition-list dd {
+      color: var(--ink);
+    }
+
+    .qa-group {
+      margin: 2.5rem 0;
+    }
+
+    .qa-group > h3 {
+      margin-bottom: 0.6rem;
+      color: var(--accent-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2rem;
+    }
+
+    .qa-item {
+      margin: 0.7rem 0;
+    }
+
+    .qa-item summary {
+      font-size: 1rem;
+    }
+
+    .answer p {
+      margin: 0.8rem 0;
+    }
+
+    .answer .short {
+      padding-left: 1rem;
+      border-left: 4px solid var(--teal);
+      font-weight: 700;
+    }
+
+    .answer .limit {
+      color: var(--accent-dark);
+    }
+
+    .phrase {
+      margin: 1.5rem 0;
+      padding: 1.4rem 1.6rem;
+      border-left: 6px solid var(--accent);
+      background: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.25rem;
+    }
+
+    .file-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin: 1rem 0;
+    }
+
+    .file-links a {
+      padding: 0.55rem 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--white);
+      text-decoration: none;
+    }
+
+    .final-card {
+      padding: clamp(1.5rem, 5vw, 3.5rem);
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .final-card h3 {
+      margin-top: 0;
+      color: #fff;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      line-height: 1;
+    }
+
+    .final-card strong {
+      color: #f1a38d;
+    }
+
+    .back-top {
+      display: inline-block;
+      margin-top: 2rem;
+      font-weight: 800;
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        display: block;
+      }
+
+      .side-nav {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .side-nav ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .side-nav .nav-note {
+        display: none;
+      }
+
+      .hero {
+        min-height: 62vh;
+      }
+
+      .status-strip,
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      body {
+        font-size: 16px;
+      }
+
+      .side-nav ul,
+      .status-strip,
+      .grid-2,
+      .grid-3,
+      .step-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 4rem 1.25rem;
+      }
+
+      .hero::after {
+        opacity: 0.45;
+      }
+
+      main {
+        width: min(100% - 2rem, 1180px);
+      }
+
+      .step-heading {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .definition-list {
+        grid-template-columns: 1fr;
+      }
+
+      .definition-list dt {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 14mm;
+      }
+
+      body {
+        background: #fff;
+        color: #000;
+        font-size: 10pt;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      .side-nav,
+      .hero-actions,
+      .back-top {
+        display: none;
+      }
+
+      .hero {
+        min-height: 0;
+        padding: 1cm 0 1.4cm;
+        background: #fff;
+      }
+
+      .hero::after {
+        display: none;
+      }
+
+      h1 {
+        font-size: 34pt;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .chapter {
+        padding: 1.2cm 0;
+      }
+
+      .step,
+      .qa-item,
+      .panel,
+      .walkthrough,
+      pre {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+
+      details > * {
+        display: block !important;
+      }
+
+      details summary {
+        list-style: none;
+      }
+
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="side-nav" aria-label="Navigation du guide">
+      <p class="eyebrow">Projet 7 · Puls-Events</p>
+      <h2>Mon guide de soutenance</h2>
+      <ul>
+        <li><a href="#urgence">1. À faire maintenant</a></li>
+        <li><a href="#conducteur">2. Conducteur 15 min</a></li>
+        <li><a href="#demo">3. Démonstration</a></li>
+        <li><a href="#rapport-depot">4. Rapport et dépôt</a></li>
+        <li><a href="#notions">5. Notions à expliquer</a></li>
+        <li><a href="#jury">6. Questions du jury</a></li>
+        <li><a href="#secours">7. Plans de secours</a></li>
+        <li><a href="#final">8. Cinq dernières minutes</a></li>
+      </ul>
+      <p class="nav-note">
+        Je lis seulement les blocs « Ce que je dis ». Les notes servent à comprendre et à répondre, pas à être récitées.
+      </p>
+    </nav>
+
+    <div class="page">
+      <header class="hero" id="top">
+        <div class="hero-inner">
+          <p class="kicker">Soutenance OpenClassrooms · 30 minutes</p>
+          <h1>Mon conducteur de soutenance</h1>
+          <p class="lead">
+            Assistant RAG de recommandation d’événements culturels pour Puls-Events.
+            Présentation à la première personne, démonstration, explications et réponses au jury.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#conducteur">Commencer le conducteur</a>
+            <a class="button secondary" href="#urgence">Vérifier la préparation</a>
+            <a class="button secondary" href="#jury">Réviser les questions</a>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="chapter" id="urgence">
+          <p class="chapter-label">Préparation immédiate</p>
+          <h2>Le projet est prêt. Je sécurise l’oral.</h2>
+          <p class="chapter-intro">
+            Les contrôles techniques ont été faits juste avant la soutenance. Je ne modifie plus le projet.
+            Je prépare mon écran, je répète les transitions et je garde les limites du POC en tête.
+          </p>
+
+          <div class="status-strip" aria-label="État vérifié du projet">
+            <div class="status-item">
+              <strong>59/59</strong>
+              <span>tests Python passants dans l’environnement <code>openagenda-rag</code></span>
+            </div>
+            <div class="status-item">
+              <strong>Healthy</strong>
+              <span>conteneur Docker et endpoint <code>/health</code> opérationnels</span>
+            </div>
+            <div class="status-item">
+              <strong>9,62 s</strong>
+              <span>deux scénarios réels exécutés, très loin de la limite de cinq minutes</span>
+            </div>
+            <div class="status-item">
+              <strong>15 + 12</strong>
+              <span>15 slides PowerPoint et 12 pages de rapport technique vérifiées</span>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Avant de rejoindre l’appel</h3>
+              <ul class="checklist">
+                <li>Je branche mon ordinateur et je coupe les notifications.</li>
+                <li>J’ouvre le PowerPoint en mode diaporama.</li>
+                <li>J’ouvre ce guide dans une fenêtre séparée.</li>
+                <li>J’ouvre le rapport PDF à la page 2 ou 3.</li>
+                <li>J’ouvre le dépôt GitHub à sa racine.</li>
+                <li>J’ouvre un terminal dans le dossier du projet.</li>
+                <li>Je vérifie que le navigateur affiche <code>http://localhost:8000/docs</code>.</li>
+                <li>Je garde un verre d’eau et je respire lentement trois fois.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h3>Dans le terminal</h3>
+              <pre><code>cd /home/hgbe/openclassrooms/Projet7
+conda activate openagenda-rag
+docker compose up -d
+docker compose ps
+curl http://localhost:8000/health</code></pre>
+              <p>
+                Je ne montre jamais le contenu du fichier <code>.env</code> et je ne copie jamais la valeur de
+                <code>MISTRAL_API_KEY</code>.
+              </p>
+            </div>
+          </div>
+
+          <div class="alert">
+            <strong>Point de vigilance principal.</strong>
+            Le corpus est un instantané collecté le 10 juillet 2026 sur la fenêtre du 10 juillet 2025 au
+            10 juillet 2026. Je le présente comme un corpus reproductible de POC, pas comme un catalogue
+            automatiquement actualisé. La collecte planifiée fait partie des améliorations de production.
+          </div>
+
+          <div class="file-links" aria-label="Liens vers les supports">
+            <a href="openagenda-rag-soutenance.pptx">Ouvrir le PowerPoint</a>
+            <a href="rapport-technique-openagenda-rag.pdf">Ouvrir le rapport PDF</a>
+            <a href="../README.md">Ouvrir le README</a>
+            <a href="../docs/soutenance/script_soutenance_15min.md">Ouvrir le script source</a>
+          </div>
+        </section>
+
+        <section class="chapter" id="conducteur">
+          <p class="chapter-label">Présentation des livrables</p>
+          <h2>Mon oral, minute par minute</h2>
+          <p class="chapter-intro">
+            Je vise 12 à 15 minutes. Je parle calmement, je regarde l’évaluateur à chaque transition et je ne lis
+            pas les notes techniques. Les phrases ci-dessous sont formulées pour être dites telles quelles.
+          </p>
+
+          <article class="step" id="slide-1">
+            <div class="step-heading">
+              <span class="time">00:00–00:45</span>
+              <h3>Slide 1 — Contexte et objectif</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Bonjour Jérémy. Je vais vous présenter le POC que j’ai réalisé pour Puls-Events : un assistant
+                  capable de recommander des événements culturels à partir de données OpenAgenda. Mon objectif était
+                  de démontrer la faisabilité d’une chaîne RAG complète, depuis la collecte des données jusqu’à une
+                  API conteneurisée. Le corpus livré est centré sur Paris. Il contient 7 586 événements, transformés
+                  en 14 903 chunks interrogeables par recherche sémantique.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je montre le titre, puis les trois chiffres de périmètre. Je ne détaille pas encore les technologies.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Un POC prouve la faisabilité technique et métier. Il n’est pas présenté comme un produit prêt pour
+                  la production. Le corpus correspond à une photographie reproductible des données au moment de la collecte.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Je pars d’abord du problème utilisateur auquel ce POC doit répondre. »</p>
+          </article>
+
+          <article class="step" id="slide-2">
+            <div class="step-heading">
+              <span class="time">00:45–01:35</span>
+              <h3>Slide 2 — Le problème métier</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Le besoin métier est de permettre à une personne d’exprimer une envie en langage naturel, puis
+                  d’obtenir des propositions utiles et vérifiables. Une recherche par mots-clés gère mal les
+                  formulations variées. À l’inverse, un modèle de langage utilisé seul peut inventer des événements.
+                  J’ai donc combiné une recherche sémantique sur des données réelles et une génération contrainte par
+                  ces données. La réponse contient les titres, les lieux, les dates et les liens disponibles.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je parcours de gauche à droite : attente métier, difficulté, puis réponse proposée.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  La valeur du RAG n’est pas seulement une réponse mieux rédigée. Elle tient surtout à l’ancrage dans
+                  le corpus et à la traçabilité des sources. Le métier peut donc vérifier les recommandations.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Pour comprendre cette combinaison, voici le fonctionnement d’un RAG en trois temps. »</p>
+          </article>
+
+          <article class="step" id="slide-3">
+            <div class="step-heading">
+              <span class="time">01:35–02:25</span>
+              <h3>Slide 3 — Le RAG en termes simples</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Un RAG fonctionne en trois étapes. Premièrement, la question est transformée en représentation
+                  numérique et comparée aux événements stockés dans FAISS. Deuxièmement, les passages les plus proches
+                  sont réunis dans un contexte. Troisièmement, Mistral rédige la réponse uniquement à partir de ce
+                  contexte. Le modèle ne mémorise donc pas le catalogue : il consulte les informations pertinentes au
+                  moment de répondre. C’est ce qui réduit le risque d’invention et rend la réponse actualisable.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je pointe successivement « Retrieval », « Augmented », puis « Generation ». Je marque une courte pause après chaque étape.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  RAG signifie Retrieval-Augmented Generation. Le retrieval sélectionne les documents ; l’augmentation
+                  injecte ces documents dans le prompt ; la génération transforme ce contexte en réponse naturelle.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Cette chaîne commence par un corpus réel, filtré et structuré. »</p>
+          </article>
+
+          <article class="step" id="slide-4">
+            <div class="step-heading">
+              <span class="time">02:25–03:20</span>
+              <h3>Slide 4 — Données OpenAgenda et périmètre</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Les données proviennent du jeu public OpenAgenda exposé par Opendatasoft. Mon script de collecte
+                  applique côté API les filtres de ville et de date, puis normalise les champs utiles. Le seed livré
+                  couvre Paris, du 10 juillet 2025 au 10 juillet 2026. Chaque événement conserve notamment son titre,
+                  sa description, son lieu, ses dates, son URL et ses catégories. Les valeurs manquantes sont tolérées
+                  afin qu’un événement incomplet ne bloque pas l’ensemble du pipeline.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je montre la source, les filtres, puis les volumes. Je précise oralement que le seed est un instantané de POC.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Le filtre porte sur <code>firstdate_begin</code>. Un événement récurrent peut commencer dans la
+                  fenêtre et se terminer après la borne haute. La collecte est reproductible grâce au manifeste qui
+                  enregistre la source, les filtres, la date et les volumes.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Une fois les données propres, chaque responsabilité est isolée dans l’architecture. »</p>
+          </article>
+
+          <article class="step" id="slide-5">
+            <div class="step-heading">
+              <span class="time">03:20–04:15</span>
+              <h3>Slide 5 — Pipeline technique de bout en bout</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  J’ai séparé six responsabilités : collecte, nettoyage, indexation, recherche et génération,
+                  exposition HTTP, puis déploiement Docker. Les scripts servent de points d’entrée ; la logique
+                  réutilisable se trouve dans <code>src/openagenda_rag</code>. Les parquets, l’index FAISS et les
+                  manifestes restent inspectables. Cette séparation rend chaque étape testable et permet, par
+                  exemple, de remplacer le modèle ou la base vectorielle sans réécrire toute l’API.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je suis le pipeline de gauche à droite avec le pointeur. Je n’ouvre pas encore le dépôt.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  L’API dépend du service, le service dépend du moteur RAG, et le moteur charge l’index. Cette
+                  organisation limite le couplage et permet de tester la logique sans lancer un serveur.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Je zoome maintenant sur la construction de l’index sémantique. »</p>
+          </article>
+
+          <article class="step" id="slide-6">
+            <div class="step-heading">
+              <span class="time">04:15–05:10</span>
+              <h3>Slide 6 — Vectorisation Mistral et base FAISS</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Chaque texte est découpé en chunks de 1000 caractères avec un chevauchement de 200 caractères.
+                  Le chevauchement limite la perte d’information aux frontières. Le modèle
+                  <code>mistral-embed</code> transforme ensuite les chunks en vecteurs, par lots de 50. FAISS stocke
+                  les 14 903 vecteurs avec leurs métadonnées. L’index est persistant et rechargeable localement.
+                  Le manifeste permet de contrôler que les 7 586 événements ont bien été pris en compte.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je montre les paramètres, puis les artefacts produits et enfin les chiffres contrôlés.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Les valeurs 1000/200 sont des paramètres raisonnables de POC, pas un optimum démontré. Une
+                  industrialisation comparerait plusieurs tailles, recouvrements et modèles sur un jeu d’évaluation
+                  plus large. FAISS convient au volume local ; une base vectorielle serveur serait préférable pour
+                  plusieurs instances et des filtres complexes.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Cet index alimente ensuite le chatbot et l’API REST. »</p>
+          </article>
+
+          <article class="step" id="slide-7">
+            <div class="step-heading">
+              <span class="time">05:10–06:05</span>
+              <h3>Slide 7 — Chatbot RAG et API FastAPI</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Pour chaque question, le retriever récupère les quatre chunks les plus proches, donc
+                  <code>top_k=4</code>. Le prompt demande une réponse française, concise, fondée uniquement sur le
+                  contexte, avec un refus explicite si l’information manque. <code>mistral-small-latest</code> génère
+                  la réponse. FastAPI expose <code>GET /health</code>, <code>POST /ask</code> et
+                  <code>POST /rebuild</code>, avec Swagger sur <code>/docs</code>. Les sources publiques sont
+                  renvoyées sans exposer le contexte interne complet.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je pointe le chatbot, les endpoints, puis les 59 tests. Je garde Swagger pour la démonstration si l’évaluateur le demande.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Le modèle et le retriever sont gardés en mémoire pour éviter de recharger l’index à chaque appel.
+                  Après une reconstruction, le service invalide ces objets pour forcer un rechargement propre.
+                  <code>top_k=4</code> limite le bruit et la taille du prompt, mais doit être calibré empiriquement.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Pour rendre cette API reproductible, j’ai ensuite conteneurisé l’ensemble. »</p>
+          </article>
+
+          <article class="step" id="slide-8">
+            <div class="step-heading">
+              <span class="time">06:05–06:55</span>
+              <h3>Slide 8 — Conteneurisation Docker</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  L’image Docker repose sur Python 3.12 slim, installe les versions figées et embarque un seed
+                  reproductible. Au premier démarrage, l’entrypoint copie le corpus et l’index dans un volume
+                  persistant. La clé Mistral est injectée par variable d’environnement et n’est jamais copiée dans
+                  l’image. Le conteneur possède un healthcheck et expose le port 8000. Cette livraison permet à une
+                  équipe produit de démarrer l’API avec une seule commande Docker Compose.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je montre image, runtime et sécurité. Je passe ensuite au terminal déjà préparé.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Le seed évite de reconstruire 14 903 embeddings à chaque démarrage. Le volume persistant conserve
+                  les données d’exécution. Le chat dépend toujours de l’API Mistral en ligne : le déploiement est
+                  reproductible, mais pas entièrement hors connexion.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Je vais maintenant démontrer le comportement réel de l’API sur un cas nominal et un cas hors périmètre. »</p>
+          </article>
+
+          <article class="step" id="slide-9">
+            <div class="step-heading">
+              <span class="time">06:55–07:45</span>
+              <h3>Slide 9 — Démo nominale : Concert Fishers</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Le script commence par vérifier la santé de l’API, puis envoie réellement une requête
+                  <code>POST /ask</code>. Sur la question « Parle-moi de Concert Fishers à Paris », la réponse reprend
+                  le type de concert, la date, les horaires, le lieu et le lien OpenAgenda. L’API renvoie également
+                  quatre sources. La recommandation est donc lisible par l’utilisateur et vérifiable par l’équipe
+                  métier.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Dans le terminal, je lance <code>bash scripts/demo_api_5min.sh</code>. Je laisse la sortie visible et je pointe « Sources: 4 ».</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Le premier résultat récupéré est bien Concert Fishers. Les autres sources sont des voisins
+                  sémantiques. La génération synthétise le meilleur contexte, mais les sources restent disponibles
+                  pour inspection.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Le deuxième scénario vérifie que le système sait reconnaître une demande que son corpus ne couvre pas. »</p>
+          </article>
+
+          <article class="step" id="slide-10">
+            <div class="step-heading">
+              <span class="time">07:45–08:30</span>
+              <h3>Slide 10 — Démo hors périmètre : Lyon</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Le second scénario demande des expositions photo à Lyon alors que le corpus est limité à Paris.
+                  FAISS retourne toujours ses voisins les plus proches, mais le modèle constate qu’ils ne répondent
+                  pas à la ville demandée et répond qu’il ne sait pas. Le système évite donc d’inventer un événement.
+                  La limite visible est que quatre sources parisiennes sont tout de même retournées. En production,
+                  j’ajouterais un seuil de similarité et un filtre de ville avant l’appel au modèle.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je pointe la phrase de refus, puis la durée totale. Je reviens au diaporama sans fermer le terminal.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Un retriever par similarité sans score minimal retourne toujours <code>k</code> résultats. Le prompt
+                  joue ici le rôle de dernier garde-fou. Une défense plus robuste combinerait métadonnées, seuil et
+                  refus déterministe avant génération.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Avant les résultats d’évaluation, je vous montre où se trouvent les éléments de preuve et de reproduction. »</p>
+          </article>
+
+          <div class="walkthrough">
+            <h3>08:30–09:40 — Parcours du rapport et du dépôt</h3>
+            <p><strong>Ce que je dis :</strong></p>
+            <p>
+              Le rapport technique reprend l’objectif, l’architecture, la préparation des données, les modèles,
+              l’API, l’évaluation, les limites et les commandes de reproduction. Dans le dépôt, les scripts
+              d’exécution se trouvent dans <code>scripts</code>, la logique métier dans
+              <code>src/openagenda_rag</code>, les tests et jeux annotés dans <code>tests</code>, et le seed
+              reproductible dans <code>seed-data</code>. Le <code>README</code> permet à un collègue de reconstruire
+              ou lancer la solution. Cette organisation sépare clairement le code, les données, les tests et la
+              documentation.
+            </p>
+            <p><strong>Ce que je fais :</strong> j’affiche rapidement le sommaire du PDF, puis la racine du dépôt. Je montre seulement quatre dossiers et je reviens aux slides.</p>
+          </div>
+
+          <article class="step" id="slide-11">
+            <div class="step-heading">
+              <span class="time">09:40–10:30</span>
+              <h3>Slide 11 — Méthode d’évaluation RAGAS</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  J’ai constitué quatre cas annotés pour l’évaluation fonctionnelle : trois cas positifs et un cas
+                  hors périmètre. Trois de ces cas ont ensuite été évalués avec RAGAS, car cette exécution sollicite
+                  plusieurs appels Mistral. Je mesure la fidélité au contexte, la pertinence de la réponse, la
+                  précision du contexte récupéré et la correction par rapport à une référence humaine. Les versions,
+                  empreintes du dataset et identifiants de commit sont conservés avec les résultats.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je distingue clairement les quatre tests annotés des trois cas RAGAS. Je montre les quatre métriques.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  La fidélité répond à « la réponse est-elle soutenue par le contexte ? ». La pertinence répond à
+                  « répond-elle à la question ? ». La précision du contexte évalue le classement des passages. La
+                  correction compare la réponse à la référence humaine.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Les deux premiers cas montrent une recherche très précise sur un événement nommé. »</p>
+          </article>
+
+          <article class="step" id="slide-12">
+            <div class="step-heading">
+              <span class="time">10:30–11:25</span>
+              <h3>Slide 12 — Deux cas précis dépassent 0,82</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Le cas Concert Fishers obtient un score global de 0,823. Le bon événement arrive en première
+                  position et la réponse reprend les informations principales. Le Salon de la Photo atteint 0,887,
+                  avec une précision du contexte de 1. Ces résultats montrent que la recherche fonctionne bien
+                  lorsqu’un utilisateur nomme précisément un événement. Les scores de correction autour de 0,73
+                  indiquent toutefois que la formulation générée ne reprend pas toujours exactement tous les détails
+                  de la référence humaine.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je compare les deux scores globaux, puis j’insiste sur « contexte 1,000 » sans prétendre à une perfection générale.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Les métriques RAGAS reposent elles-mêmes sur des modèles. Elles donnent une indication utile, pas
+                  une vérité absolue. L’évaluateur et le générateur utilisent ici la famille Mistral, ce qui peut
+                  introduire un biais commun ; un benchmark plus mature diversifierait les juges et ajouterait une
+                  revue humaine.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Le troisième cas, plus ouvert, révèle plus clairement l’axe d’amélioration. »</p>
+          </article>
+
+          <article class="step" id="slide-13">
+            <div class="step-heading">
+              <span class="time">11:25–12:20</span>
+              <h3>Slide 13 — Retrieval solide, correction prioritaire</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Le cas de sortie en famille est plus ouvert : il doit retrouver plusieurs visites théâtralisées. Il
+                  obtient un score global de 0,862. Sur l’ensemble des trois cas, la fidélité moyenne est de 0,900,
+                  la pertinence de 0,846, la précision du contexte de 1,000 et la correction de 0,683. J’en conclus
+                  que le retrieval et l’ancrage dans les sources sont solides sur ce petit jeu. La priorité est de
+                  mieux cadrer les détails attendus dans la réponse et d’élargir l’évaluation.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je lis les quatre moyennes une seule fois, puis je donne immédiatement leur interprétation.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  La précision du contexte à 1,000 sur trois cas ne prouve pas que tous les besoins sont couverts.
+                  Elle signifie seulement que, pour ces références, les passages pertinents sont bien classés.
+                  La correction à 0,683 est le signal le plus utile pour prioriser l’amélioration.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Ces résultats valident la faisabilité, mais ils doivent être lus avec les limites du POC. »</p>
+          </article>
+
+          <article class="step" id="slide-14">
+            <div class="step-heading">
+              <span class="time">12:20–13:15</span>
+              <h3>Slide 14 — Limites assumées du POC</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Je retiens quatre limites principales. Premièrement, le corpus est limité à Paris et correspond à
+                  une fenêtre figée : il faut automatiser sa mise à jour. Deuxièmement, l’embedding et la génération
+                  dépendent de l’API Mistral en ligne. Troisièmement, trois cas RAGAS démontrent la méthode mais ne
+                  constituent pas un benchmark statistique. Enfin, les descriptions OpenAgenda peuvent être
+                  incomplètes ou promotionnelles. Ces limites n’annulent pas la faisabilité ; elles définissent le
+                  travail nécessaire avant une mise en production.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je présente les limites calmement. Après chaque limite, je donne implicitement ou explicitement son remède.</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Reconnaître une limite renforce la crédibilité si je montre son impact et son traitement. Je ne dis
+                  ni « ce n’est pas grave » ni « le système est prêt pour la production ».
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Transition :</strong> « Je termine donc par une trajectoire de passage du POC à un pilote mesuré. »</p>
+          </article>
+
+          <article class="step" id="slide-15">
+            <div class="step-heading">
+              <span class="time">13:15–15:00</span>
+              <h3>Slide 15 — Perspectives et conclusion</h3>
+            </div>
+            <div class="step-grid">
+              <section class="say">
+                <h4>Ce que je dis</h4>
+                <p>
+                  Je prioriserais d’abord trois améliorations : élargir le jeu annoté et le corpus à plusieurs villes,
+                  ajouter des filtres métier et un seuil de similarité, puis automatiser la collecte et le suivi des
+                  métriques. Ensuite, je comparerais plusieurs paramètres de chunking et modèles d’embeddings. Pour un
+                  déploiement élargi, j’ajouterais l’authentification, la supervision, la gestion des quotas, les tests
+                  de charge et une base vectorielle adaptée à plusieurs instances.
+                </p>
+                <p>
+                  Pour conclure, ce POC couvre toute la chaîne attendue : données réelles, préparation reproductible,
+                  index FAISS persistant, génération Mistral, API FastAPI, Docker, tests automatisés, démonstration
+                  live et évaluation RAGAS. Il démontre que Puls-Events peut intégrer un assistant culturel sourcé,
+                  tout en identifiant clairement les étapes nécessaires avant la production. Merci, je suis prêt à
+                  répondre à vos questions.
+                </p>
+              </section>
+              <section class="do">
+                <h4>Ce que je fais</h4>
+                <p>Je ralentis sur la conclusion, je regarde l’évaluateur et je termine sans ajouter une nouvelle idée après « merci ».</p>
+              </section>
+            </div>
+            <details class="notes">
+              <summary>Ce que je dois comprendre</summary>
+              <div class="notes-body">
+                <p>
+                  Mon message final est : la chaîne est fonctionnelle et mesurée, mais le passage en production
+                  demande davantage de données, de garde-fous et d’exploitation. Je ne cherche pas à défendre un POC
+                  comme s’il était déjà un produit industriel.
+                </p>
+              </div>
+            </details>
+            <p class="transition"><strong>Fin :</strong> je laisse une seconde de silence et j’attends la première question.</p>
+          </article>
+        </section>
+
+        <section class="chapter" id="demo">
+          <p class="chapter-label">Démonstration live</p>
+          <h2>Je montre un résultat, pas une suite de commandes.</h2>
+          <p class="chapter-intro">
+            La démonstration doit rester courte. Mon objectif est de prouver que l’API répond, que la réponse est
+            sourcée et que le système refuse une demande hors périmètre.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Commande principale</h3>
+              <pre><code>conda activate openagenda-rag
+bash scripts/demo_api_5min.sh</code></pre>
+              <p>
+                Le script s’assure que Docker Compose est démarré, attend l’API, exécute les deux scénarios et mesure
+                la durée totale.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Ce que je commente</h3>
+              <ol>
+                <li>Le cas nominal retrouve Concert Fishers.</li>
+                <li>La réponse fournit date, horaires, lieu et URL.</li>
+                <li>Quatre sources sont renvoyées.</li>
+                <li>Le cas Lyon répond « Je ne sais pas ».</li>
+                <li>La durée reste très inférieure à cinq minutes.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="alert good">
+            <strong>Réponse si la sortie diffère légèrement.</strong>
+            « La formulation du LLM est non déterministe, même avec une température faible. Ce que je vérifie ici,
+            c’est que les faits restent soutenus par les sources et que la structure de réponse de l’API reste stable. »
+          </div>
+
+          <h3>Si l’évaluateur demande Swagger</h3>
+          <ol class="sequence">
+            <li>J’ouvre <code>http://localhost:8000/docs</code>.</li>
+            <li>Je déplie <code>POST /ask</code>, puis « Try it out ».</li>
+            <li>J’utilise uniquement <code>{"question": "Parle-moi de Concert Fishers a Paris"}</code>.</li>
+            <li>Je montre le code HTTP 200, le champ <code>answer</code> et le tableau <code>sources</code>.</li>
+            <li>Je n’exécute pas <code>/rebuild</code> pendant la soutenance : sa reconstruction complète est longue et consomme l’API d’embedding.</li>
+          </ol>
+        </section>
+
+        <section class="chapter" id="rapport-depot">
+          <p class="chapter-label">Preuves et reproductibilité</p>
+          <h2>Je parcours le rapport et le dépôt en 70 secondes.</h2>
+          <p class="chapter-intro">
+            Le jury attend explicitement ces deux éléments. Je montre leur structure sans lire le README ni ouvrir
+            chaque fichier.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Rapport technique — 25 secondes</h3>
+              <p><strong>Je dis :</strong></p>
+              <p>
+                « Le rapport reprend les objectifs, l’architecture, les données, les modèles, l’API, l’évaluation,
+                les limites et les commandes de reproduction. Les annexes assurent la traçabilité des résultats. »
+              </p>
+              <p><strong>Je montre :</strong> le sommaire, le schéma d’architecture et le tableau des métriques.</p>
+            </div>
+            <div class="panel">
+              <h3>Dépôt GitHub — 45 secondes</h3>
+              <p><strong>Je dis :</strong></p>
+              <p>
+                « Les scripts pilotent le projet, les modules métier sont isolés dans <code>src</code>, les tests
+                et jeux annotés sont dans <code>tests</code>, et le seed permet de lancer Docker sans reconstruire
+                immédiatement tous les embeddings. »
+              </p>
+              <p><strong>Je montre :</strong> <code>README.md</code>, <code>scripts/</code>, <code>src/</code>, <code>tests/</code> et <code>seed-data/</code>.</p>
+            </div>
+          </div>
+
+          <dl class="definition-list">
+            <dt><code>scripts/</code></dt>
+            <dd>Points d’entrée : collecte, indexation, chatbot, API, démo et évaluations.</dd>
+            <dt><code>src/openagenda_rag/</code></dt>
+            <dd>Logique réutilisable : configuration, ingestion, indexation, RAG, service, API et métriques.</dd>
+            <dt><code>tests/</code></dt>
+            <dd>59 tests automatisés et deux jeux annotés : quatre cas fonctionnels, trois cas RAGAS.</dd>
+            <dt><code>seed-data/</code></dt>
+            <dd>Corpus normalisé, index FAISS et manifestes versionnés pour la reproduction Docker.</dd>
+            <dt><code>README.md</code></dt>
+            <dd>Procédure complète d’installation, d’exécution, d’évaluation et de démonstration.</dd>
+          </dl>
+        </section>
+
+        <section class="chapter" id="notions">
+          <p class="chapter-label">Explications techniques</p>
+          <h2>Je sais expliquer chaque notion simplement.</h2>
+          <p class="chapter-intro">
+            Je commence par une phrase accessible, puis j’ajoute le détail technique seulement si l’évaluateur le demande.
+          </p>
+
+          <dl class="definition-list">
+            <dt>RAG</dt>
+            <dd>
+              <strong>Simple :</strong> je cherche d’abord les informations utiles, puis le modèle rédige avec ces informations.
+              <br><strong>Technique :</strong> retrieval vectoriel, augmentation du prompt, puis génération contrainte.
+            </dd>
+            <dt>Embedding</dt>
+            <dd>
+              <strong>Simple :</strong> une représentation numérique du sens d’un texte.
+              <br><strong>Technique :</strong> <code>mistral-embed</code> produit ici des vecteurs de dimension 1024 comparables par distance.
+            </dd>
+            <dt>Chunk</dt>
+            <dd>
+              <strong>Simple :</strong> un morceau de description assez court pour être recherché précisément.
+              <br><strong>Technique :</strong> 1000 caractères, chevauchement de 200, identifiant et métadonnées conservés.
+            </dd>
+            <dt>FAISS</dt>
+            <dd>
+              <strong>Simple :</strong> le moteur local qui retrouve rapidement les textes au sens le plus proche.
+              <br><strong>Technique :</strong> index vectoriel persistant chargé par LangChain, adapté au volume du POC.
+            </dd>
+            <dt><code>top_k=4</code></dt>
+            <dd>
+              <strong>Simple :</strong> le système donne au modèle les quatre passages les plus proches.
+              <br><strong>Technique :</strong> compromis de POC entre couverture, bruit, longueur du contexte, latence et coût.
+            </dd>
+            <dt>Prompt contraint</dt>
+            <dd>
+              Il demande au modèle de répondre uniquement avec le contexte, de citer les informations pratiques et de dire
+              qu’il ne sait pas si le contexte ne suffit pas.
+            </dd>
+            <dt>FastAPI</dt>
+            <dd>
+              Couche HTTP typée avec validation Pydantic, codes d’erreur, documentation Swagger et endpoints
+              <code>/health</code>, <code>/ask</code> et <code>/rebuild</code>.
+            </dd>
+            <dt>Docker</dt>
+            <dd>
+              Environnement d’exécution reproductible qui contient Python, les dépendances, le code et le seed, mais pas la clé Mistral.
+            </dd>
+            <dt>RAGAS</dt>
+            <dd>
+              Cadre d’évaluation du système RAG. Il sépare la qualité de la recherche, l’ancrage de la réponse et sa conformité à une référence.
+            </dd>
+            <dt>Fidélité 0,900</dt>
+            <dd>
+              Sur trois cas, la réponse est fortement soutenue par le contexte. Ce score n’affirme pas que 90 % de toutes les réponses futures sont correctes.
+            </dd>
+            <dt>Correction 0,683</dt>
+            <dd>
+              Les réponses restent seulement acceptables par rapport aux références humaines. C’est l’axe d’amélioration prioritaire.
+            </dd>
+          </dl>
+        </section>
+
+        <section class="chapter" id="jury">
+          <p class="chapter-label">Discussion — 10 minutes</p>
+          <h2>Mon jury blanc avec Jérémy</h2>
+          <p class="chapter-intro">
+            Je réponds d’abord directement, puis je cite une preuve du projet, je reconnais la limite et je propose
+            l’amélioration. J’évite les réponses de plus d’une minute.
+          </p>
+
+          <div class="phrase">
+            Ma structure mentale : « Mon choix est… parce que… Dans ce POC… La limite est… En production, je… »
+          </div>
+
+          <div class="qa-group">
+            <h3>Choix de modèle et architecture</h3>
+
+            <details class="qa-item">
+              <summary>1. Pourquoi utiliser un RAG plutôt qu’un LLM seul ?</summary>
+              <div class="answer">
+                <p class="short">
+                  J’utilise un RAG pour ancrer la réponse dans le catalogue OpenAgenda et rendre les recommandations vérifiables.
+                </p>
+                <p>
+                  Un LLM seul peut ne pas connaître les événements et peut en inventer. Mon système récupère d’abord
+                  des passages réels dans FAISS, puis Mistral rédige à partir de ce contexte. L’API renvoie aussi les
+                  métadonnées des sources.
+                </p>
+                <p class="limit">
+                  La limite actuelle est l’absence de seuil de similarité. J’ajouterais ce seuil et des filtres métier avant la génération.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>2. Pourquoi Mistral pour les embeddings et le chat ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Le brief demande Mistral, et ses intégrations LangChain couvrent directement l’embedding et la génération.
+                </p>
+                <p>
+                  <code>mistral-embed</code> est utilisé pour les vecteurs et <code>mistral-small-latest</code> pour
+                  un compromis coût, latence et qualité adapté au POC. En production, je comparerais plusieurs modèles
+                  sur le même benchmark avant de figer ce choix.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>3. Pourquoi FAISS plutôt qu’une base vectorielle serveur ?</summary>
+              <div class="answer">
+                <p class="short">
+                  FAISS est rapide, local, persistant et suffisant pour 14 903 chunks dans un POC mono-instance.
+                </p>
+                <p>
+                  Il réduit l’infrastructure et permet d’embarquer l’index avec Docker. Si le service devait fonctionner
+                  sur plusieurs instances, avec mises à jour concurrentes, contrôle d’accès et filtres complexes,
+                  je choisirais une base vectorielle serveur.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>4. Pourquoi LangChain ?</summary>
+              <div class="answer">
+                <p class="short">
+                  LangChain fournit les abstractions nécessaires pour le découpage, l’intégration Mistral, FAISS et le retriever.
+                </p>
+                <p>
+                  Je l’utilise comme couche d’orchestration, sans placer toute la logique métier dans une chaîne opaque.
+                  Les responsabilités restent séparées dans mes modules, ce qui facilite les tests et un éventuel remplacement.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>5. Pourquoi <code>top_k=4</code> ?</summary>
+              <div class="answer">
+                <p class="short">
+                  C’est un compromis de POC : assez de contexte pour couvrir plusieurs propositions, sans trop de bruit ni de tokens.
+                </p>
+                <p>
+                  Les résultats montrent que les références utiles sont bien classées sur les trois cas RAGAS. Je ne
+                  présente pas 4 comme une valeur optimale. Je testerais plusieurs <code>k</code> sur un jeu plus
+                  large, en mesurant rappel, précision, latence et coût.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>6. Pourquoi garder le retriever et le modèle en mémoire ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Pour éviter de recharger l’index et de réinitialiser le client Mistral à chaque requête.
+                </p>
+                <p>
+                  Le service les instancie à la première utilisation et les réutilise. Après <code>/rebuild</code>,
+                  il les invalide afin que la prochaine question recharge l’index mis à jour.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>7. Pourquoi FastAPI plutôt que Flask ?</summary>
+              <div class="answer">
+                <p class="short">
+                  FastAPI apporte la validation typée, une documentation Swagger automatique et une définition claire des contrats d’API.
+                </p>
+                <p>
+                  Ces avantages réduisent le code nécessaire pour un POC testable par les équipes produit. Flask
+                  aurait également convenu, mais aurait demandé davantage de configuration pour obtenir le même niveau de contrat.
+                </p>
+              </div>
+            </details>
+          </div>
+
+          <div class="qa-group">
+            <h3>Données et qualité des embeddings</h3>
+
+            <details class="qa-item">
+              <summary>8. Pourquoi avoir choisi Paris ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Paris offre un volume et une diversité d’événements suffisants pour tester le POC sans élargir inutilement le périmètre.
+                </p>
+                <p>
+                  Le filtre géographique produit 7 586 événements. Ce choix rend également le cas négatif de Lyon
+                  explicite. La prochaine étape métier serait un pilote multi-villes mesuré.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>9. Vos événements sont-ils réellement récents et à venir ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Le livrable contient un instantané collecté le 10 juillet 2026 sur une fenêtre d’un an, conforme au périmètre fixé pour le POC.
+                </p>
+                <p>
+                  Je reconnais qu’un seed figé perd sa fraîcheur avec le temps et que certains cas de démonstration
+                  sont désormais passés. Pour une exploitation réelle, je remplacerais ce snapshot par une collecte
+                  planifiée avec une fenêtre glissante vers les événements futurs, puis une réindexation incrémentale.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>10. Comment gérez-vous les données manquantes ou bruitées ?</summary>
+              <div class="answer">
+                <p class="short">
+                  La normalisation tolère les valeurs absentes et ne conserve pour l’indexation que les événements dont le texte utile n’est pas vide.
+                </p>
+                <p>
+                  Les champs sont nettoyés, le HTML est retiré et les métadonnées importantes sont normalisées. La
+                  limite est que certaines descriptions source restent promotionnelles ou incohérentes. J’ajouterais
+                  des règles de qualité, des statistiques de complétude et éventuellement une déduplication plus avancée.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>11. Pourquoi des chunks de 1000 caractères avec 200 de chevauchement ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Cette taille conserve un passage cohérent tout en permettant une recherche plus précise qu’un événement très long pris en bloc.
+                </p>
+                <p>
+                  Le chevauchement évite de couper une information importante à la frontière. C’est un paramétrage
+                  initial, pas un optimum prouvé. Je comparerais plusieurs tailles et recouvrements sur le benchmark métier.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>12. Comment vérifiez-vous que tous les événements sont indexés ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Le manifeste compare 7 586 événements d’entrée à 14 903 documents indexés, et le parquet des chunks permet une inspection.
+                </p>
+                <p>
+                  Les tests vérifient le schéma, les métadonnées, la persistance et le rechargement. Les identifiants
+                  de chunks relient chaque passage à son événement d’origine.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>13. Comment mesurez-vous la qualité des embeddings ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Je l’évalue indirectement par la qualité du classement des contextes et par la présence des titres attendus dans les sources.
+                </p>
+                <p>
+                  La précision du contexte RAGAS est de 1,000 sur trois cas, ce qui est encourageant mais insuffisant
+                  pour conclure globalement. Une étude plus robuste mesurerait rappel@k, précision@k et MRR sur un jeu
+                  de requêtes beaucoup plus large.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>14. Pourquoi ne pas filtrer directement par ville au moment de la recherche ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Le corpus du POC est déjà entièrement limité à Paris, donc le filtre n’était pas nécessaire pour le cas nominal.
+                </p>
+                <p>
+                  Le cas Lyon montre justement la limite de ce choix. Dans un corpus multi-villes, je parserais les
+                  contraintes explicites de la question et j’appliquerais des filtres de métadonnées avant la similarité vectorielle.
+                </p>
+              </div>
+            </details>
+          </div>
+
+          <div class="qa-group">
+            <h3>Évaluation des performances</h3>
+
+            <details class="qa-item">
+              <summary>15. Pourquoi seulement trois cas RAGAS ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Trois cas démontrent un pipeline RAGAS réel et reproductible, mais ne constituent pas une validation statistique.
+                </p>
+                <p>
+                  L’exécution implique plusieurs appels Mistral par métrique et a été séquentielle pour respecter le
+                  quota. Je considère ce volume comme une preuve de méthode. Pour un pilote, je construirais un jeu
+                  stratifié par ville, catégorie, saison, intention et cas négatif.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>16. Pourquoi dites-vous quatre cas annotés puis trois cas RAGAS ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Le jeu fonctionnel contient quatre cas, dont un cas négatif Lyon. Le sous-ensemble RAGAS contient les trois cas positifs évalués en profondeur.
+                </p>
+                <p>
+                  Les quatre cas servent aux métriques déterministes et aux scénarios directs/API/Docker. Les trois cas
+                  RAGAS calculent fidélité, pertinence, précision du contexte et correction. Je distingue donc deux niveaux d’évaluation complémentaires.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>17. Que signifie une fidélité moyenne de 0,900 ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Sur les trois exemples évalués, les affirmations générées sont fortement soutenues par les contextes transmis.
+                </p>
+                <p>
+                  Ce score ne signifie pas que le système est correct dans 90 % de tous les cas. Il porte sur un
+                  petit échantillon et doit être interprété avec les autres métriques et une revue humaine.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>18. Pourquoi la correction n’est-elle que de 0,683 ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Les réponses sont bien ancrées, mais elles ne reprennent pas toujours exactement les détails attendus par la référence humaine.
+                </p>
+                <p>
+                  Le cas famille est le plus difficile, car il faut agréger plusieurs propositions. J’améliorerais le
+                  prompt, la déduplication des événements et la structure de sortie, puis je réévaluerais sans dégrader la fidélité.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>19. Une précision du contexte de 1,000 signifie-t-elle que la recherche est parfaite ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Non. Elle signifie que les passages pertinents sont très bien classés sur les trois cas testés.
+                </p>
+                <p>
+                  L’échantillon est trop petit pour généraliser. Il ne couvre pas toutes les catégories, formulations,
+                  villes ou ambiguïtés. Je l’utilise comme signal encourageant, pas comme preuve de perfection.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>20. Pourquoi l’exact match est-il à zéro alors que les quatre réponses sont classées correctes ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Une réponse générative peut être correcte sans reprendre mot pour mot la référence humaine.
+                </p>
+                <p>
+                  L’exact match est trop strict pour ce cas d’usage. La classification fonctionnelle vérifie surtout
+                  les titres attendus, les sources et des éléments factuels. RAGAS apporte ensuite une évaluation
+                  sémantique plus fine.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>21. Utiliser Mistral pour générer et évaluer ne crée-t-il pas un biais ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Oui, un juge de la même famille peut partager certains biais avec le générateur.
+                </p>
+                <p>
+                  Pour ce POC, cela simplifie l’intégration et respecte le brief. Dans une évaluation mature, je
+                  combinerais plusieurs juges, des métriques déterministes et une annotation humaine en aveugle.
+                </p>
+              </div>
+            </details>
+          </div>
+
+          <div class="qa-group">
+            <h3>Limites, reproductibilité et industrialisation</h3>
+
+            <details class="qa-item">
+              <summary>22. Comment gérez-vous une question hors corpus ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Le prompt impose un refus lorsque le contexte ne permet pas de répondre, comme le montre le scénario Lyon.
+                </p>
+                <p>
+                  Aujourd’hui, FAISS retourne tout de même quatre voisins. J’ajouterais un seuil de score, des filtres
+                  de métadonnées et un refus déterministe avant l’appel au LLM.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>23. Pourquoi les sources parisiennes apparaissent-elles dans le cas Lyon ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Parce qu’une recherche par similarité sans seuil retourne toujours ses quatre voisins les plus proches.
+                </p>
+                <p>
+                  Le modèle comprend ensuite que ces voisins ne satisfont pas la ville demandée. Cette démonstration
+                  rend la limite visible et justifie l’ajout d’un seuil et de filtres en production.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>24. Comment protégez-vous les secrets ?</summary>
+              <div class="answer">
+                <p class="short">
+                  La clé se trouve dans <code>.env</code> ignoré par Git ou est injectée par l’environnement Docker.
+                </p>
+                <p>
+                  <code>.env.example</code> ne contient aucune valeur réelle et le Dockerfile ne copie pas la clé.
+                  Pour un déploiement, j’utiliserais un gestionnaire de secrets et une rotation des clés.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>25. L’endpoint <code>/rebuild</code> est-il sécurisé ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Il peut être protégé par un jeton <code>API_REBUILD_TOKEN</code> transmis dans l’en-tête <code>X-Admin-Token</code>.
+                </p>
+                <p>
+                  Dans l’environnement local actuel, ce jeton optionnel n’est pas configuré. Pour une exposition
+                  publique, je le rendrais obligatoire, j’ajouterais une authentification centralisée, des rôles, un
+                  audit et un déclenchement asynchrone plutôt qu’une reconstruction dans la requête HTTP.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>26. Le système fonctionne-t-il sans Internet ?</summary>
+              <div class="answer">
+                <p class="short">
+                  L’index FAISS et les données sont locaux, mais l’embedding des questions et la génération dépendent de l’API Mistral.
+                </p>
+                <p>
+                  Docker rend l’exécution reproductible, pas totalement hors ligne. Une version hors ligne utiliserait
+                  un modèle d’embedding et un LLM locaux, avec un coût matériel et une maintenance différents.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>27. Comment garantissez-vous la reproductibilité ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Les versions sont figées, les filtres et volumes sont tracés dans des manifestes, le seed est versionné et Docker fournit l’environnement d’exécution.
+                </p>
+                <p>
+                  Les tests sont isolés du réseau, tandis que les validations Mistral réelles sont explicitement
+                  séparées. Le rapport et le README donnent les commandes exactes pour reproduire chaque étape.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>28. Le système est-il prêt pour la production ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Non. Il s’agit d’un POC fonctionnel qui démontre la chaîne technique et la valeur métier.
+                </p>
+                <p>
+                  Une production nécessite authentification, gestion des secrets, supervision, quotas, tests de charge,
+                  collecte planifiée, réindexation incrémentale, benchmark étendu, reprise sur incident et stratégie de montée en charge.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>29. Quelle serait votre première amélioration métier ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Je construirais avec les équipes produit un jeu annoté plus représentatif, puis j’élargirais à quelques villes pilotes.
+                </p>
+                <p>
+                  Cela permettrait de mesurer les intentions réelles, les catégories importantes, les cas négatifs et
+                  la couverture avant d’investir dans une architecture plus complexe.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>30. Comment passeriez-vous à plusieurs instances de l’API ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Je sortirais l’index du conteneur vers un service vectoriel partagé et je rendrais les instances API stateless.
+                </p>
+                <p>
+                  J’ajouterais une file de tâches pour l’ingestion, un stockage d’artefacts versionnés, un cache, des
+                  métriques de latence et de qualité, puis un déploiement progressif avec tests de charge.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>31. Quel est le principal risque métier ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Le principal risque est de recommander une information obsolète, incomplète ou hors périmètre avec une formulation trop convaincante.
+                </p>
+                <p>
+                  Je le réduis par la fraîcheur des données, les sources visibles, le refus hors contexte, des filtres,
+                  un seuil, une évaluation continue et une interface qui invite l’utilisateur à vérifier le lien officiel.
+                </p>
+              </div>
+            </details>
+
+            <details class="qa-item">
+              <summary>32. Comment surveilleriez-vous le système en production ?</summary>
+              <div class="answer">
+                <p class="short">
+                  Je suivrais séparément la santé technique, la qualité du retrieval et la qualité des réponses.
+                </p>
+                <p>
+                  Les indicateurs incluraient latence, erreurs, quotas, coût, fraîcheur du corpus, taux de refus,
+                  distribution des scores de similarité, clics sur les sources et échantillons réévalués en continu.
+                  Les données utilisateur seraient journalisées avec une politique de confidentialité et de rétention claire.
+                </p>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="chapter" id="secours">
+          <p class="chapter-label">Gestion des incidents</p>
+          <h2>Si la démo échoue, je garde la maîtrise.</h2>
+          <p class="chapter-intro">
+            Je ne passe pas cinq minutes à déboguer devant le jury. Je nomme le problème, je montre une preuve préparée
+            et je poursuis la démonstration de la valeur.
+          </p>
+
+          <div class="grid-3">
+            <div class="panel">
+              <h3>L’API ne répond pas</h3>
+              <pre><code>docker compose ps
+docker compose up -d
+curl http://localhost:8000/health</code></pre>
+              <p>
+                Je dis : « Le conteneur redémarre. Pour ne pas consommer le temps de présentation, je vous montre la
+                sortie réelle enregistrée, puis je reviens sur l’architecture. »
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Mistral ou Internet échoue</h3>
+              <p>
+                Je montre <code>outputs/demo/demo_api_timing.json</code> et le résultat présent dans les slides 9 et 10.
+              </p>
+              <p>
+                Je précise que FAISS est local mais que la génération dépend de Mistral en ligne, limite déjà documentée.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Le terminal est illisible</h3>
+              <p>
+                J’agrandis avec <kbd>Ctrl</kbd> + <kbd>+</kbd>, ou je passe sur Swagger. Je ne relance pas une reconstruction.
+              </p>
+              <p>
+                Je peux aussi commenter directement les résultats attendus des slides, qui reprennent une exécution réelle.
+              </p>
+            </div>
+          </div>
+
+          <h3>Phrases de secours</h3>
+          <div class="phrase">
+            « Cette défaillance concerne la dépendance d’exécution, pas le principe du pipeline. Les tests, les résultats enregistrés et le rapport permettent de vérifier le comportement attendu. »
+          </div>
+          <div class="phrase">
+            « Je préfère poursuivre la présentation plutôt que modifier l’environnement en direct. Je pourrai revenir sur le diagnostic pendant le débrief. »
+          </div>
+          <div class="phrase">
+            « Je ne présente pas ce point comme résolu : c’est précisément une limite de production que j’ai identifiée et priorisée. »
+          </div>
+        </section>
+
+        <section class="chapter" id="final">
+          <p class="chapter-label">Juste avant l’appel</p>
+          <h2>Mes cinq dernières minutes</h2>
+          <p class="chapter-intro">
+            Je ne relis plus tout. Je sécurise le début, la démonstration, les chiffres et la conclusion.
+          </p>
+
+          <div class="final-card">
+            <h3>Je vérifie seulement ceci</h3>
+            <ul class="checklist">
+              <li>Ma première phrase : <strong>POC RAG complet pour Puls-Events</strong>.</li>
+              <li>Mes volumes : <strong>7 586 événements, 14 903 chunks</strong>.</li>
+              <li>Mon pipeline : <strong>OpenAgenda → Mistral embeddings → FAISS → Mistral chat → FastAPI → Docker</strong>.</li>
+              <li>Ma commande : <strong><code>bash scripts/demo_api_5min.sh</code></strong>.</li>
+              <li>Mes résultats : <strong>fidélité 0,900 ; pertinence 0,846 ; contexte 1,000 ; correction 0,683</strong>.</li>
+              <li>Ma limite centrale : <strong>petit jeu d’évaluation et corpus figé</strong>.</li>
+              <li>Ma priorité : <strong>jeu annoté élargi, seuil de similarité, collecte planifiée</strong>.</li>
+              <li>Ma conclusion : <strong>faisabilité démontrée, étapes de production identifiées</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="alert good">
+            <strong>Mon état d’esprit.</strong>
+            Je ne dois pas connaître chaque ligne de code par cœur. Je dois expliquer mes choix, montrer les preuves,
+            reconnaître les limites et proposer la suite logique. C’est exactement ce que fait un data scientist face
+            à un responsable technique.
+          </div>
+
+          <p class="phrase">
+            « J’ai construit un POC complet, je sais ce qu’il démontre, je sais ce qu’il ne démontre pas encore, et je sais comment passer à l’étape suivante. »
+          </p>
+
+          <a class="back-top" href="#top">Retour en haut ↑</a>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
