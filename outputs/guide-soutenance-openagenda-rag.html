@@ -127,6 +127,46 @@
       border-radius: 0 10px 10px 0;
       background: var(--coral-soft);
     }
+    .screen-flow {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .screen-step {
+      overflow: hidden;
+      border: 2px solid var(--ink);
+      border-radius: 16px;
+      background: var(--card);
+    }
+    .screen-label {
+      margin: 0;
+      padding: .75rem 1rem;
+      background: var(--ink);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 850;
+      letter-spacing: .05em;
+    }
+    .screen-content {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .screen-content > div { padding: 1rem 1.15rem; border-bottom: 1px solid var(--line); }
+    .screen-content > div:nth-child(odd) { border-right: 1px solid var(--line); }
+    .screen-content h3 {
+      margin-bottom: .4rem;
+      color: var(--teal);
+      font-size: .82rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .screen-content p { margin-bottom: 0; }
+    .switch-screen {
+      padding: .9rem 1.15rem;
+      background: var(--coral-soft);
+      color: var(--coral);
+      font-weight: 850;
+    }
 
     .step {
       margin: 1.5rem 0 2.4rem;
@@ -235,6 +275,8 @@
       .hero { min-height: auto; padding: 3rem 1.2rem; }
       .chapter { padding: 3rem 1rem; }
       .grid-2, .grid-3, .step-body { grid-template-columns: 1fr; }
+      .screen-content { grid-template-columns: 1fr; }
+      .screen-content > div { border-right: 0 !important; }
       .note { border-right: 0 !important; }
       .step-head { display: block; }
       .step-head span { display: block; margin-bottom: .35rem; }
@@ -254,6 +296,7 @@
     <aside class="nav" aria-label="Sommaire">
       <strong>Guide de soutenance</strong>
       <ul>
+        <li><a href="#mode-guide">MODE GUIDÉ — commencer ici</a></li>
         <li><a href="#avant-appel">Avant de commencer</a></li>
         <li><a href="#slide-1">01 · Mission</a></li>
         <li><a href="#slide-2">02 · Pourquoi le RAG</a></li>
@@ -292,6 +335,89 @@
           <span class="fact">RAGAS réel</span>
         </div>
       </header>
+
+      <section class="chapter" id="mode-guide">
+        <p class="eyebrow">Commencer ici · conducteur très simple</p>
+        <h2>Quel écran dois-je montrer, et quand ?</h2>
+        <p class="intro">
+          Je suis uniquement ces six étapes. Le HTML reste ouvert sur mon ordinateur comme antisèche, mais je ne le
+          partage avec le jury qu’au moment des questions. Je prépare toutes les fenêtres avant l’appel pour passer
+          de l’une à l’autre avec <code>Alt + Tab</code>.
+        </p>
+
+        <div class="alert">
+          <strong>Ordre à retenir :</strong> PowerPoint → VS Code/terminal → PowerPoint → rapport PDF → dépôt
+          GitHub → HTML pour les questions.
+        </div>
+
+        <div class="screen-flow">
+          <article class="screen-step">
+            <p class="screen-label">ÉCRAN 1 — POWERPOINT</p>
+            <div class="screen-content">
+              <div><h3>Ce que j’ouvre</h3><p>Le diaporama <code>openagenda-rag-soutenance.pptx</code>, en plein écran, sur la slide 1.</p></div>
+              <div><h3>Ce que je fais</h3><p>Je présente normalement les slides 1 à 7. Je ne montre encore ni le rapport, ni GitHub, ni le code.</p></div>
+              <div><h3>Ce que je dis</h3><p>J’utilise les scripts des slides 1 à 7 : mission, raison du RAG, fonctionnement, données, architecture, indexation puis API et Docker.</p></div>
+              <div><h3>Quand je change d’écran</h3><p>Après la slide 7, j’avance sur la slide 8 intitulée « La démo prouve le résultat », puis je dis : « Je vais maintenant vous montrer l’API en fonctionnement. »</p></div>
+            </div>
+            <div class="switch-screen">ENSUITE : Alt + Tab → VS Code ou terminal déjà ouvert.</div>
+          </article>
+
+          <article class="screen-step">
+            <p class="screen-label">ÉCRAN 2 — VS CODE ET TERMINAL</p>
+            <div class="screen-content">
+              <div><h3>Ce que j’ouvre</h3><p>VS Code sur le projet, avec le terminal visible. Je n’ouvre jamais <code>.env</code>. La commande de démo est déjà préparée.</p></div>
+              <div><h3>Ce que je fais</h3><p>Je lance <code>bash scripts/demo_api_5min.sh</code>. Je laisse le script vérifier Docker, appeler health, puis exécuter les scénarios Paris et Lyon.</p></div>
+              <div><h3>Ce que je dis</h3><p>« Je vérifie d’abord que l’API est saine. Le premier cas interroge le périmètre Paris et doit fournir une réponse avec quatre sources. Le second cas demande Lyon, hors de mon corpus : j’attends une réponse prudente et aucune invention. »</p></div>
+              <div><h3>Quand je change d’écran</h3><p>Dès que les deux résultats et le temps total sont visibles. Je pointe une réponse et une URL, puis je dis : « Cette démo montre le résultat ; je reviens maintenant à la méthode d’évaluation. »</p></div>
+            </div>
+            <div class="switch-screen">ENSUITE : Alt + Tab → retour au PowerPoint, slide 9.</div>
+          </article>
+
+          <article class="screen-step">
+            <p class="screen-label">ÉCRAN 3 — POWERPOINT</p>
+            <div class="screen-content">
+              <div><h3>Ce que j’ouvre</h3><p>Je reprends le diaporama directement sur la slide 9. Je vérifie avant l’appel que le retour ne redémarre pas à la slide 1.</p></div>
+              <div><h3>Ce que je fais</h3><p>Je présente les slides 9 à 12 : méthode d’évaluation, résultats, limites et recommandation.</p></div>
+              <div><h3>Ce que je dis</h3><p>Je termine par : « La faisabilité technique et métier est démontrée. La prochaine étape recommandée est un pilote multi-villes mesuré. »</p></div>
+              <div><h3>Quand je change d’écran</h3><p>À la fin de la slide 12, je ne lance pas encore les questions. Je dis : « Avant de conclure, je vous montre rapidement où sont documentées et organisées les preuves du projet. »</p></div>
+            </div>
+            <div class="switch-screen">ENSUITE : Alt + Tab → rapport technique PDF.</div>
+          </article>
+
+          <article class="screen-step">
+            <p class="screen-label">ÉCRAN 4 — RAPPORT PDF</p>
+            <div class="screen-content">
+              <div><h3>Ce que j’ouvre</h3><p><code>outputs/rapport-technique-openagenda-rag.pdf</code>, déjà placé sur le sommaire ou la première page utile.</p></div>
+              <div><h3>Ce que je fais</h3><p>Je montre seulement le sommaire, puis éventuellement la page des résultats. Je ne lis pas le rapport et je n’y passe pas plus de 25 secondes.</p></div>
+              <div><h3>Ce que je dis</h3><p>« Le rapport documente l’architecture, les choix technologiques, le protocole d’évaluation, les résultats, les limites et les pistes d’amélioration. Il permet de retrouver les preuves présentées à l’oral. »</p></div>
+              <div><h3>Quand je change d’écran</h3><p>Après avoir montré le sommaire et les résultats. Je dis : « Le dépôt contient maintenant tout ce qui permet de reproduire cette chaîne. »</p></div>
+            </div>
+            <div class="switch-screen">ENSUITE : Alt + Tab → GitHub dans le navigateur, ou explorateur VS Code si GitHub n’est pas ouvert.</div>
+          </article>
+
+          <article class="screen-step">
+            <p class="screen-label">ÉCRAN 5 — GITHUB OU DÉPÔT LOCAL</p>
+            <div class="screen-content">
+              <div><h3>Ce que j’ouvre</h3><p>La page principale du dépôt GitHub. Si elle n’est pas disponible, j’utilise l’explorateur de fichiers de VS Code sur la racine du projet.</p></div>
+              <div><h3>Ce que je fais</h3><p>Je pointe uniquement <code>README.md</code>, <code>src/</code>, <code>scripts/</code>, <code>tests/</code>, les données d’évaluation et <code>docker-compose.yml</code>.</p></div>
+              <div><h3>Ce que je dis</h3><p>« Le README donne le lancement rapide. Le code applicatif est dans src, les traitements reproductibles dans scripts, les contrôles dans tests, et Docker Compose permet de lancer l’API. »</p></div>
+              <div><h3>Quand je change d’écran</h3><p>Après 30 à 40 secondes. Je ne parcours pas le code sauf demande du jury. Je dis : « J’ai terminé la présentation des livrables. Je suis prêt à répondre à vos questions. »</p></div>
+            </div>
+            <div class="switch-screen">ENSUITE : arrêter le partage si nécessaire, puis ouvrir le HTML sur la section Questions du jury.</div>
+          </article>
+
+          <article class="screen-step">
+            <p class="screen-label">ÉCRAN 6 — HTML</p>
+            <div class="screen-content">
+              <div><h3>Ce que j’ouvre</h3><p>Ce guide, directement sur <a href="#questions-jury">Questions du jury</a>. Cet écran est surtout pour moi ; je peux le garder hors du partage.</p></div>
+              <div><h3>Ce que je fais</h3><p>J’écoute la question en entier. Je lis d’abord « Réponse courte ». Je n’utilise « Si le jury insiste » que si l’évaluateur relance.</p></div>
+              <div><h3>Ce que je dis</h3><p>Je réponds dans cet ordre : décision, justification, limite et amélioration. Je ne recommence pas toute la présentation.</p></div>
+              <div><h3>Quand je change d’écran</h3><p>Seulement si Jérémy demande une preuve précise. J’ouvre alors le fichier concerné, je réponds, puis je reviens au HTML pour la question suivante.</p></div>
+            </div>
+            <div class="switch-screen">FIN : discussion de 10 minutes, puis débrief de 5 minutes.</div>
+          </article>
+        </div>
+      </section>
 
       <section class="chapter" id="avant-appel">
         <p class="eyebrow">Préparation immédiate</p>
