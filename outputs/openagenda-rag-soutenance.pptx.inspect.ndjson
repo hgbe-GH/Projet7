@@ -1,188 +1,396 @@
-{"kind":"deck","id":"pr/270i9i","name":"Deck"}
+{"kind":"deck","id":"pr/hi95fj","name":"Deck"}
 {"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"Master","type":"master"}
 {"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title"}
-{"kind":"slide","id":"sl/2x4nap4r","slide":1,"title":"Peut-on recommander sans inventer ?","textShapes":6}
-{"kind":"shape","id":"sh/nap4r65w","slide":1,"bbox":[760,58,420,604]}
-{"kind":"shape","id":"sh/cvixczed","slide":1,"bbox":[72,112,132,8]}
-{"kind":"textbox","id":"sh/5gbq1ory","slide":1,"text":"Peut-on recommander sans inventer ?","textPreview":"Peut-on recommander sans inventer ?","textChars":35,"textLines":1,"bbox":[72,152,620,190]}
-{"kind":"textbox","id":"sh/udg7adsj","slide":1,"text":"Le POC RAG de Puls-Events apporte des réponses culturelles vérifiables.","textPreview":"Le POC RAG de Puls-Events apporte des réponses culturelles vérifiables.","textChars":71,"textLines":1,"bbox":[72,360,560,120]}
-{"kind":"textbox","id":"sh/nyd0z610","slide":1,"text":"Soutenance · reprise","textPreview":"Soutenance · reprise","textChars":20,"textLines":1,"bbox":[72,560,260,42]}
-{"kind":"textbox","id":"sh/cj6tovah","slide":1,"text":"Preuves apportées","textPreview":"Preuves apportées","textChars":17,"textLines":1,"bbox":[808,106,320,54]}
-{"kind":"textbox","id":"sh/54zidony","slide":1,"text":"7 586\névénements\n\n14 903\npassages\n\n59 tests","textPreview":"7 586 | événements |  | 14 903 | passages |  | 59 tests","textChars":43,"textLines":7,"bbox":[808,174,320,290]}
-{"kind":"textbox","id":"sh/u9knih4b","slide":1,"text":"Décision : un pilote mesuré.","textPreview":"Décision : un pilote mesuré.","textChars":28,"textLines":1,"bbox":[808,520,320,80]}
-{"kind":"notes","id":"nt/2x4nap4r","slide":1,"text":"Durée cible : 50 secondes.\nBonjour Jérémy. Je vais vous présenter le POC que j’ai réalisé pour répondre à une question simple : Puls-Events peut-il proposer un assistant qui recommande des événements réels, sans les inventer ?\nLe résultat n’est pas seulement un chatbot. J’ai préparé 7 586 événements OpenAgenda, produit 14 903 passages recherchables, construit une API Docker et couvert la chaîne par 59 tests automatisés.\nMon objectif aujourd’hui est de vous montrer la méthode, les preuves et les limites afin de vous proposer une décision de suite réaliste : un pilote mesuré, et non une mise en production immédiate.\nTransition : pour comprendre ce choix, je pars du risque métier à éviter."}
-{"kind":"slide","id":"sl/pg3ex0nu","slide":2,"title":"CONTEXTE","textShapes":10}
-{"kind":"textbox","id":"sh/yxobm58z","slide":2,"text":"CONTEXTE","textPreview":"CONTEXTE","textChars":8,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/5o7qpg3e","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/g3ex0nux","slide":2,"text":"Le RAG rend chaque recommandation vérifiable","textPreview":"Le RAG rend chaque recommandation vérifiable","textChars":44,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/r65wjudg","slide":2,"text":"Le bon compromis : comprendre la demande sans inventer un événement.","textPreview":"Le bon compromis : comprendre la demande sans inventer un événement.","textChars":68,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/ylc7u54z","slide":2,"bbox":[72,218,340,360]}
-{"kind":"textbox","id":"sh/9cvixcze","slide":2,"text":"1 · Mots-clés","textPreview":"1 · Mots-clés","textChars":13,"textLines":1,"bbox":[96,238,292,32]}
-{"kind":"textbox","id":"sh/gr2p8nqx","slide":2,"text":"Trouve un mot\n\nmais rate\nl’intention","textPreview":"Trouve un mot |  | mais rate | l’intention","textChars":36,"textLines":4,"bbox":[96,282,292,272]}
-{"kind":"shape","id":"sh/rytsvu9k","slide":2,"bbox":[436,218,340,360]}
-{"kind":"textbox","id":"sh/yd0z6103","slide":2,"text":"2 · LLM seul","textPreview":"2 · LLM seul","textChars":12,"textLines":1,"bbox":[460,238,292,32]}
-{"kind":"textbox","id":"sh/wb2hwfyx","slide":2,"text":"Réponse fluide\n\nmais risque\nd’invention","textPreview":"Réponse fluide |  | mais risque | d’invention","textChars":39,"textLines":4,"bbox":[460,282,292,272]}
-{"kind":"shape","id":"sh/lwval87e","slide":2,"bbox":[800,218,408,360]}
-{"kind":"textbox","id":"sh/e9cvixcz","slide":2,"text":"3 · RAG","textPreview":"3 · RAG","textChars":7,"textLines":1,"bbox":[824,238,360,32]}
-{"kind":"textbox","id":"sh/3q5o7qpg","slide":2,"text":"Recherche\n+ sources\n= réponse fiable","textPreview":"Recherche | + sources | = réponse fiable","textChars":36,"textLines":3,"bbox":[824,282,360,272]}
-{"kind":"notes","id":"nt/pg3ex0nu","slide":2,"text":"Durée cible : 60 secondes.\nUn utilisateur ne formule pas sa demande avec les mots exacts du catalogue. Il peut demander une sortie calme, une activité avec des enfants ou un concert électro sans connaître le titre de l’événement.\nUne recherche par mots-clés est utile pour des filtres précis, mais elle comprend mal les variantes de formulation. À l’inverse, un LLM seul est agréable à utiliser mais ne connaît pas naturellement le catalogue Puls-Events : il peut produire une recommandation plausible mais fausse.\nLe RAG combine les deux. Il cherche d’abord dans les données réelles, puis il demande au modèle de formuler une réponse à partir du contexte retrouvé. Les sources restent visibles. Le RAG ne garantit pas zéro erreur ; il réduit le risque et rend le résultat contrôlable.\nTransition : cette qualité dépend d’abord de la qualité des données préparées."}
-{"kind":"slide","id":"sl/s72x4nap","slide":3,"title":"DONNÉES","textShapes":10}
-{"kind":"textbox","id":"sh/vmtwra5g","slide":3,"text":"DONNÉES","textPreview":"DONNÉES","textChars":7,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/o7qpg3ex","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/dsji5sne","slide":3,"text":"Je transforme un flux brut en corpus fiable","textPreview":"Je transforme un flux brut en corpus fiable","textChars":43,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/6dcbulwv","slide":3,"text":"Une recommandation ne peut être fiable que si ses données sont propres et traçables.","textPreview":"Une recommandation ne peut être fiable que si ses données sont propres et traçables.","textChars":84,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/vy90je9c","slide":3,"bbox":[72,214,360,330]}
-{"kind":"textbox","id":"sh/oj2t83it","slide":3,"text":"Flux brut","textPreview":"Flux brut","textChars":9,"textLines":1,"bbox":[96,234,312,32]}
-{"kind":"textbox","id":"sh/d4vmtwra","slide":3,"text":"HTML\nchamps absents\ndoublons","textPreview":"HTML | champs absents | doublons","textChars":28,"textLines":3,"bbox":[96,278,312,242]}
-{"kind":"shape","id":"sh/6hcrmhk3","slide":3,"bbox":[460,214,330,330]}
-{"kind":"textbox","id":"sh/z25kb6xk","slide":3,"text":"Préparation","textPreview":"Préparation","textChars":11,"textLines":1,"bbox":[484,234,282,32]}
-{"kind":"textbox","id":"sh/vy90je9c","slide":3,"text":"Paris\n< 1 an\nnormaliser\ndédupliquer","textPreview":"Paris | < 1 an | normaliser | dédupliquer","textChars":35,"textLines":4,"bbox":[484,278,282,242]}
-{"kind":"shape","id":"sh/6dcbulwv","slide":3,"bbox":[818,214,390,330]}
-{"kind":"textbox","id":"sh/d4vmtwra","slide":3,"text":"Corpus prêt","textPreview":"Corpus prêt","textChars":11,"textLines":1,"bbox":[842,234,342,32]}
-{"kind":"textbox","id":"sh/oj2t83it","slide":3,"text":"7 586\nfiches fiables\n\n+ métadonnées\nsource","textPreview":"7 586 | fiches fiables |  | + métadonnées | source","textChars":42,"textLines":5,"bbox":[842,278,342,242]}
-{"kind":"notes","id":"nt/s72x4nap","slide":3,"text":"Durée cible : 70 secondes.\nJe pars d’OpenAgenda via son miroir Opendatasoft. Le flux est public et riche, mais il n’est pas directement prêt pour un RAG : les descriptions peuvent contenir du HTML, certains champs sont absents, les formats sont hétérogènes et plusieurs lignes peuvent correspondre au même événement.\nMon script applique d’abord le périmètre choisi : Paris et une fenêtre d’un an, du 10 juillet 2025 au 10 juillet 2026. Ensuite il nettoie les textes, retire le HTML, harmonise les valeurs de lieu, dates et catégories, puis déduplique avec event_uid.\nJe ne garde pas seulement une description : je conserve les métadonnées qui permettront de prouver une recommandation, notamment le titre, le lieu, la date et l’URL. Le résultat est un snapshot de 7 586 événements. Il est reproductible, mais il n’est pas encore actualisé automatiquement : c’est une limite assumée que je traiterai plus tard.\nTransition : je vais maintenant montrer comment un de ces événements devient recherché par le sens."}
-{"kind":"slide","id":"sl/val87ed8","slide":4,"title":"INDEXATION","textShapes":10}
-{"kind":"textbox","id":"sh/1gvy90je","slide":4,"text":"INDEXATION","textPreview":"INDEXATION","textChars":10,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/qtcj6tov","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/je9cvixc","slide":4,"text":"Un événement long devient un contexte précis","textPreview":"Un événement long devient un contexte précis","textChars":44,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/87ed8bat","slide":4,"text":"Zoom sur CHIMERE : la recherche porte sur les passages pertinents, pas sur 10 273 caractères d’un bloc.","textPreview":"Zoom sur CHIMERE : la recherche porte sur les passages pertinents, pas sur 10 273 caractères d’un bloc.","textChars":103,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/xs72x4na","slide":4,"bbox":[72,220,360,320]}
-{"kind":"textbox","id":"sh/q1orytsv","slide":4,"text":"CHIMERE","textPreview":"CHIMERE","textChars":7,"textLines":1,"bbox":[96,240,312,32]}
-{"kind":"textbox","id":"sh/fmlkjm1c","slide":4,"text":"10 273\ncaractères\n\n1 fiche\ntrès longue","textPreview":"10 273 | caractères |  | 1 fiche | très longue","textChars":38,"textLines":5,"bbox":[96,284,312,232]}
-{"kind":"shape","id":"sh/8jqh0fep","slide":4,"bbox":[460,220,350,320]}
-{"kind":"textbox","id":"sh/x4nap4r6","slide":4,"text":"Découper","textPreview":"Découper","textChars":8,"textLines":1,"bbox":[484,240,302,32]}
-{"kind":"textbox","id":"sh/1w7mp0bi","slide":4,"text":"1 000 signes\n\n200 de\nchevauchement\n\n→ contexte gardé","textPreview":"1 000 signes |  | 200 de | chevauchement |  | → contexte gardé","textChars":52,"textLines":6,"bbox":[484,284,302,232]}
-{"kind":"shape","id":"sh/8bat47y1","slide":4,"bbox":[838,220,370,320]}
-{"kind":"textbox","id":"sh/jqh0fepk","slide":4,"text":"Retrouver","textPreview":"Retrouver","textChars":9,"textLines":1,"bbox":[862,240,322,32]}
-{"kind":"textbox","id":"sh/q5o7qpg3","slide":4,"text":"mistral-embed\n\n14 903\npassages FAISS\n\n+ date · lieu · URL","textPreview":"mistral-embed |  | 14 903 | passages FAISS |  | + date · lieu · URL","textChars":57,"textLines":6,"bbox":[862,284,322,232]}
-{"kind":"notes","id":"nt/val87ed8","slide":4,"text":"Durée cible : 70 secondes.\nVoici un exemple concret avec l’événement CHIMERE. Sa description préparée contient 10 273 caractères. La chercher en entier réduirait la précision et l’envoyer en entier au modèle augmenterait inutilement le contexte.\nJe découpe donc ce texte en passages. La taille cible est de 1 000 caractères et le chevauchement est de 200 caractères. Le chevauchement signifie qu’une zone de fin de chunk est reprise au début du suivant. Ainsi, une information comme une date ou un lieu ne disparaît pas si elle se trouve à la frontière.\nChaque passage est envoyé à mistral-embed, qui le représente par un vecteur de 1 024 nombres. Ces nombres ne sont pas une réponse : ils servent à comparer le sens des textes. FAISS stocke ces vecteurs et retrouve les passages proches de la question. Les métadonnées restent liées au passage pour pouvoir revenir à la source.\nCes paramètres sont des choix de POC à calibrer. Je ne prétends pas qu’ils sont optimaux : je les comparerais sur un jeu d’évaluation plus grand.\nTransition : une fois les bons passages retrouvés, je dois encadrer ce que le modèle a le droit de dire."}
-{"kind":"slide","id":"sl/mlkjm1cf","slide":5,"title":"FONCTIONNEMENT","textShapes":11}
-{"kind":"textbox","id":"sh/vahoza1g","slide":5,"text":"FONCTIONNEMENT","textPreview":"FONCTIONNEMENT","textChars":14,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/ovahoza1","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/dg7adsji","slide":5,"text":"La réponse est limitée à ce que les sources prouvent","textPreview":"La réponse est limitée à ce que les sources prouvent","textChars":52,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/6hcrmhk3","slide":5,"text":"Le modèle n’invente pas le catalogue : il consulte les passages retrouvés avant de répondre.","textPreview":"Le modèle n’invente pas le catalogue : il consulte les passages retrouvés avant de répondre.","textChars":92,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/z25kb6xk","slide":5,"bbox":[72,230,320,260]}
-{"kind":"textbox","id":"sh/onyd0z61","slide":5,"text":"1 · Rechercher","textPreview":"1 · Rechercher","textChars":14,"textLines":1,"bbox":[96,250,272,32]}
-{"kind":"textbox","id":"sh/d8v6psfi","slide":5,"text":"Question\n\nFAISS\n\ntop_k = 4","textPreview":"Question |  | FAISS |  | top_k = 4","textChars":26,"textLines":5,"bbox":[96,294,272,172]}
-{"kind":"shape","id":"sh/6dcbulwv","slide":5,"bbox":[480,230,320,260]}
-{"kind":"textbox","id":"sh/vy90je9c","slide":5,"text":"2 · Encadrer","textPreview":"2 · Encadrer","textChars":12,"textLines":1,"bbox":[504,250,272,32]}
-{"kind":"textbox","id":"sh/nuxc3ylc","slide":5,"text":"Sources\ntitre · date · lieu\n\nSinon :\n« Je ne sais pas »","textPreview":"Sources | titre · date · lieu |  | Sinon : | « Je ne sais pas »","textChars":55,"textLines":5,"bbox":[504,294,272,172]}
-{"kind":"shape","id":"sh/y90je9cv","slide":5,"bbox":[888,230,320,260]}
-{"kind":"textbox","id":"sh/5wjudg7a","slide":5,"text":"3 · Répondre","textPreview":"3 · Répondre","textChars":12,"textLines":1,"bbox":[912,250,272,32]}
-{"kind":"textbox","id":"sh/gbq1oryt","slide":5,"text":"Mistral Small\n\nT = 0,1\n\nfrançais\n+ liens","textPreview":"Mistral Small |  | T = 0,1 |  | français | + liens","textChars":40,"textLines":6,"bbox":[912,294,272,172]}
-{"kind":"textbox","id":"sh/n29gr2p8","slide":5,"text":"Le retriever retrouve les faits. Le LLM les reformule.","textPreview":"Le retriever retrouve les faits. Le LLM les reformule.","textChars":54,"textLines":1,"bbox":[72,540,1136,60]}
-{"kind":"notes","id":"nt/mlkjm1cf","slide":5,"text":"Durée cible : 65 secondes.\nLa question de l’utilisateur passe d’abord dans le même modèle d’embedding que les chunks. FAISS compare alors son vecteur aux 14 903 passages et retourne les quatre voisins les plus proches : top_k vaut 4.\nLe code construit ensuite le prompt. Il comporte un message système très clair : répondre uniquement à partir du contexte, dire qu’il ne sait pas lorsque le contexte est insuffisant, citer les titres, les lieux, les dates et les URLs quand ils existent, et ne jamais inventer un événement, une date ou un lien.\nLe prompt utilisateur ajoute les quatre passages, avec leurs métadonnées, puis la question. Mistral Small rédige la réponse. J’ai choisi mistral-embed pour la recherche sémantique et mistral-small-latest pour la génération : le premier retrouve, le second reformule. La température à 0,1 stabilise la démonstration.\nTransition : ces traitements sont organisés dans une architecture où chaque responsabilité est séparée."}
-{"kind":"slide","id":"sl/58z25kb6","slide":6,"title":"ARCHITECTURE","textShapes":22}
-{"kind":"textbox","id":"sh/9cvixcze","slide":6,"text":"ARCHITECTURE","textPreview":"ARCHITECTURE","textChars":12,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/ylc7u54z","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/r65wjudg","slide":6,"text":"Deux temps : préparer une fois, répondre à la demande","textPreview":"Deux temps : préparer une fois, répondre à la demande","textChars":53,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/g3ex0nux","slide":6,"text":"La séparation hors ligne / en ligne rend le système plus rapide, testable et reproductible.","textPreview":"La séparation hors ligne / en ligne rend le système plus rapide, testable et reproductible.","textChars":91,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/5o7qpg3e","slide":6,"bbox":[72,250,164,210]}
-{"kind":"textbox","id":"sh/yxobm58z","slide":6,"text":"Collecter","textPreview":"Collecter","textChars":9,"textLines":1,"bbox":[96,270,116,32]}
-{"kind":"textbox","id":"sh/nih4byhg","slide":6,"text":"source","textPreview":"source","textChars":6,"textLines":1,"bbox":[96,314,116,122]}
-{"kind":"textbox","id":"sh/g7adsji5","slide":6,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[242,332,24,24]}
-{"kind":"shape","id":"sh/9s36hcrm","slide":6,"bbox":[254,250,164,210]}
-{"kind":"textbox","id":"sh/d8v6psfi","slide":6,"text":"Nettoyer","textPreview":"Nettoyer","textChars":8,"textLines":1,"bbox":[278,270,116,32]}
-{"kind":"textbox","id":"sh/onyd0z61","slide":6,"text":"fiabiliser","textPreview":"fiabiliser","textChars":10,"textLines":1,"bbox":[278,314,116,122]}
-{"kind":"textbox","id":"sh/z25kb6xk","slide":6,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[424,332,24,24]}
-{"kind":"shape","id":"sh/6hcrmhk3","slide":6,"bbox":[436,250,164,210]}
-{"kind":"textbox","id":"sh/dg7adsji","slide":6,"text":"Indexer","textPreview":"Indexer","textChars":7,"textLines":1,"bbox":[460,270,116,32]}
-{"kind":"textbox","id":"sh/ovahoza1","slide":6,"text":"chunks\nFAISS","textPreview":"chunks | FAISS","textChars":12,"textLines":2,"bbox":[460,314,116,122]}
-{"kind":"textbox","id":"sh/vahoza1g","slide":6,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[606,332,24,24]}
-{"kind":"shape","id":"sh/6tovahoz","slide":6,"bbox":[618,250,164,210]}
-{"kind":"textbox","id":"sh/dsji5sne","slide":6,"text":"Rechercher","textPreview":"Rechercher","textChars":10,"textLines":1,"bbox":[642,270,116,32]}
-{"kind":"textbox","id":"sh/o7qpg3ex","slide":6,"text":"top_k=4","textPreview":"top_k=4","textChars":7,"textLines":1,"bbox":[642,314,116,122]}
-{"kind":"textbox","id":"sh/kjm1cfa9","slide":6,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[788,332,24,24]}
-{"kind":"shape","id":"sh/94fu18jq","slide":6,"bbox":[800,250,164,210]}
-{"kind":"textbox","id":"sh/2hwfyxob","slide":6,"text":"Répondre","textPreview":"Répondre","textChars":8,"textLines":1,"bbox":[824,270,116,32]}
-{"kind":"textbox","id":"sh/r2p8nqxs","slide":6,"text":"Mistral","textPreview":"Mistral","textChars":7,"textLines":1,"bbox":[824,314,116,122]}
-{"kind":"textbox","id":"sh/gvy90je9","slide":6,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[970,332,24,24]}
-{"kind":"shape","id":"sh/9gr2p8nq","slide":6,"bbox":[982,250,164,210]}
-{"kind":"textbox","id":"sh/2p8nqxs7","slide":6,"text":"Exposer","textPreview":"Exposer","textChars":7,"textLines":1,"bbox":[1006,270,116,32]}
-{"kind":"textbox","id":"sh/ra5gbq1o","slide":6,"text":"FastAPI","textPreview":"FastAPI","textChars":7,"textLines":1,"bbox":[1006,314,116,122]}
-{"kind":"textbox","id":"sh/kzupwb2h","slide":6,"text":"Hors ligne : données → index.  En ligne : question → réponse sourcée.","textPreview":"Hors ligne : données → index.  En ligne : question → réponse sourcée.","textChars":69,"textLines":1,"bbox":[72,520,1136,74]}
-{"kind":"notes","id":"nt/58z25kb6","slide":6,"text":"Durée cible : 55 secondes.\nCette slide sépare les traitements hors ligne et la réponse en ligne. Hors ligne, je collecte, nettoie et indexe. Ces étapes peuvent prendre du temps mais elles sont reproductibles et n’ont pas à être relancées lorsqu’un utilisateur pose une question.\nEn ligne, FastAPI charge l’index persistant, le retriever FAISS et le modèle de chat. Une requête utilise donc uniquement la recherche, le prompt et la génération. Cette séparation réduit la latence et rend chaque brique testable : je peux tester la normalisation sans Mistral, l’indexation sur un petit corpus, puis le contrat API indépendamment.\nTransition : le résultat de cette architecture est une API exploitable et conteneurisée."}
-{"kind":"slide","id":"sl/0z61032l","slide":7,"title":"APPLICATION","textShapes":10}
-{"kind":"textbox","id":"sh/qd4vmtwr","slide":7,"text":"APPLICATION","textPreview":"APPLICATION","textChars":11,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/x4nap4r6","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/8jqh0fep","slide":7,"text":"L’API transforme la chaîne RAG en service utilisable","textPreview":"L’API transforme la chaîne RAG en service utilisable","textChars":52,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/fa9w3m94","slide":7,"text":"Le front n’a besoin que d’une question ; l’API gère la recherche, la réponse et les sources.","textPreview":"Le front n’a besoin que d’une question ; l’API gère la recherche, la réponse et les sources.","textChars":92,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/qpg3ex0n","slide":7,"bbox":[72,220,330,320]}
-{"kind":"textbox","id":"sh/xczed8v6","slide":7,"text":"Demander","textPreview":"Demander","textChars":8,"textLines":1,"bbox":[96,240,282,32]}
-{"kind":"textbox","id":"sh/8v6psfil","slide":7,"text":"POST /ask\n\nquestion\n↓\nréponse + sources","textPreview":"POST /ask |  | question | ↓ | réponse + sources","textChars":39,"textLines":5,"bbox":[96,284,282,232]}
-{"kind":"shape","id":"sh/je9cvixc","slide":7,"bbox":[430,220,330,320]}
-{"kind":"textbox","id":"sh/qtcj6tov","slide":7,"text":"Vérifier","textPreview":"Vérifier","textChars":8,"textLines":1,"bbox":[454,240,282,32]}
-{"kind":"textbox","id":"sh/svu9knih","slide":7,"text":"GET /health\n\nindex chargé\nmodèles actifs\n\n/docs","textPreview":"GET /health |  | index chargé | modèles actifs |  | /docs","textChars":47,"textLines":6,"bbox":[454,284,282,232]}
-{"kind":"shape","id":"sh/hgn29gr2","slide":7,"bbox":[788,220,420,320]}
-{"kind":"textbox","id":"sh/ap4r65wj","slide":7,"text":"Lancer","textPreview":"Lancer","textChars":6,"textLines":1,"bbox":[812,240,372,32]}
-{"kind":"textbox","id":"sh/za1gvy90","slide":7,"text":"Docker\n\nport 8000\n\nsecrets\nhors image","textPreview":"Docker |  | port 8000 |  | secrets | hors image","textChars":37,"textLines":6,"bbox":[812,284,372,232]}
-{"kind":"notes","id":"nt/0z61032l","slide":7,"text":"Durée cible : 50 secondes.\nFastAPI expose le POC avec un contrat simple. POST /ask reçoit une question et renvoie une réponse, les sources et le nombre de chunks récupérés. GET /health me permet de vérifier que l’index est chargé et de connaître les modèles actifs. Swagger, sur /docs, documente les endpoints.\nL’index et le modèle sont chargés au démarrage. Chaque question ne reconstruit donc ni le corpus ni FAISS. Docker Compose rend ce runtime reproductible. Le endpoint de reconstruction est séparé et protégé, car reconstruire l’index est une tâche d’administration.\nJe vais maintenant montrer deux scénarios : un cas où le POC apporte de la valeur et un cas où il doit reconnaître sa limite."}
-{"kind":"slide","id":"sl/fu18jqh0","slide":8,"title":"DÉMONSTRATION","textShapes":8}
-{"kind":"textbox","id":"sh/1032lszq","slide":8,"text":"DÉMONSTRATION","textPreview":"DÉMONSTRATION","textChars":13,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/u9knih4b","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/judg7ads","slide":8,"text":"La démo doit montrer une valeur et une limite","textPreview":"La démo doit montrer une valeur et une limite","textChars":45,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/c7u54zid","slide":8,"text":"Je vérifie autant le bon résultat que le refus prudent hors périmètre.","textPreview":"Je vérifie autant le bon résultat que le refus prudent hors périmètre.","textChars":70,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/1orytsvu","slide":8,"bbox":[72,220,540,360]}
-{"kind":"textbox","id":"sh/u18jqh0f","slide":8,"text":"Paris ✓","textPreview":"Paris ✓","textChars":7,"textLines":1,"bbox":[96,240,492,32]}
-{"kind":"textbox","id":"sh/jm1cfa9w","slide":8,"text":"Concert Fishers\n\nréponse utile\n\n4 sources\nvérifiables","textPreview":"Concert Fishers |  | réponse utile |  | 4 sources | vérifiables","textChars":53,"textLines":6,"bbox":[96,284,492,272]}
-{"kind":"shape","id":"sh/cvixczed","slide":8,"bbox":[640,220,568,360]}
-{"kind":"textbox","id":"sh/5gbq1ory","slide":8,"text":"Lyon ?","textPreview":"Lyon ?","textChars":6,"textLines":1,"bbox":[664,240,520,32]}
-{"kind":"textbox","id":"sh/18jqh0fe","slide":8,"text":"Expositions photo\n\ncorpus Paris\n\n« Je ne sais pas »\n\npas d’invention","textPreview":"Expositions photo |  | corpus Paris |  | « Je ne sais pas » |  | pas d’invention","textChars":68,"textLines":7,"bbox":[664,284,520,272]}
-{"kind":"notes","id":"nt/fu18jqh0","slide":8,"text":"Durée cible : 25 secondes avant la démo, puis 2 minutes en terminal.\nJe vais exécuter le script de démonstration. Il vérifie l’état de Docker, appelle health, puis envoie les deux scénarios à la même API.\nSur le cas Paris, je regarde seulement les éléments métier : une réponse claire, le titre, la date, le lieu et l’URL. Sur le cas Lyon, mon objectif n’est pas de proposer Lyon correctement, puisque le corpus ne le couvre pas. Je vérifie que le système reste prudent et n’invente pas.\nAprès la démo, je reviens à la slide suivante : ces observations doivent être soutenues par une stratégie de tests et d’évaluation."}
-{"kind":"slide","id":"sl/qh0fepkz","slide":9,"title":"QUALITÉ","textShapes":8}
-{"kind":"textbox","id":"sh/vahoza1g","slide":9,"text":"QUALITÉ","textPreview":"QUALITÉ","textChars":7,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/ovahoza1","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/dg7adsji","slide":9,"text":"Je contrôle le code aujourd’hui et la livraison demain","textPreview":"Je contrôle le code aujourd’hui et la livraison demain","textChars":54,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/6hcrmhk3","slide":9,"text":"Les tests sont livrés. La CI/CD reste une recommandation d’industrialisation explicite.","textPreview":"Les tests sont livrés. La CI/CD reste une recommandation d’industrialisation explicite.","textChars":87,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/z25kb6xk","slide":9,"bbox":[72,220,430,330]}
-{"kind":"textbox","id":"sh/onyd0z61","slide":9,"text":"Livré","textPreview":"Livré","textChars":5,"textLines":1,"bbox":[96,240,382,32]}
-{"kind":"textbox","id":"sh/d8v6psfi","slide":9,"text":"59 tests\n\nDonnées\nFAISS\nRAG\nAPI\nRAGAS","textPreview":"59 tests |  | Données | FAISS | RAG | API | RAGAS","textChars":37,"textLines":7,"bbox":[96,284,382,242]}
-{"kind":"shape","id":"sh/6dcbulwv","slide":9,"bbox":[530,220,678,330]}
-{"kind":"textbox","id":"sh/vy90je9c","slide":9,"text":"Proposé","textPreview":"Proposé","textChars":7,"textLines":1,"bbox":[554,240,630,32]}
-{"kind":"textbox","id":"sh/nuxc3ylc","slide":9,"text":"à chaque push\n\npytest\n↓\nimage Docker\n↓\nhealthcheck\n\nCI/CD non livrée","textPreview":"à chaque push |  | pytest | ↓ | image Docker | ↓ | healthcheck |  | CI/CD non livrée","textChars":68,"textLines":9,"bbox":[554,284,630,242]}
-{"kind":"notes","id":"nt/qh0fepkz","slide":9,"text":"Durée cible : 75 secondes.\nLes 59 tests ne servent pas à prouver qu’une réponse est toujours excellente. Ils servent à éviter les régressions de code. La suite couvre la collecte et la pagination, la normalisation, les filtres, la construction et le rechargement de FAISS, le moteur RAG, le contrat de l’API, le jeu annoté et l’automatisation RAGAS.\nLe rapport de test répond à deux questions : est-ce que les briques techniques fonctionnent encore, et est-ce que les scénarios métier attendus restent couverts ? Les quatre cas fonctionnels comprennent trois demandes positives et un cas hors périmètre. Ils testent le comportement direct, via l’API et dans Docker.\nJe dois être précis sur la CI/CD : elle n’est pas implémentée dans ce POC. C’est la prochaine étape d’industrialisation. À chaque push, la CI installerait l’environnement, lancerait pytest, construirait l’image Docker, lancerait un healthcheck, publierait un rapport, puis bloquerait le déploiement en cas d’échec. Les métriques RAGAS pourraient aussi devenir des quality gates après élargissement du benchmark.\nTransition : au-delà des tests de code, j’évalue maintenant la qualité de la chaîne RAG."}
-{"kind":"slide","id":"sl/29gr2p8n","slide":10,"title":"ÉVALUATION","textShapes":10}
-{"kind":"textbox","id":"sh/2p8nqxs7","slide":10,"text":"ÉVALUATION","textPreview":"ÉVALUATION","textChars":10,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/9gr2p8nq","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/gvy90je9","slide":10,"text":"RAGAS m’indique quelle brique améliorer","textPreview":"RAGAS m’indique quelle brique améliorer","textChars":39,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/r2p8nqxs","slide":10,"text":"Je ne regarde pas un score unique : je distingue le contexte retrouvé de la réponse finale.","textPreview":"Je ne regarde pas un score unique : je distingue le contexte retrouvé de la réponse finale.","textChars":91,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/2hwfyxob","slide":10,"bbox":[72,220,360,330]}
-{"kind":"textbox","id":"sh/94fu18jq","slide":10,"text":"Comparer","textPreview":"Comparer","textChars":8,"textLines":1,"bbox":[96,240,312,32]}
-{"kind":"textbox","id":"sh/kjm1cfa9","slide":10,"text":"Question\n+ contexte\n+ réponse\n+ référence","textPreview":"Question | + contexte | + réponse | + référence","textChars":41,"textLines":4,"bbox":[96,284,312,242]}
-{"kind":"shape","id":"sh/rqd4vmtw","slide":10,"bbox":[460,220,350,330]}
-{"kind":"textbox","id":"sh/25kb6xkf","slide":10,"text":"Solide","textPreview":"Solide","textChars":6,"textLines":1,"bbox":[484,240,302,32]}
-{"kind":"textbox","id":"sh/4fu18jqh","slide":10,"text":"0,900\nfidélité\n\n1,000\ncontexte utile","textPreview":"0,900 | fidélité |  | 1,000 | contexte utile","textChars":36,"textLines":5,"bbox":[484,284,302,242]}
-{"kind":"shape","id":"sh/x0nuxc3y","slide":10,"bbox":[838,220,370,330]}
-{"kind":"textbox","id":"sh/m94fu18j","slide":10,"text":"Priorité","textPreview":"Priorité","textChars":8,"textLines":1,"bbox":[862,240,322,32]}
-{"kind":"textbox","id":"sh/fu18jqh0","slide":10,"text":"0,683\ncorrection\n\n→ mieux\nstructurer\nla réponse","textPreview":"0,683 | correction |  | → mieux | structurer | la réponse","textChars":47,"textLines":6,"bbox":[862,284,322,242]}
-{"kind":"notes","id":"nt/29gr2p8n","slide":10,"text":"Durée cible : 80 secondes.\nRAGAS est un framework d’évaluation spécifique aux systèmes RAG. Son intérêt est de ne pas réduire la qualité à un seul score. Pour chaque cas, j’ai une question, les contextes réellement récupérés, la réponse générée et une référence humaine.\nLa fidélité à 0,900 mesure si la réponse est soutenue par le contexte. La pertinence à 0,846 mesure si elle répond à la question. La précision du contexte à 1,000 signifie que les passages récupérés sont utiles sur cet échantillon. La correction à 0,683 compare plus directement la réponse à la référence et reste le point à améliorer.\nL’interprétation est importante : je ne dis pas que le chatbot est exact à 90 %. Les trois cas démontrent la méthode et donnent un signal. Ils montrent que la recherche est solide, mais que la synthèse peut omettre un détail attendu. La suite est donc de structurer davantage la réponse et d’élargir le jeu annoté avant de changer de modèle à l’aveugle.\nTransition : ces résultats sont encourageants mais le POC a des limites que je dois rendre explicites."}
-{"kind":"slide","id":"sl/re1w7mp0","slide":11,"title":"LIMITES","textShapes":10}
-{"kind":"textbox","id":"sh/dg7adsji","slide":11,"text":"LIMITES","textPreview":"LIMITES","textChars":7,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/6tovahoz","slide":11,"text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/vahoza1g","slide":11,"text":"Chaque limite débouche sur une action concrète","textPreview":"Chaque limite débouche sur une action concrète","textChars":46,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/onyd0z61","slide":11,"text":"Un POC crédible montre ce qu’il a validé, puis ce qu’il reste à sécuriser.","textPreview":"Un POC crédible montre ce qu’il a validé, puis ce qu’il reste à sécuriser.","textChars":74,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/d8v6psfi","slide":11,"bbox":[72,220,360,330]}
-{"kind":"textbox","id":"sh/6hcrmhk3","slide":11,"text":"Données","textPreview":"Données","textChars":7,"textLines":1,"bbox":[96,240,312,32]}
-{"kind":"textbox","id":"sh/z25kb6xk","slide":11,"text":"Paris\nsnapshot\n\n→ collecte\nplanifiée","textPreview":"Paris | snapshot |  | → collecte | planifiée","textChars":36,"textLines":5,"bbox":[96,284,312,242]}
-{"kind":"shape","id":"sh/oj2t83it","slide":11,"bbox":[460,220,350,330]}
-{"kind":"textbox","id":"sh/d4vmtwra","slide":11,"text":"Réponse","textPreview":"Réponse","textChars":7,"textLines":1,"bbox":[484,240,302,32]}
-{"kind":"textbox","id":"sh/h4byhgn2","slide":11,"text":"seuil à\ncalibrer\n\n→ filtres\n+ refus robuste","textPreview":"seuil à | calibrer |  | → filtres | + refus robuste","textChars":43,"textLines":5,"bbox":[484,284,302,242]}
-{"kind":"shape","id":"sh/sji5snel","slide":11,"bbox":[838,220,370,330]}
-{"kind":"textbox","id":"sh/3ylc7u54","slide":11,"text":"Exploitation","textPreview":"Exploitation","textChars":12,"textLines":1,"bbox":[862,240,322,32]}
-{"kind":"textbox","id":"sh/adsji5sn","slide":11,"text":"3 cas RAGAS\npas de charge\n\n→ benchmark\n+ observabilité","textPreview":"3 cas RAGAS | pas de charge |  | → benchmark | + observabilité","textChars":54,"textLines":5,"bbox":[862,284,322,242]}
-{"kind":"notes","id":"nt/re1w7mp0","slide":11,"text":"Durée cible : 60 secondes.\nLa première limite concerne les données : le périmètre est Paris, le corpus est un snapshot et la qualité dépend de la source. Je propose une collecte planifiée, des contrôles de qualité et l’élargissement progressif des villes.\nLa deuxième concerne la recherche et le modèle. Il n’y a pas encore de seuil de similarité déterministe qui empêcherait la génération si le contexte est trop faible. Le modèle Mistral dépend d’un service en ligne. Les paramètres de chunking et top_k restent à calibrer. Je propose des filtres métier, un seuil de refus et un benchmark élargi.\nEnfin, l’évaluation et l’exploitation restent limitées : trois cas RAGAS ne suffisent pas pour un benchmark et le POC n’a pas de test de charge ni d’observabilité continue. Je les présente comme des chantiers concrets, pas comme des défauts cachés.\nTransition : ces limites conduisent directement à ma recommandation."}
-{"kind":"slide","id":"sl/4fu18jqh","slide":12,"title":"RECOMMANDATION","textShapes":10}
-{"kind":"textbox","id":"sh/3m94fu18","slide":12,"text":"RECOMMANDATION","textPreview":"RECOMMANDATION","textChars":14,"textLines":1,"bbox":[72,28,500,24]}
-{"kind":"textbox","id":"sh/s72x4nap","slide":12,"text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[1140,28,68,24]}
-{"kind":"textbox","id":"sh/lszqtcj6","slide":12,"text":"La suite logique est un pilote multi-villes mesuré","textPreview":"La suite logique est un pilote multi-villes mesuré","textChars":50,"textLines":1,"bbox":[72,70,920,64]}
-{"kind":"textbox","id":"sh/adsji5sn","slide":12,"text":"La faisabilité est démontrée. La prochaine décision est d’apprendre en conditions réelles, sans sur-industrialiser.","textPreview":"La faisabilité est démontrée. La prochaine décision est d’apprendre en conditions réelles, sans sur-industrialiser.","textChars":115,"textLines":1,"bbox":[72,136,980,52]}
-{"kind":"shape","id":"sh/3ylc7u54","slide":12,"bbox":[72,220,360,330]}
-{"kind":"textbox","id":"sh/sji5snel","slide":12,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[96,240,312,32]}
-{"kind":"textbox","id":"sh/h4byhgn2","slide":12,"text":"Piloter\n\nplus de villes\nplus de cas\nmesurer l’utilité","textPreview":"Piloter |  | plus de villes | plus de cas | mesurer l’utilité","textChars":53,"textLines":5,"bbox":[96,284,312,242]}
-{"kind":"shape","id":"sh/ap4r65wj","slide":12,"bbox":[460,220,350,330]}
-{"kind":"textbox","id":"sh/za1gvy90","slide":12,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[484,240,302,32]}
-{"kind":"textbox","id":"sh/z61032ls","slide":12,"text":"Sécuriser\n\nseuils\nfiltres\nréponses\nstructurées","textPreview":"Sécuriser |  | seuils | filtres | réponses | structurées","textChars":46,"textLines":6,"bbox":[484,284,302,242]}
-{"kind":"shape","id":"sh/al87ed8b","slide":12,"bbox":[838,220,370,330]}
-{"kind":"textbox","id":"sh/hcrmhk3q","slide":12,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[862,240,322,32]}
-{"kind":"textbox","id":"sh/orytsvu9","slide":12,"text":"Industrialiser\n\nCI/CD\nsupervision\nsécurité\ncharge","textPreview":"Industrialiser |  | CI/CD | supervision | sécurité | charge","textChars":49,"textLines":6,"bbox":[862,284,322,242]}
-{"kind":"notes","id":"nt/4fu18jqh","slide":12,"text":"Durée cible : 55 secondes.\nMa recommandation est un pilote multi-villes mesuré, et non un déploiement généralisé immédiat. La chaîne actuelle prouve que le produit est techniquement faisable et qu’il peut répondre avec des sources vérifiables.\nLe pilote doit élargir les villes et le jeu annoté, mesurer l’utilité des réponses, la présence de sources, la latence et les refus corrects. Ensuite, j’ajouterais des filtres de ville, date et catégorie, un seuil de similarité et une réponse structurée. Enfin seulement, j’industrialiserais avec collecte planifiée, CI/CD, supervision, sécurité et tests de charge.\nAprès cette slide, je montre le rapport pendant vingt secondes et l’arborescence du dépôt pendant vingt secondes. Je termine : les livrables sont reproductibles, les méthodes sont documentées et la prochaine décision raisonnable est le pilote mesuré."}
+{"kind":"slide","id":"sl/2x4nap4r","slide":1,"title":"MISSION PULS-EVENTS  •  PROJET 7","textShapes":11}
+{"kind":"shape","id":"sh/nap4r65w","slide":1,"bbox":[0,0,22,720]}
+{"kind":"shape","id":"sh/cvixczed","slide":1,"bbox":[72,70,83.52,8]}
+{"kind":"shape","id":"sh/5gbq1ory","slide":1,"bbox":[155.52,70,46.98,8]}
+{"kind":"shape","id":"sh/udg7adsj","slide":1,"bbox":[202.5,70,43.5,8]}
+{"kind":"textbox","id":"sh/nyd0z610","slide":1,"text":"MISSION PULS-EVENTS  •  PROJET 7","textPreview":"MISSION PULS-EVENTS  •  PROJET 7","textChars":32,"textLines":1,"bbox":[72,104,520,26]}
+{"kind":"textbox","id":"sh/cj6tovah","slide":1,"text":"Un assistant RAG\npour recommander\nsans inventer","textPreview":"Un assistant RAG | pour recommander | sans inventer","textChars":47,"textLines":3,"bbox":[72,162,674,182]}
+{"kind":"textbox","id":"sh/54zidony","slide":1,"text":"OpenAgenda · FAISS · Mistral · FastAPI · Docker","textPreview":"OpenAgenda · FAISS · Mistral · FastAPI · Docker","textChars":47,"textLines":1,"bbox":[74,372,680,66]}
+{"kind":"textbox","id":"sh/u9knih4b","slide":1,"text":"POC DÉMONTRABLE","textPreview":"POC DÉMONTRABLE","textChars":15,"textLines":1,"bbox":[74,484,202,32]}
+{"kind":"textbox","id":"sh/judg7ads","slide":1,"text":"Hugo Gaube  •  Data Scientist freelance","textPreview":"Hugo Gaube  •  Data Scientist freelance","textChars":39,"textLines":1,"bbox":[74,544,560,32]}
+{"kind":"textbox","id":"sh/nyd0z610","slide":1,"text":"Soutenance — reprise","textPreview":"Soutenance — reprise","textChars":20,"textLines":1,"bbox":[74,582,420,28]}
+{"kind":"shape","id":"sh/udg7adsj","slide":1,"bbox":[826,116,346,474]}
+{"kind":"textbox","id":"sh/54zidony","slide":1,"text":"DONNÉES","textPreview":"DONNÉES","textChars":7,"textLines":1,"bbox":[888,167,222,36]}
+{"kind":"shape","id":"sh/cj6tovah","slide":1,"bbox":[954,222,88,88]}
+{"kind":"textbox","id":"sh/nap4r65w","slide":1,"text":"7 586","textPreview":"7 586","textChars":5,"textLines":1,"bbox":[954,238,88,56]}
+{"kind":"shape","id":"sh/upwb2hwf","slide":1,"bbox":[998,324,0,61]}
+{"kind":"shape","id":"sh/5gbq1ory","slide":1,"bbox":[882,392,232,84]}
+{"kind":"textbox","id":"sh/cvixczed","slide":1,"text":"PASSAGES","textPreview":"PASSAGES","textChars":8,"textLines":1,"bbox":[902,411,192,26]}
+{"kind":"textbox","id":"sh/jm1cfa9w","slide":1,"text":"14 903 · FAISS","textPreview":"14 903 · FAISS","textChars":14,"textLines":1,"bbox":[902,442,192,22]}
+{"kind":"shape","id":"sh/u18jqh0f","slide":1,"bbox":[998,486,0,37]}
+{"kind":"textbox","id":"sh/25kb6xkf","slide":1,"text":"API + 59 TESTS","textPreview":"API + 59 TESTS","textChars":14,"textLines":1,"bbox":[888,532,222,30]}
+{"kind":"notes","id":"nt/2x4nap4r","slide":1,"text":"Durée cible : 50 secondes.\nBonjour Jérémy. Mon objectif est de démontrer qu’un assistant peut recommander des événements réels sans en inventer.\nLe POC part de 7 586 événements, les transforme en 14 903 passages FAISS, puis les expose dans une API Docker testée 59 fois.\nLa décision attendue est un pilote mesuré, pas une production immédiate."}
+{"kind":"slide","id":"sl/pg3ex0nu","slide":2,"title":"LE BESOIN PULS-EVENTS","textShapes":26}
+{"kind":"shape","id":"sh/yxobm58z","slide":2,"bbox":[64,46,61.44,8]}
+{"kind":"shape","id":"sh/5o7qpg3e","slide":2,"bbox":[125.44,46,34.56,8]}
+{"kind":"shape","id":"sh/g3ex0nux","slide":2,"bbox":[160,46,32,8]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":2,"text":"LE BESOIN PULS-EVENTS","textPreview":"LE BESOIN PULS-EVENTS","textChars":21,"textLines":1,"bbox":[64,66,360,24]}
+{"kind":"textbox","id":"sh/ylc7u54z","slide":2,"text":"Une question devient une recommandation sourcée","textPreview":"Une question devient une recommandation sourcée","textChars":47,"textLines":1,"bbox":[64,101,1132,76]}
+{"kind":"textbox","id":"sh/9cvixcze","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1132,48,84,24]}
+{"kind":"shape","id":"sh/gr2p8nqx","slide":2,"bbox":[64,228,206,312]}
+{"kind":"textbox","id":"sh/rytsvu9k","slide":2,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[84,250,54,32]}
+{"kind":"textbox","id":"sh/yd0z6103","slide":2,"text":"Question","textPreview":"Question","textChars":8,"textLines":1,"bbox":[84,314,166,44]}
+{"kind":"textbox","id":"sh/wb2hwfyx","slide":2,"text":"« Que faire\nce week-end ? »","textPreview":"« Que faire | ce week-end ? »","textChars":27,"textLines":2,"bbox":[84,382,166,104]}
+{"kind":"shape","id":"sh/lwval87e","slide":2,"bbox":[140,504,54,54]}
+{"kind":"textbox","id":"sh/e9cvixcz","slide":2,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[140,510,54,42]}
+{"kind":"shape","id":"sh/3q5o7qpg","slide":2,"bbox":[294,228,206,312]}
+{"kind":"textbox","id":"sh/w3m94fu1","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[314,250,54,32]}
+{"kind":"textbox","id":"sh/loj2t83i","slide":2,"text":"Recherche","textPreview":"Recherche","textChars":9,"textLines":1,"bbox":[314,314,166,44]}
+{"kind":"textbox","id":"sh/ex0nuxc3","slide":2,"text":"FAISS trouve\nles passages utiles","textPreview":"FAISS trouve | les passages utiles","textChars":32,"textLines":2,"bbox":[314,382,166,104]}
+{"kind":"shape","id":"sh/3itgfmlk","slide":2,"bbox":[370,504,54,54]}
+{"kind":"textbox","id":"sh/szqtcj6t","slide":2,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[370,510,54,42]}
+{"kind":"shape","id":"sh/lkjm1cfa","slide":2,"bbox":[524,228,206,312]}
+{"kind":"textbox","id":"sh/lc7u54zi","slide":2,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[544,250,54,32]}
+{"kind":"textbox","id":"sh/wra5gbq1","slide":2,"text":"Contexte","textPreview":"Contexte","textChars":8,"textLines":1,"bbox":[544,314,166,44]}
+{"kind":"textbox","id":"sh/36hcrmhk","slide":2,"text":"titre · date\nlieu · URL","textPreview":"titre · date | lieu · URL","textChars":23,"textLines":2,"bbox":[544,382,166,104]}
+{"kind":"shape","id":"sh/eloj2t83","slide":2,"bbox":[600,504,54,54]}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":2,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[600,510,54,42]}
+{"kind":"shape","id":"sh/wfyxobm5","slide":2,"bbox":[754,228,206,312]}
+{"kind":"textbox","id":"sh/7u54zido","slide":2,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[774,250,54,32]}
+{"kind":"textbox","id":"sh/ed8bat47","slide":2,"text":"Mistral","textPreview":"Mistral","textChars":7,"textLines":1,"bbox":[774,314,166,44]}
+{"kind":"textbox","id":"sh/psfil0rq","slide":2,"text":"répond à partir\ndes sources","textPreview":"répond à partir | des sources","textChars":27,"textLines":2,"bbox":[774,382,166,104]}
+{"kind":"shape","id":"sh/w7mp0bi9","slide":2,"bbox":[830,504,54,54]}
+{"kind":"textbox","id":"sh/65wjudg7","slide":2,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[830,510,54,42]}
+{"kind":"shape","id":"sh/zqtcj6to","slide":2,"bbox":[984,228,206,312]}
+{"kind":"textbox","id":"sh/obm58z25","slide":2,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1004,250,54,32]}
+{"kind":"textbox","id":"sh/hwfyxobm","slide":2,"text":"Vérifier","textPreview":"Vérifier","textChars":8,"textLines":1,"bbox":[1004,314,166,44]}
+{"kind":"textbox","id":"sh/6xkf6dcb","slide":2,"text":"liens retournés\nà l’utilisateur","textPreview":"liens retournés | à l’utilisateur","textChars":31,"textLines":2,"bbox":[1004,382,166,104]}
+{"kind":"shape","id":"sh/zed8v6ps","slide":2,"bbox":[1060,504,54,54]}
+{"kind":"textbox","id":"sh/oza1gvy9","slide":2,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[1060,510,54,42]}
+{"kind":"textbox","id":"sh/hk3q5o7q","slide":2,"text":"Le RAG unit compréhension du langage et preuves consultables.","textPreview":"Le RAG unit compréhension du langage et preuves consultables.","textChars":61,"textLines":1,"bbox":[64,592,1120,42]}
+{"kind":"shape","id":"sh/al87ed8b","slide":2,"bbox":[64,682,1152,0]}
+{"kind":"textbox","id":"sh/z61032ls","slide":2,"text":"PROJET 7  •  PULS-EVENTS","textPreview":"PROJET 7  •  PULS-EVENTS","textChars":24,"textLines":1,"bbox":[64,690,420,18]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":2,"text":"HUGO GAUBE","textPreview":"HUGO GAUBE","textChars":10,"textLines":1,"bbox":[1010,690,206,18]}
+{"kind":"notes","id":"nt/pg3ex0nu","slide":2,"text":"Durée cible : 60 secondes.\nUne recherche par mots-clés est rigide, tandis qu’un LLM seul peut inventer.\nLe RAG recherche d’abord dans les événements réels puis Mistral reformule uniquement ce que les sources fournissent.\nLes liens retournés rendent la recommandation vérifiable."}
+{"kind":"slide","id":"sl/s72x4nap","slide":3,"title":"QUALITÉ DES DONNÉES","textShapes":17}
+{"kind":"shape","id":"sh/vmtwra5g","slide":3,"bbox":[64,46,61.44,8]}
+{"kind":"shape","id":"sh/o7qpg3ex","slide":3,"bbox":[125.44,46,34.56,8]}
+{"kind":"shape","id":"sh/dsji5sne","slide":3,"bbox":[160,46,32,8]}
+{"kind":"textbox","id":"sh/6dcbulwv","slide":3,"text":"QUALITÉ DES DONNÉES","textPreview":"QUALITÉ DES DONNÉES","textChars":19,"textLines":1,"bbox":[64,66,360,24]}
+{"kind":"textbox","id":"sh/vy90je9c","slide":3,"text":"Le nettoyage transforme OpenAgenda en corpus exploitable","textPreview":"Le nettoyage transforme OpenAgenda en corpus exploitable","textChars":56,"textLines":1,"bbox":[64,101,1132,76]}
+{"kind":"textbox","id":"sh/oj2t83it","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1132,48,84,24]}
+{"kind":"shape","id":"sh/d4vmtwra","slide":3,"bbox":[64,205,520,394]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":3,"text":"openagenda/","textPreview":"openagenda/","textChars":11,"textLines":1,"bbox":[92,230,454,30]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":3,"text":"raw/\n  events.json\n\nclean/\n  html supprimé\n  dates normalisées\n  doublons retirés\n\nprocessed/\n  events.parquet","textPreview":"raw/ |   events.json |  | clean/ |   html supprimé |   dates normalisées |   doublons retirés |  | processed/ |   events.parquet","textChars":110,"textLines":10,"bbox":[92,278,454,282]}
+{"kind":"shape","id":"sh/vy90je9c","slide":3,"bbox":[626,214,252,112]}
+{"kind":"shape","id":"sh/6dcbulwv","slide":3,"bbox":[626,214,8,112]}
+{"kind":"textbox","id":"sh/d4vmtwra","slide":3,"text":"Périmètre","textPreview":"Périmètre","textChars":9,"textLines":1,"bbox":[650,230,212,44]}
+{"kind":"textbox","id":"sh/oj2t83it","slide":3,"text":"Paris · < 1 an","textPreview":"Paris · < 1 an","textChars":14,"textLines":1,"bbox":[650,280,212,28]}
+{"kind":"shape","id":"sh/vmtwra5g","slide":3,"bbox":[906,214,252,112]}
+{"kind":"shape","id":"sh/61032lsz","slide":3,"bbox":[906,214,8,112]}
+{"kind":"textbox","id":"sh/dsji5sne","slide":3,"text":"Texte","textPreview":"Texte","textChars":5,"textLines":1,"bbox":[930,230,212,44]}
+{"kind":"textbox","id":"sh/o7qpg3ex","slide":3,"text":"HTML + espaces","textPreview":"HTML + espaces","textChars":14,"textLines":1,"bbox":[930,280,212,28]}
+{"kind":"shape","id":"sh/vahoza1g","slide":3,"bbox":[626,354,252,112]}
+{"kind":"shape","id":"sh/6tovahoz","slide":3,"bbox":[626,354,8,112]}
+{"kind":"textbox","id":"sh/epkzupwb","slide":3,"text":"Identité","textPreview":"Identité","textChars":8,"textLines":1,"bbox":[650,370,212,44]}
+{"kind":"textbox","id":"sh/7adsji5s","slide":3,"text":"event_uid unique","textPreview":"event_uid unique","textChars":16,"textLines":1,"bbox":[650,420,212,28]}
+{"kind":"shape","id":"sh/wval87ed","slide":3,"bbox":[906,354,252,112]}
+{"kind":"shape","id":"sh/pg3ex0nu","slide":3,"bbox":[906,354,8,112]}
+{"kind":"textbox","id":"sh/e1w7mp0b","slide":3,"text":"Résultat","textPreview":"Résultat","textChars":8,"textLines":1,"bbox":[930,370,212,44]}
+{"kind":"textbox","id":"sh/7mp0bi9s","slide":3,"text":"7 586 fiches","textPreview":"7 586 fiches","textChars":12,"textLines":1,"bbox":[930,420,212,28]}
+{"kind":"shape","id":"sh/w7mp0bi9","slide":3,"bbox":[626,504,532,94]}
+{"kind":"textbox","id":"sh/psfil0rq","slide":3,"text":"PRINCIPE","textPreview":"PRINCIPE","textChars":8,"textLines":1,"bbox":[650,522,184,22]}
+{"kind":"textbox","id":"sh/ed8bat47","slide":3,"text":"Je conserve titre, description, date, lieu et URL : chaque réponse peut revenir à sa source.","textPreview":"Je conserve titre, description, date, lieu et URL : chaque réponse peut revenir à sa source.","textChars":92,"textLines":1,"bbox":[650,550,480,34]}
+{"kind":"shape","id":"sh/7u54zido","slide":3,"bbox":[64,682,1152,0]}
+{"kind":"textbox","id":"sh/twra5gbq","slide":3,"text":"PROJET 7  •  PULS-EVENTS","textPreview":"PROJET 7  •  PULS-EVENTS","textChars":24,"textLines":1,"bbox":[64,690,420,18]}
+{"kind":"textbox","id":"sh/4byhgn29","slide":3,"text":"HUGO GAUBE","textPreview":"HUGO GAUBE","textChars":10,"textLines":1,"bbox":[1010,690,206,18]}
+{"kind":"notes","id":"nt/s72x4nap","slide":3,"text":"Durée cible : 70 secondes.\nOpenAgenda est riche mais hétérogène : HTML, valeurs absentes, dates variées et doublons.\nJe filtre Paris et les événements récents, nettoie les textes, normalise les champs et déduplique par event_uid.\nLe parquet obtenu est un snapshot reproductible, et la conservation des métadonnées garantit la traçabilité."}
+{"kind":"slide","id":"sl/val87ed8","slide":4,"title":"ZOOM CONCRET","textShapes":26}
+{"kind":"shape","id":"sh/1gvy90je","slide":4,"bbox":[64,46,61.44,8]}
+{"kind":"shape","id":"sh/qtcj6tov","slide":4,"bbox":[125.44,46,34.56,8]}
+{"kind":"shape","id":"sh/je9cvixc","slide":4,"bbox":[160,46,32,8]}
+{"kind":"textbox","id":"sh/87ed8bat","slide":4,"text":"ZOOM CONCRET","textPreview":"ZOOM CONCRET","textChars":12,"textLines":1,"bbox":[64,66,360,24]}
+{"kind":"textbox","id":"sh/xs72x4na","slide":4,"text":"CHIMERE devient 14 903 passages recherchables","textPreview":"CHIMERE devient 14 903 passages recherchables","textChars":45,"textLines":1,"bbox":[64,101,1132,76]}
+{"kind":"textbox","id":"sh/q1orytsv","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1132,48,84,24]}
+{"kind":"shape","id":"sh/fmlkjm1c","slide":4,"bbox":[64,228,206,312]}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":4,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[84,250,54,32]}
+{"kind":"textbox","id":"sh/x4nap4r6","slide":4,"text":"CHIMERE","textPreview":"CHIMERE","textChars":7,"textLines":1,"bbox":[84,314,166,44]}
+{"kind":"textbox","id":"sh/1w7mp0bi","slide":4,"text":"10 273\ncaractères","textPreview":"10 273 | caractères","textChars":17,"textLines":2,"bbox":[84,382,166,104]}
+{"kind":"shape","id":"sh/8bat47y1","slide":4,"bbox":[140,504,54,54]}
+{"kind":"textbox","id":"sh/jqh0fepk","slide":4,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[140,510,54,42]}
+{"kind":"shape","id":"sh/q5o7qpg3","slide":4,"bbox":[294,228,206,312]}
+{"kind":"textbox","id":"sh/18jqh0fe","slide":4,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[314,250,54,32]}
+{"kind":"textbox","id":"sh/8nqxs72x","slide":4,"text":"Découper","textPreview":"Découper","textChars":8,"textLines":1,"bbox":[314,314,166,44]}
+{"kind":"textbox","id":"sh/j2t83itg","slide":4,"text":"chunks de\n1 000 caractères","textPreview":"chunks de | 1 000 caractères","textChars":26,"textLines":2,"bbox":[314,382,166,104]}
+{"kind":"shape","id":"sh/qh0fepkz","slide":4,"bbox":[370,504,54,54]}
+{"kind":"textbox","id":"sh/1cfa9w3m","slide":4,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[370,510,54,42]}
+{"kind":"shape","id":"sh/crmhk3q5","slide":4,"bbox":[524,228,206,312]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":4,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[544,250,54,32]}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":4,"text":"Conserver","textPreview":"Conserver","textChars":9,"textLines":1,"bbox":[544,314,166,44]}
+{"kind":"textbox","id":"sh/a9w3m94f","slide":4,"text":"200 caractères\nde chevauchement","textPreview":"200 caractères | de chevauchement","textChars":31,"textLines":2,"bbox":[544,382,166,104]}
+{"kind":"shape","id":"sh/zupwb2hw","slide":4,"bbox":[600,504,54,54]}
+{"kind":"textbox","id":"sh/orytsvu9","slide":4,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[600,510,54,42]}
+{"kind":"shape","id":"sh/hcrmhk3q","slide":4,"bbox":[754,228,206,312]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[774,250,54,32]}
+{"kind":"textbox","id":"sh/z61032ls","slide":4,"text":"Vectoriser","textPreview":"Vectoriser","textChars":10,"textLines":1,"bbox":[774,314,166,44]}
+{"kind":"textbox","id":"sh/oza1gvy9","slide":4,"text":"mistral-embed\n1 024 dimensions","textPreview":"mistral-embed | 1 024 dimensions","textChars":30,"textLines":2,"bbox":[774,382,166,104]}
+{"kind":"shape","id":"sh/hk3q5o7q","slide":4,"bbox":[830,504,54,54]}
+{"kind":"textbox","id":"sh/7mp0bi9s","slide":4,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[830,510,54,42]}
+{"kind":"shape","id":"sh/e1w7mp0b","slide":4,"bbox":[984,228,206,312]}
+{"kind":"textbox","id":"sh/psfil0rq","slide":4,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1004,250,54,32]}
+{"kind":"textbox","id":"sh/w7mp0bi9","slide":4,"text":"Retrouver","textPreview":"Retrouver","textChars":9,"textLines":1,"bbox":[1004,314,166,44]}
+{"kind":"textbox","id":"sh/7adsji5s","slide":4,"text":"FAISS\n+ métadonnées","textPreview":"FAISS | + métadonnées","textChars":19,"textLines":2,"bbox":[1004,382,166,104]}
+{"kind":"shape","id":"sh/epkzupwb","slide":4,"bbox":[1060,504,54,54]}
+{"kind":"textbox","id":"sh/pg3ex0nu","slide":4,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[1060,510,54,42]}
+{"kind":"textbox","id":"sh/wval87ed","slide":4,"text":"Le chevauchement protège les informations placées entre deux passages.","textPreview":"Le chevauchement protège les informations placées entre deux passages.","textChars":70,"textLines":1,"bbox":[64,592,1120,42]}
+{"kind":"shape","id":"sh/36hcrmhk","slide":4,"bbox":[64,682,1152,0]}
+{"kind":"textbox","id":"sh/eloj2t83","slide":4,"text":"PROJET 7  •  PULS-EVENTS","textPreview":"PROJET 7  •  PULS-EVENTS","textChars":24,"textLines":1,"bbox":[64,690,420,18]}
+{"kind":"textbox","id":"sh/yhgn29gr","slide":4,"text":"HUGO GAUBE","textPreview":"HUGO GAUBE","textChars":10,"textLines":1,"bbox":[1010,690,206,18]}
+{"kind":"notes","id":"nt/val87ed8","slide":4,"text":"Durée cible : 70 secondes.\nCHIMERE a une description de 10 273 caractères : elle est trop longue pour une recherche précise.\nJe la découpe en chunks de 1 000 caractères avec 200 de chevauchement, puis mistral-embed produit des vecteurs de 1 024 dimensions.\nFAISS stocke 14 903 passages avec date, lieu et URL pour retrouver le bon contexte."}
+{"kind":"slide","id":"sl/mlkjm1cf","slide":5,"title":"CONTRÔLE DE LA RÉPONSE","textShapes":16}
+{"kind":"shape","id":"sh/vahoza1g","slide":5,"bbox":[64,46,61.44,8]}
+{"kind":"shape","id":"sh/ovahoza1","slide":5,"bbox":[125.44,46,34.56,8]}
+{"kind":"shape","id":"sh/dg7adsji","slide":5,"bbox":[160,46,32,8]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":5,"text":"CONTRÔLE DE LA RÉPONSE","textPreview":"CONTRÔLE DE LA RÉPONSE","textChars":22,"textLines":1,"bbox":[64,66,360,24]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":5,"text":"Le prompt impose une réponse fondée sur les sources","textPreview":"Le prompt impose une réponse fondée sur les sources","textChars":51,"textLines":1,"bbox":[64,101,1132,76]}
+{"kind":"textbox","id":"sh/onyd0z61","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1132,48,84,24]}
+{"kind":"shape","id":"sh/d8v6psfi","slide":5,"bbox":[64,203,430,390]}
+{"kind":"textbox","id":"sh/6dcbulwv","slide":5,"text":"CONTRAT RAG","textPreview":"CONTRAT RAG","textChars":11,"textLines":1,"bbox":[92,230,220,32]}
+{"kind":"textbox","id":"sh/vy90je9c","slide":5,"text":"La réponse doit rester en français, utiliser le contexte retrouvé, ne pas inventer et dire « Je ne sais pas » lorsque le contexte manque.","textPreview":"La réponse doit rester en français, utiliser le contexte retrouvé, ne pas inventer et dire « Je ne sais pas » lorsque le contexte manque.","textChars":137,"textLines":1,"bbox":[92,292,350,98]}
+{"kind":"textbox","id":"sh/nuxc3ylc","slide":5,"text":"RETRIEVAL","textPreview":"RETRIEVAL","textChars":9,"textLines":1,"bbox":[92,430,64,32]}
+{"kind":"textbox","id":"sh/y90je9cv","slide":5,"text":"mistral-embed","textPreview":"mistral-embed","textChars":13,"textLines":1,"bbox":[174,435,240,26]}
+{"kind":"textbox","id":"sh/5wjudg7a","slide":5,"text":"CONTEXTE","textPreview":"CONTEXTE","textChars":8,"textLines":1,"bbox":[92,478,64,32]}
+{"kind":"textbox","id":"sh/gbq1oryt","slide":5,"text":"top_k = 4 + métadonnées","textPreview":"top_k = 4 + métadonnées","textChars":23,"textLines":1,"bbox":[174,483,240,26]}
+{"kind":"textbox","id":"sh/n29gr2p8","slide":5,"text":"GÉNÉRATION","textPreview":"GÉNÉRATION","textChars":10,"textLines":1,"bbox":[92,526,64,32]}
+{"kind":"textbox","id":"sh/yhgn29gr","slide":5,"text":"mistral-small-latest","textPreview":"mistral-small-latest","textChars":20,"textLines":1,"bbox":[174,531,240,26]}
+{"kind":"shape","id":"sh/58z25kb6","slide":5,"bbox":[526,203,690,390]}
+{"kind":"textbox","id":"sh/neloj2t8","slide":5,"text":"TEMPÉRATURE 0,1","textPreview":"TEMPÉRATURE 0,1","textChars":15,"textLines":1,"bbox":[64,616,230,44]}
+{"kind":"textbox","id":"sh/ytsvu9kn","slide":5,"text":"SOURCES DISTINCTES","textPreview":"SOURCES DISTINCTES","textChars":18,"textLines":1,"bbox":[312,616,210,44]}
+{"kind":"textbox","id":"sh/2x4nap4r","slide":5,"text":"L’embedding retrouve ; le modèle de chat reformule. Les rôles sont séparés pour pouvoir les évaluer.","textPreview":"L’embedding retrouve ; le modèle de chat reformule. Les rôles sont séparés pour pouvoir les évaluer.","textChars":100,"textLines":1,"bbox":[558,623,658,28]}
+{"kind":"shape","id":"sh/vixczed8","slide":5,"bbox":[64,682,1152,0]}
+{"kind":"textbox","id":"sh/k3q5o7qp","slide":5,"text":"PROJET 7  •  PULS-EVENTS","textPreview":"PROJET 7  •  PULS-EVENTS","textChars":24,"textLines":1,"bbox":[64,690,420,18]}
+{"kind":"textbox","id":"sh/donyd0z6","slide":5,"text":"HUGO GAUBE","textPreview":"HUGO GAUBE","textChars":10,"textLines":1,"bbox":[1010,690,206,18]}
+{"kind":"image","id":"im/twra5gbq","slide":5,"name":"","geometry":"roundRect","bbox":[583.8,219,574.4,359]}
+{"kind":"notes","id":"nt/mlkjm1cf","slide":5,"text":"Durée cible : 65 secondes.\nLa question est vectorisée et FAISS retourne les quatre passages les plus proches.\nLe prompt contient la question, le contexte et une règle centrale : répondre uniquement avec les sources, sans invention.\nmistral-embed sert à la recherche ; mistral-small-latest sert à la génération. La température à 0,1 stabilise le POC."}
+{"kind":"slide","id":"sl/58z25kb6","slide":6,"title":"ARCHITECTURE","textShapes":26}
+{"kind":"shape","id":"sh/9cvixcze","slide":6,"bbox":[64,46,61.44,8]}
+{"kind":"shape","id":"sh/ylc7u54z","slide":6,"bbox":[125.44,46,34.56,8]}
+{"kind":"shape","id":"sh/r65wjudg","slide":6,"bbox":[160,46,32,8]}
+{"kind":"textbox","id":"sh/g3ex0nux","slide":6,"text":"ARCHITECTURE","textPreview":"ARCHITECTURE","textChars":12,"textLines":1,"bbox":[64,66,360,24]}
+{"kind":"textbox","id":"sh/5o7qpg3e","slide":6,"text":"La chaîne RAG sépare préparation et réponse en ligne","textPreview":"La chaîne RAG sépare préparation et réponse en ligne","textChars":52,"textLines":1,"bbox":[64,101,1132,76]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1132,48,84,24]}
+{"kind":"shape","id":"sh/nih4byhg","slide":6,"bbox":[64,228,206,312]}
+{"kind":"textbox","id":"sh/g7adsji5","slide":6,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[84,250,54,32]}
+{"kind":"textbox","id":"sh/9s36hcrm","slide":6,"text":"Collecter","textPreview":"Collecter","textChars":9,"textLines":1,"bbox":[84,314,166,44]}
+{"kind":"textbox","id":"sh/d8v6psfi","slide":6,"text":"OpenAgenda","textPreview":"OpenAgenda","textChars":10,"textLines":1,"bbox":[84,382,166,104]}
+{"kind":"shape","id":"sh/onyd0z61","slide":6,"bbox":[140,504,54,54]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":6,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[140,510,54,42]}
+{"kind":"shape","id":"sh/6hcrmhk3","slide":6,"bbox":[294,228,206,312]}
+{"kind":"textbox","id":"sh/dg7adsji","slide":6,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[314,250,54,32]}
+{"kind":"textbox","id":"sh/ovahoza1","slide":6,"text":"Nettoyer","textPreview":"Nettoyer","textChars":8,"textLines":1,"bbox":[314,314,166,44]}
+{"kind":"textbox","id":"sh/vahoza1g","slide":6,"text":"normaliser","textPreview":"normaliser","textChars":10,"textLines":1,"bbox":[314,382,166,104]}
+{"kind":"shape","id":"sh/6tovahoz","slide":6,"bbox":[370,504,54,54]}
+{"kind":"textbox","id":"sh/dsji5sne","slide":6,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[370,510,54,42]}
+{"kind":"shape","id":"sh/o7qpg3ex","slide":6,"bbox":[524,228,206,312]}
+{"kind":"textbox","id":"sh/kjm1cfa9","slide":6,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[544,250,54,32]}
+{"kind":"textbox","id":"sh/94fu18jq","slide":6,"text":"Indexer","textPreview":"Indexer","textChars":7,"textLines":1,"bbox":[544,314,166,44]}
+{"kind":"textbox","id":"sh/2hwfyxob","slide":6,"text":"chunks + FAISS","textPreview":"chunks + FAISS","textChars":14,"textLines":1,"bbox":[544,382,166,104]}
+{"kind":"shape","id":"sh/r2p8nqxs","slide":6,"bbox":[600,504,54,54]}
+{"kind":"textbox","id":"sh/gvy90je9","slide":6,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[600,510,54,42]}
+{"kind":"shape","id":"sh/9gr2p8nq","slide":6,"bbox":[754,228,206,312]}
+{"kind":"textbox","id":"sh/2p8nqxs7","slide":6,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[774,250,54,32]}
+{"kind":"textbox","id":"sh/ra5gbq1o","slide":6,"text":"Rechercher","textPreview":"Rechercher","textChars":10,"textLines":1,"bbox":[774,314,166,44]}
+{"kind":"textbox","id":"sh/kzupwb2h","slide":6,"text":"top_k = 4","textPreview":"top_k = 4","textChars":9,"textLines":1,"bbox":[774,382,166,104]}
+{"kind":"shape","id":"sh/9knih4by","slide":6,"bbox":[830,504,54,54]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":6,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[830,510,54,42]}
+{"kind":"shape","id":"sh/qpg3ex0n","slide":6,"bbox":[984,228,206,312]}
+{"kind":"textbox","id":"sh/xczed8v6","slide":6,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1004,250,54,32]}
+{"kind":"textbox","id":"sh/8v6psfil","slide":6,"text":"Répondre","textPreview":"Répondre","textChars":8,"textLines":1,"bbox":[1004,314,166,44]}
+{"kind":"textbox","id":"sh/fyxobm58","slide":6,"text":"Mistral + sources","textPreview":"Mistral + sources","textChars":17,"textLines":1,"bbox":[1004,382,166,104]}
+{"kind":"shape","id":"sh/qd4vmtwr","slide":6,"bbox":[1060,504,54,54]}
+{"kind":"textbox","id":"sh/x4nap4r6","slide":6,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[1060,510,54,42]}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":6,"text":"Hors ligne : données → index.  En ligne : question → réponse sourcée.","textPreview":"Hors ligne : données → index.  En ligne : question → réponse sourcée.","textChars":69,"textLines":1,"bbox":[64,592,1120,42]}
+{"kind":"shape","id":"sh/fmlkjm1c","slide":6,"bbox":[64,682,1152,0]}
+{"kind":"textbox","id":"sh/q1orytsv","slide":6,"text":"PROJET 7  •  PULS-EVENTS","textPreview":"PROJET 7  •  PULS-EVENTS","textChars":24,"textLines":1,"bbox":[64,690,420,18]}
+{"kind":"textbox","id":"sh/65wjudg7","slide":6,"text":"HUGO GAUBE","textPreview":"HUGO GAUBE","textChars":10,"textLines":1,"bbox":[1010,690,206,18]}
+{"kind":"notes","id":"nt/58z25kb6","slide":6,"text":"Durée cible : 55 secondes.\nLa collecte, le nettoyage et l’indexation sont réalisés hors ligne et peuvent être reconstruits par scripts.\nEn ligne, l’API charge l’index persistant, retrouve le contexte, construit le prompt et génère une réponse.\nCette séparation rend chaque brique testable et évite de reconstruire FAISS à chaque question."}
+{"kind":"slide","id":"sl/0z61032l","slide":7,"title":"API DÉPLOYÉE","textShapes":16}
+{"kind":"shape","id":"sh/qd4vmtwr","slide":7,"bbox":[64,46,61.44,8]}
+{"kind":"shape","id":"sh/x4nap4r6","slide":7,"bbox":[125.44,46,34.56,8]}
+{"kind":"shape","id":"sh/8jqh0fep","slide":7,"bbox":[160,46,32,8]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":7,"text":"API DÉPLOYÉE","textPreview":"API DÉPLOYÉE","textChars":12,"textLines":1,"bbox":[64,66,360,24]}
+{"kind":"textbox","id":"sh/qpg3ex0n","slide":7,"text":"FastAPI expose le RAG comme un service testable","textPreview":"FastAPI expose le RAG comme un service testable","textChars":47,"textLines":1,"bbox":[64,101,1132,76]}
+{"kind":"textbox","id":"sh/xczed8v6","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1132,48,84,24]}
+{"kind":"shape","id":"sh/8v6psfil","slide":7,"bbox":[64,203,430,390]}
+{"kind":"textbox","id":"sh/je9cvixc","slide":7,"text":"CONTRAT OPENAPI","textPreview":"CONTRAT OPENAPI","textChars":15,"textLines":1,"bbox":[92,230,220,32]}
+{"kind":"textbox","id":"sh/qtcj6tov","slide":7,"text":"L’API est documentée dans Swagger. La capture à droite vient de l’instance locale réellement lancée.","textPreview":"L’API est documentée dans Swagger. La capture à droite vient de l’instance locale réellement lancée.","textChars":100,"textLines":1,"bbox":[92,292,350,98]}
+{"kind":"textbox","id":"sh/svu9knih","slide":7,"text":"GET","textPreview":"GET","textChars":3,"textLines":1,"bbox":[92,430,64,32]}
+{"kind":"textbox","id":"sh/hgn29gr2","slide":7,"text":"/health","textPreview":"/health","textChars":7,"textLines":1,"bbox":[174,435,240,26]}
+{"kind":"textbox","id":"sh/ap4r65wj","slide":7,"text":"POST","textPreview":"POST","textChars":4,"textLines":1,"bbox":[92,478,64,32]}
+{"kind":"textbox","id":"sh/za1gvy90","slide":7,"text":"/ask + question","textPreview":"/ask + question","textChars":15,"textLines":1,"bbox":[174,483,240,26]}
+{"kind":"textbox","id":"sh/s36hcrmh","slide":7,"text":"ADMIN","textPreview":"ADMIN","textChars":5,"textLines":1,"bbox":[92,526,64,32]}
+{"kind":"textbox","id":"sh/hoza1gvy","slide":7,"text":"/rebuild protégé","textPreview":"/rebuild protégé","textChars":16,"textLines":1,"bbox":[174,531,240,26]}
+{"kind":"shape","id":"sh/a1gvy90j","slide":7,"bbox":[526,203,690,390]}
+{"kind":"textbox","id":"sh/s72x4nap","slide":7,"text":"DOCKER COMPOSE","textPreview":"DOCKER COMPOSE","textChars":14,"textLines":1,"bbox":[64,616,230,44]}
+{"kind":"textbox","id":"sh/lszqtcj6","slide":7,"text":"SWAGGER /docs","textPreview":"SWAGGER /docs","textChars":13,"textLines":1,"bbox":[312,616,210,44]}
+{"kind":"textbox","id":"sh/pg3ex0nu","slide":7,"text":"L’index est chargé au démarrage : l’usage courant ne relance ni l’ingestion ni l’indexation.","textPreview":"L’index est chargé au démarrage : l’usage courant ne relance ni l’ingestion ni l’indexation.","textChars":92,"textLines":1,"bbox":[558,623,658,28]}
+{"kind":"shape","id":"sh/wval87ed","slide":7,"bbox":[64,682,1152,0]}
+{"kind":"textbox","id":"sh/7adsji5s","slide":7,"text":"PROJET 7  •  PULS-EVENTS","textPreview":"PROJET 7  •  PULS-EVENTS","textChars":24,"textLines":1,"bbox":[64,690,420,18]}
+{"kind":"textbox","id":"sh/epkzupwb","slide":7,"text":"HUGO GAUBE","textPreview":"HUGO GAUBE","textChars":10,"textLines":1,"bbox":[1010,690,206,18]}
+{"kind":"image","id":"im/upwb2hwf","slide":7,"name":"","geometry":"roundRect","alt":"Documentation réelle de l’API OpenAgenda RAG","bbox":[583.8,219,574.4,359]}
+{"kind":"notes","id":"nt/0z61032l","slide":7,"text":"Durée cible : 50 secondes.\nFastAPI fournit le contrat de service : health vérifie que l’index est prêt, ask reçoit une question et retourne la réponse avec ses sources.\nDocker Compose rend ce runtime local reproductible. La documentation Swagger visible ici est une vraie capture de l’API locale.\nJe passe maintenant à la démonstration de deux comportements métier."}
+{"kind":"slide","id":"sl/fu18jqh0","slide":8,"title":"DÉMONSTRATION CONTRÔLÉE","textShapes":20}
+{"kind":"shape","id":"sh/1032lszq","slide":8,"bbox":[64,46,71.04,8]}
+{"kind":"shape","id":"sh/u9knih4b","slide":8,"bbox":[135.04,46,39.96,8]}
+{"kind":"shape","id":"sh/judg7ads","slide":8,"bbox":[175,46,37,8]}
+{"kind":"textbox","id":"sh/c7u54zid","slide":8,"text":"DÉMONSTRATION CONTRÔLÉE","textPreview":"DÉMONSTRATION CONTRÔLÉE","textChars":23,"textLines":1,"bbox":[64,68,420,24]}
+{"kind":"textbox","id":"sh/1orytsvu","slide":8,"text":"La démo vérifie une valeur et une limite métier","textPreview":"La démo vérifie une valeur et une limite métier","textChars":47,"textLines":1,"bbox":[64,110,1040,72]}
+{"kind":"shape","id":"sh/u18jqh0f","slide":8,"bbox":[64,236,266,246]}
+{"kind":"textbox","id":"sh/jm1cfa9w","slide":8,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[84,258,54,32]}
+{"kind":"textbox","id":"sh/cvixczed","slide":8,"text":"HEALTH","textPreview":"HEALTH","textChars":6,"textLines":1,"bbox":[84,318,220,36]}
+{"kind":"textbox","id":"sh/5gbq1ory","slide":8,"text":"index chargé\nservice prêt","textPreview":"index chargé | service prêt","textChars":25,"textLines":2,"bbox":[84,376,220,70]}
+{"kind":"shape","id":"sh/18jqh0fe","slide":8,"bbox":[356,236,266,246]}
+{"kind":"textbox","id":"sh/8nqxs72x","slide":8,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[376,258,54,32]}
+{"kind":"textbox","id":"sh/j2t83itg","slide":8,"text":"PARIS","textPreview":"PARIS","textChars":5,"textLines":1,"bbox":[376,318,220,36]}
+{"kind":"textbox","id":"sh/qh0fepkz","slide":8,"text":"Concert Fishers\n+ 4 sources","textPreview":"Concert Fishers | + 4 sources","textChars":27,"textLines":2,"bbox":[376,376,220,70]}
+{"kind":"shape","id":"sh/1w7mp0bi","slide":8,"bbox":[648,236,266,246]}
+{"kind":"textbox","id":"sh/8bat47y1","slide":8,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[668,258,54,32]}
+{"kind":"textbox","id":"sh/jqh0fepk","slide":8,"text":"LYON","textPreview":"LYON","textChars":4,"textLines":1,"bbox":[668,318,220,36]}
+{"kind":"textbox","id":"sh/q5o7qpg3","slide":8,"text":"corpus Paris\n« Je ne sais pas »","textPreview":"corpus Paris | « Je ne sais pas »","textChars":31,"textLines":2,"bbox":[668,376,220,70]}
+{"kind":"shape","id":"sh/1kre1w7m","slide":8,"bbox":[940,236,266,246]}
+{"kind":"textbox","id":"sh/c3ylc7u5","slide":8,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[960,258,54,32]}
+{"kind":"textbox","id":"sh/orytsvu9","slide":8,"text":"LATENCE","textPreview":"LATENCE","textChars":7,"textLines":1,"bbox":[960,318,220,36]}
+{"kind":"textbox","id":"sh/hcrmhk3q","slide":8,"text":"démo complète\n≈ 3 secondes","textPreview":"démo complète | ≈ 3 secondes","textChars":26,"textLines":2,"bbox":[960,376,220,70]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":8,"text":"API","textPreview":"API","textChars":3,"textLines":1,"bbox":[64,530,210,44]}
+{"kind":"textbox","id":"sh/z61032ls","slide":8,"text":"SOURCES","textPreview":"SOURCES","textChars":7,"textLines":1,"bbox":[292,530,190,44]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":8,"text":"PRUDENCE","textPreview":"PRUDENCE","textChars":8,"textLines":1,"bbox":[500,530,210,44]}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":8,"text":"DOCKER","textPreview":"DOCKER","textChars":6,"textLines":1,"bbox":[728,530,190,44]}
+{"kind":"shape","id":"sh/a9w3m94f","slide":8,"bbox":[938,530,278,76]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":8,"text":"Retour attendu → tests et évaluation","textPreview":"Retour attendu → tests et évaluation","textChars":36,"textLines":1,"bbox":[960,544,234,50]}
+{"kind":"textbox","id":"sh/obm58z25","slide":8,"text":"Je montre volontairement un cas Paris sourcé et un cas Lyon hors périmètre : pas seulement un exemple favorable.","textPreview":"Je montre volontairement un cas Paris sourcé et un cas Lyon hors périmètre : pas seulement un exemple favorable.","textChars":112,"textLines":1,"bbox":[64,637,1152,28]}
+{"kind":"notes","id":"nt/fu18jqh0","slide":8,"text":"Durée cible : 25 secondes sur la slide, puis 2 minutes au terminal.\nJe vérifie d’abord health, puis Concert Fishers à Paris : réponse, date, lieu, URL et quatre sources.\nEnsuite je demande des expositions à Lyon. Comme le corpus couvre Paris, le comportement attendu est prudent : aucune invention.\nCommande : bash scripts/demo_api_5min.sh."}
+{"kind":"slide","id":"sl/qh0fepkz","slide":9,"title":"STRATÉGIE DE QUALITÉ","textShapes":21}
+{"kind":"shape","id":"sh/vahoza1g","slide":9,"bbox":[64,46,61.44,8]}
+{"kind":"shape","id":"sh/ovahoza1","slide":9,"bbox":[125.44,46,34.56,8]}
+{"kind":"shape","id":"sh/dg7adsji","slide":9,"bbox":[160,46,32,8]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":9,"text":"STRATÉGIE DE QUALITÉ","textPreview":"STRATÉGIE DE QUALITÉ","textChars":20,"textLines":1,"bbox":[64,66,360,24]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":9,"text":"59 tests protègent les comportements critiques","textPreview":"59 tests protègent les comportements critiques","textChars":46,"textLines":1,"bbox":[64,101,1132,76]}
+{"kind":"textbox","id":"sh/onyd0z61","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1132,48,84,24]}
+{"kind":"shape","id":"sh/d8v6psfi","slide":9,"bbox":[64,220,680,72]}
+{"kind":"textbox","id":"sh/6dcbulwv","slide":9,"text":"INGESTION","textPreview":"INGESTION","textChars":9,"textLines":1,"bbox":[84,240,150,32]}
+{"kind":"textbox","id":"sh/vy90je9c","slide":9,"text":"pagination\nnettoyage · filtres","textPreview":"pagination | nettoyage · filtres","textChars":30,"textLines":2,"bbox":[254,243,370,28]}
+{"kind":"textbox","id":"sh/nuxc3ylc","slide":9,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[664,238,52,36]}
+{"kind":"shape","id":"sh/y90je9cv","slide":9,"bbox":[64,311,680,72]}
+{"kind":"textbox","id":"sh/5wjudg7a","slide":9,"text":"INDEX","textPreview":"INDEX","textChars":5,"textLines":1,"bbox":[84,331,150,32]}
+{"kind":"textbox","id":"sh/gbq1oryt","slide":9,"text":"chunks\nFAISS · métadonnées","textPreview":"chunks | FAISS · métadonnées","textChars":26,"textLines":2,"bbox":[254,334,370,28]}
+{"kind":"textbox","id":"sh/n29gr2p8","slide":9,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[664,329,52,36]}
+{"kind":"shape","id":"sh/yhgn29gr","slide":9,"bbox":[64,402,680,72]}
+{"kind":"textbox","id":"sh/58z25kb6","slide":9,"text":"API","textPreview":"API","textChars":3,"textLines":1,"bbox":[84,422,150,32]}
+{"kind":"textbox","id":"sh/gn29gr2p","slide":9,"text":"health\nask · erreurs","textPreview":"health | ask · erreurs","textChars":20,"textLines":2,"bbox":[254,425,370,28]}
+{"kind":"textbox","id":"sh/neloj2t8","slide":9,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[664,420,52,36]}
+{"kind":"shape","id":"sh/ytsvu9kn","slide":9,"bbox":[64,493,680,72]}
+{"kind":"textbox","id":"sh/2x4nap4r","slide":9,"text":"ÉVALUATION","textPreview":"ÉVALUATION","textChars":10,"textLines":1,"bbox":[84,513,150,32]}
+{"kind":"textbox","id":"sh/vixczed8","slide":9,"text":"jeu annoté\nRAGAS","textPreview":"jeu annoté | RAGAS","textChars":16,"textLines":2,"bbox":[254,516,370,28]}
+{"kind":"textbox","id":"sh/k3q5o7qp","slide":9,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[664,511,52,36]}
+{"kind":"shape","id":"sh/donyd0z6","slide":9,"bbox":[786,220,430,345]}
+{"kind":"textbox","id":"sh/6psfil0r","slide":9,"text":"59","textPreview":"59","textChars":2,"textLines":1,"bbox":[836,276,330,105]}
+{"kind":"textbox","id":"sh/val87ed8","slide":9,"text":"tests","textPreview":"tests","textChars":5,"textLines":1,"bbox":[836,392,330,36]}
+{"kind":"shape","id":"sh/kre1w7mp","slide":9,"bbox":[846,461,310,14]}
+{"kind":"shape","id":"sh/dcbulwva","slide":9,"bbox":[846,461,301,14]}
+{"kind":"textbox","id":"sh/2lszqtcj","slide":9,"text":"LIVRÉ · pytest passe","textPreview":"LIVRÉ · pytest passe","textChars":20,"textLines":1,"bbox":[826,505,350,28]}
+{"kind":"shape","id":"sh/v6psfil0","slide":9,"bbox":[64,600,1152,52]}
+{"kind":"textbox","id":"sh/h4byhgn2","slide":9,"text":"CI/CD proposée : à chaque push, tests → image Docker → healthcheck → rapport. Elle n’est pas implémentée dans le POC.","textPreview":"CI/CD proposée : à chaque push, tests → image Docker → healthcheck → rapport. Elle n’est pas implémentée dans le POC.","textChars":117,"textLines":1,"bbox":[88,615,1104,26]}
+{"kind":"shape","id":"sh/sji5snel","slide":9,"bbox":[64,682,1152,0]}
+{"kind":"textbox","id":"sh/3ylc7u54","slide":9,"text":"PROJET 7  •  PULS-EVENTS","textPreview":"PROJET 7  •  PULS-EVENTS","textChars":24,"textLines":1,"bbox":[64,690,420,18]}
+{"kind":"textbox","id":"sh/adsji5sn","slide":9,"text":"HUGO GAUBE","textPreview":"HUGO GAUBE","textChars":10,"textLines":1,"bbox":[1010,690,206,18]}
+{"kind":"notes","id":"nt/qh0fepkz","slide":9,"text":"Durée cible : 75 secondes.\nLes 59 tests détectent les régressions techniques : ingestion, normalisation, index, RAG, API et évaluation.\nIls ne remplacent pas l’évaluation de qualité : ils vérifient que le contrat reste intact après un changement.\nLa CI/CD est une recommandation explicite : elle n’est pas livrée dans ce POC."}
+{"kind":"slide","id":"sl/29gr2p8n","slide":10,"title":"ÉVALUATION RAGAS","textShapes":21}
+{"kind":"shape","id":"sh/2p8nqxs7","slide":10,"bbox":[64,46,61.44,8]}
+{"kind":"shape","id":"sh/9gr2p8nq","slide":10,"bbox":[125.44,46,34.56,8]}
+{"kind":"shape","id":"sh/gvy90je9","slide":10,"bbox":[160,46,32,8]}
+{"kind":"textbox","id":"sh/r2p8nqxs","slide":10,"text":"ÉVALUATION RAGAS","textPreview":"ÉVALUATION RAGAS","textChars":16,"textLines":1,"bbox":[64,66,360,24]}
+{"kind":"textbox","id":"sh/2hwfyxob","slide":10,"text":"RAGAS me dit où améliorer la réponse","textPreview":"RAGAS me dit où améliorer la réponse","textChars":36,"textLines":1,"bbox":[64,101,1132,76]}
+{"kind":"textbox","id":"sh/94fu18jq","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1132,48,84,24]}
+{"kind":"shape","id":"sh/kjm1cfa9","slide":10,"bbox":[64,214,214,112]}
+{"kind":"shape","id":"sh/rqd4vmtw","slide":10,"bbox":[64,214,8,112]}
+{"kind":"textbox","id":"sh/25kb6xkf","slide":10,"text":"0,900","textPreview":"0,900","textChars":5,"textLines":1,"bbox":[88,230,174,44]}
+{"kind":"textbox","id":"sh/4fu18jqh","slide":10,"text":"fidélité","textPreview":"fidélité","textChars":8,"textLines":1,"bbox":[88,280,174,28]}
+{"kind":"shape","id":"sh/x0nuxc3y","slide":10,"bbox":[300,214,214,112]}
+{"kind":"shape","id":"sh/m94fu18j","slide":10,"bbox":[300,214,8,112]}
+{"kind":"textbox","id":"sh/fu18jqh0","slide":10,"text":"0,846","textPreview":"0,846","textChars":5,"textLines":1,"bbox":[324,230,174,44]}
+{"kind":"textbox","id":"sh/83itgfml","slide":10,"text":"pertinence","textPreview":"pertinence","textChars":10,"textLines":1,"bbox":[324,280,174,28]}
+{"kind":"shape","id":"sh/xobm58z2","slide":10,"bbox":[536,214,214,112]}
+{"kind":"shape","id":"sh/qxs72x4n","slide":10,"bbox":[536,214,8,112]}
+{"kind":"textbox","id":"sh/fil0rqd4","slide":10,"text":"1,000","textPreview":"1,000","textChars":5,"textLines":1,"bbox":[560,230,174,44]}
+{"kind":"textbox","id":"sh/4zidonyd","slide":10,"text":"contexte utile","textPreview":"contexte utile","textChars":14,"textLines":1,"bbox":[560,280,174,28]}
+{"kind":"shape","id":"sh/xkf6dcbu","slide":10,"bbox":[64,350,686,258]}
+{"kind":"textbox","id":"sh/xczed8v6","slide":10,"text":"Entrées RAGAS","textPreview":"Entrées RAGAS","textChars":13,"textLines":1,"bbox":[90,378,400,34]}
+{"kind":"textbox","id":"sh/8v6psfil","slide":10,"text":"3 cas factuels\n\nquestion\n+ contextes récupérés\n+ réponse générée\n+ référence humaine","textPreview":"3 cas factuels |  | question | + contextes récupérés | + réponse générée | + référence humaine","textChars":84,"textLines":6,"bbox":[90,430,612,88]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":10,"text":"BON CONTEXTE","textPreview":"BON CONTEXTE","textChars":12,"textLines":1,"bbox":[90,548,220,32]}
+{"kind":"textbox","id":"sh/qpg3ex0n","slide":10,"text":"RÉPONSE ANCRÉE","textPreview":"RÉPONSE ANCRÉE","textChars":14,"textLines":1,"bbox":[330,548,214,32]}
+{"kind":"textbox","id":"sh/x4nap4r6","slide":10,"text":"3 CAS · SIGNAL INITIAL","textPreview":"3 CAS · SIGNAL INITIAL","textChars":22,"textLines":1,"bbox":[564,548,170,32]}
+{"kind":"shape","id":"sh/8jqh0fep","slide":10,"bbox":[786,214,430,394]}
+{"kind":"textbox","id":"sh/fyxobm58","slide":10,"text":"PRIORITÉ","textPreview":"PRIORITÉ","textChars":8,"textLines":1,"bbox":[824,248,354,26]}
+{"kind":"textbox","id":"sh/qd4vmtwr","slide":10,"text":"0,683","textPreview":"0,683","textChars":5,"textLines":1,"bbox":[824,298,354,90]}
+{"kind":"textbox","id":"sh/xs72x4na","slide":10,"text":"correction","textPreview":"correction","textChars":10,"textLines":1,"bbox":[824,394,354,32]}
+{"kind":"shape","id":"sh/87ed8bat","slide":10,"bbox":[838,458,326,16]}
+{"kind":"shape","id":"sh/2p8nqxs7","slide":10,"bbox":[838,458,204,16]}
+{"kind":"shape","id":"sh/ra5gbq1o","slide":10,"bbox":[994,448,4,36]}
+{"kind":"textbox","id":"sh/gvy90je9","slide":10,"text":"→ structurer la réponse\n→ élargir le benchmark","textPreview":"→ structurer la réponse | → élargir le benchmark","textChars":46,"textLines":2,"bbox":[930,494,136,26]}
+{"kind":"textbox","id":"sh/9gr2p8nq","slide":10,"text":"PAS UNE PERFORMANCE GÉNÉRALE","textPreview":"PAS UNE PERFORMANCE GÉNÉRALE","textChars":28,"textLines":1,"bbox":[854,546,294,32]}
+{"kind":"shape","id":"sh/2hwfyxob","slide":10,"bbox":[64,682,1152,0]}
+{"kind":"textbox","id":"sh/r2p8nqxs","slide":10,"text":"PROJET 7  •  PULS-EVENTS","textPreview":"PROJET 7  •  PULS-EVENTS","textChars":24,"textLines":1,"bbox":[64,690,420,18]}
+{"kind":"textbox","id":"sh/kjm1cfa9","slide":10,"text":"HUGO GAUBE","textPreview":"HUGO GAUBE","textChars":10,"textLines":1,"bbox":[1010,690,206,18]}
+{"kind":"notes","id":"nt/29gr2p8n","slide":10,"text":"Durée cible : 80 secondes.\nRAGAS compare question, contextes, réponse générée et réponse de référence. Il distingue retrieval et génération.\nLa fidélité, la pertinence et la précision du contexte sont prometteuses sur trois cas.\nLa correction à 0,683 est la priorité : je dois structurer la réponse et élargir le benchmark, pas changer de modèle à l’aveugle."}
+{"kind":"slide","id":"sl/re1w7mp0","slide":11,"title":"LIMITES ET SUITE","textShapes":18}
+{"kind":"shape","id":"sh/dg7adsji","slide":11,"bbox":[64,46,61.44,8]}
+{"kind":"shape","id":"sh/6tovahoz","slide":11,"bbox":[125.44,46,34.56,8]}
+{"kind":"shape","id":"sh/vahoza1g","slide":11,"bbox":[160,46,32,8]}
+{"kind":"textbox","id":"sh/onyd0z61","slide":11,"text":"LIMITES ET SUITE","textPreview":"LIMITES ET SUITE","textChars":16,"textLines":1,"bbox":[64,66,360,24]}
+{"kind":"textbox","id":"sh/d8v6psfi","slide":11,"text":"Les limites sont connues, donc pilotables","textPreview":"Les limites sont connues, donc pilotables","textChars":41,"textLines":1,"bbox":[64,101,1132,76]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":11,"text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1132,48,84,24]}
+{"kind":"shape","id":"sh/z25kb6xk","slide":11,"bbox":[64,218,352,354]}
+{"kind":"textbox","id":"sh/oj2t83it","slide":11,"text":"DONNÉES","textPreview":"DONNÉES","textChars":7,"textLines":1,"bbox":[88,242,128,32]}
+{"kind":"textbox","id":"sh/d4vmtwra","slide":11,"text":"Paris uniquement\nsnapshot figé","textPreview":"Paris uniquement | snapshot figé","textChars":30,"textLines":2,"bbox":[88,306,304,76]}
+{"kind":"shape","id":"sh/h4byhgn2","slide":11,"bbox":[88,416,304,0]}
+{"kind":"textbox","id":"sh/sji5snel","slide":11,"text":"PROCHAINE ÉTAPE","textPreview":"PROCHAINE ÉTAPE","textChars":15,"textLines":1,"bbox":[88,444,304,24]}
+{"kind":"textbox","id":"sh/3ylc7u54","slide":11,"text":"collecte planifiée\n+ multi-villes","textPreview":"collecte planifiée | + multi-villes","textChars":33,"textLines":2,"bbox":[88,482,304,64]}
+{"kind":"shape","id":"sh/adsji5sn","slide":11,"bbox":[448,218,352,354]}
+{"kind":"textbox","id":"sh/lszqtcj6","slide":11,"text":"RECHERCHE","textPreview":"RECHERCHE","textChars":9,"textLines":1,"bbox":[472,242,128,32]}
+{"kind":"textbox","id":"sh/s72x4nap","slide":11,"text":"chunks et top_k\nà calibrer","textPreview":"chunks et top_k | à calibrer","textChars":26,"textLines":2,"bbox":[472,306,304,76]}
+{"kind":"shape","id":"sh/3m94fu18","slide":11,"bbox":[472,416,304,0]}
+{"kind":"textbox","id":"sh/a5gbq1or","slide":11,"text":"PROCHAINE ÉTAPE","textPreview":"PROCHAINE ÉTAPE","textChars":15,"textLines":1,"bbox":[472,444,304,24]}
+{"kind":"textbox","id":"sh/hoza1gvy","slide":11,"text":"benchmark large\n+ seuil métier","textPreview":"benchmark large | + seuil métier","textChars":30,"textLines":2,"bbox":[472,482,304,64]}
+{"kind":"shape","id":"sh/s36hcrmh","slide":11,"bbox":[832,218,352,354]}
+{"kind":"textbox","id":"sh/4zidonyd","slide":11,"text":"EXPLOITATION","textPreview":"EXPLOITATION","textChars":12,"textLines":1,"bbox":[856,242,128,32]}
+{"kind":"textbox","id":"sh/xkf6dcbu","slide":11,"text":"FAISS local\ninstance unique","textPreview":"FAISS local | instance unique","textChars":27,"textLines":2,"bbox":[856,306,304,76]}
+{"kind":"shape","id":"sh/mtwra5gb","slide":11,"bbox":[856,416,304,0]}
+{"kind":"textbox","id":"sh/fepkzupw","slide":11,"text":"PROCHAINE ÉTAPE","textPreview":"PROCHAINE ÉTAPE","textChars":15,"textLines":1,"bbox":[856,444,304,24]}
+{"kind":"textbox","id":"sh/4r65wjud","slide":11,"text":"logs · sécurité\ncharge · alertes","textPreview":"logs · sécurité | charge · alertes","textChars":32,"textLines":2,"bbox":[856,482,304,64]}
+{"kind":"shape","id":"sh/xc3ylc7u","slide":11,"bbox":[256,608,768,48]}
+{"kind":"textbox","id":"sh/mlkjm1cf","slide":11,"text":"Le POC prouve la faisabilité. Ces trois chantiers conditionnent un déploiement élargi.","textPreview":"Le POC prouve la faisabilité. Ces trois chantiers conditionnent un déploiement élargi.","textChars":86,"textLines":1,"bbox":[278,620,724,24]}
+{"kind":"shape","id":"sh/f6dcbulw","slide":11,"bbox":[64,682,1152,0]}
+{"kind":"textbox","id":"sh/4fu18jqh","slide":11,"text":"PROJET 7  •  PULS-EVENTS","textPreview":"PROJET 7  •  PULS-EVENTS","textChars":24,"textLines":1,"bbox":[64,690,420,18]}
+{"kind":"textbox","id":"sh/x0nuxc3y","slide":11,"text":"HUGO GAUBE","textPreview":"HUGO GAUBE","textChars":10,"textLines":1,"bbox":[1010,690,206,18]}
+{"kind":"notes","id":"nt/re1w7mp0","slide":11,"text":"Durée cible : 60 secondes.\nJe présente les limites par familles et toujours avec leur action corrective.\nLe risque métier principal est une réponse plausible mais incomplète : les sources, la prudence du prompt et un futur seuil métier réduisent ce risque.\nDocker prouve la reproductibilité locale, pas l’industrialisation complète."}
+{"kind":"slide","id":"sl/4fu18jqh","slide":12,"title":"CONCLUSION POUR JÉRÉMY","textShapes":17}
+{"kind":"shape","id":"sh/3m94fu18","slide":12,"bbox":[64,48,84.48,8]}
+{"kind":"shape","id":"sh/s72x4nap","slide":12,"bbox":[148.48,48,47.52,8]}
+{"kind":"shape","id":"sh/lszqtcj6","slide":12,"bbox":[196,48,44,8]}
+{"kind":"textbox","id":"sh/adsji5sn","slide":12,"text":"CONCLUSION POUR JÉRÉMY","textPreview":"CONCLUSION POUR JÉRÉMY","textChars":22,"textLines":1,"bbox":[64,72,420,24]}
+{"kind":"textbox","id":"sh/3ylc7u54","slide":12,"text":"Le POC est démontrable.\nLa suite est mesurée.","textPreview":"Le POC est démontrable. | La suite est mesurée.","textChars":45,"textLines":2,"bbox":[64,124,720,150]}
+{"kind":"shape","id":"sh/sji5snel","slide":12,"bbox":[64,330,34,34]}
+{"kind":"textbox","id":"sh/h4byhgn2","slide":12,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[64,334,34,25]}
+{"kind":"textbox","id":"sh/ap4r65wj","slide":12,"text":"Données réelles","textPreview":"Données réelles","textChars":15,"textLines":1,"bbox":[114,334,208,28]}
+{"kind":"shape","id":"sh/za1gvy90","slide":12,"bbox":[334,330,34,34]}
+{"kind":"textbox","id":"sh/z61032ls","slide":12,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[334,334,34,25]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":12,"text":"RAG + API","textPreview":"RAG + API","textChars":9,"textLines":1,"bbox":[384,334,208,28]}
+{"kind":"shape","id":"sh/hcrmhk3q","slide":12,"bbox":[604,330,34,34]}
+{"kind":"textbox","id":"sh/orytsvu9","slide":12,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[604,334,34,25]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":12,"text":"59 tests + RAGAS","textPreview":"59 tests + RAGAS","textChars":16,"textLines":1,"bbox":[654,334,208,28]}
+{"kind":"shape","id":"sh/a9w3m94f","slide":12,"bbox":[64,404,34,34]}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":12,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[64,408,34,25]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":12,"text":"Docker + démo","textPreview":"Docker + démo","textChars":13,"textLines":1,"bbox":[114,408,208,28]}
+{"kind":"shape","id":"sh/zqtcj6to","slide":12,"bbox":[334,404,34,34]}
+{"kind":"textbox","id":"sh/65wjudg7","slide":12,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[334,408,34,25]}
+{"kind":"textbox","id":"sh/ed8bat47","slide":12,"text":"Sources vérifiables","textPreview":"Sources vérifiables","textChars":19,"textLines":1,"bbox":[384,408,208,28]}
+{"kind":"shape","id":"sh/7u54zido","slide":12,"bbox":[838,128,378,414]}
+{"kind":"textbox","id":"sh/wfyxobm5","slide":12,"text":"DÉCISION PROPOSÉE","textPreview":"DÉCISION PROPOSÉE","textChars":17,"textLines":1,"bbox":[876,168,302,26]}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":12,"text":"Valider un\npilote multi-villes","textPreview":"Valider un | pilote multi-villes","textChars":30,"textLines":2,"bbox":[876,230,302,104]}
+{"kind":"textbox","id":"sh/eloj2t83","slide":12,"text":"1. élargir les données et le jeu annoté\n2. ajouter des garde-fous métier\n3. industrialiser si la valeur est confirmée","textPreview":"1. élargir les données et le jeu annoté | 2. ajouter des garde-fous métier | 3. industrialiser si la valeur est confirmée","textChars":117,"textLines":3,"bbox":[882,372,290,100]}
+{"kind":"textbox","id":"sh/36hcrmhk","slide":12,"text":"QUESTIONS ?","textPreview":"QUESTIONS ?","textChars":11,"textLines":1,"bbox":[916,494,222,32]}
+{"kind":"textbox","id":"sh/wra5gbq1","slide":12,"text":"Rapport, scripts et dépôt disponibles pour la discussion technique","textPreview":"Rapport, scripts et dépôt disponibles pour la discussion technique","textChars":66,"textLines":1,"bbox":[64,626,1152,28]}
+{"kind":"notes","id":"nt/4fu18jqh","slide":12,"text":"Durée cible : 55 secondes, puis 40 secondes pour rapport et dépôt.\nLe POC couvre les données, l’index FAISS, Mistral, l’API Docker, les tests et la première évaluation RAGAS.\nJe recommande un pilote multi-villes mesuré, avec plus de données et de cas annotés avant toute industrialisation large.\nMerci. Je suis prêt à répondre aux questions."}
