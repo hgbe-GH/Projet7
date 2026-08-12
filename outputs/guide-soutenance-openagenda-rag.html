@@ -168,7 +168,7 @@
       font-weight: 850;
     }
 
-    .step {
+    .step, .reprise-step {
       margin: 1.5rem 0 2.4rem;
       overflow: hidden;
       border: 1px solid var(--line);
@@ -286,7 +286,7 @@
       .nav { display: none; }
       .hero { min-height: auto; padding: 2rem; }
       .chapter { max-width: none; padding: 1.5rem 0; }
-      .step, .panel { break-inside: avoid; box-shadow: none; }
+      .step, .reprise-step, .panel { break-inside: avoid; box-shadow: none; }
       details > div { display: block; }
     }
   </style>
@@ -297,6 +297,7 @@
       <strong>Guide de soutenance</strong>
       <ul>
         <li><a href="#mode-guide">MODE GUIDÉ — commencer ici</a></li>
+        <li><a href="#script-reprise">SCRIPT 15 MIN — à lire</a></li>
         <li><a href="#avant-appel">Avant de commencer</a></li>
         <li><a href="#slide-1">01 · Mission</a></li>
         <li><a href="#slide-2">02 · Pourquoi le RAG</a></li>
@@ -355,9 +356,9 @@
             <p class="screen-label">ÉCRAN 1 — POWERPOINT</p>
             <div class="screen-content">
               <div><h3>Ce que j’ouvre</h3><p>Le diaporama <code>openagenda-rag-soutenance.pptx</code>, en plein écran, sur la slide 1.</p></div>
-              <div><h3>Ce que je fais</h3><p>Je présente normalement les slides 1 à 7. Je ne montre encore ni le rapport, ni GitHub, ni le code.</p></div>
-              <div><h3>Ce que je dis</h3><p>J’utilise les scripts des slides 1 à 7 : mission, raison du RAG, fonctionnement, données, architecture, indexation puis API et Docker.</p></div>
-              <div><h3>Quand je change d’écran</h3><p>Après la slide 7, j’avance sur la slide 8 intitulée « La démo prouve le résultat », puis je dis : « Je vais maintenant vous montrer l’API en fonctionnement. »</p></div>
+              <div><h3>Ce que je fais</h3><p>Je présente normalement les slides 1 à 8. Je ne montre encore ni le rapport, ni GitHub, ni le code.</p></div>
+              <div><h3>Ce que je dis</h3><p>Je suis d’abord le <a href="#script-reprise">script de reprise</a> : besoin métier, nettoyage, chunk concret, prompt, modèles, architecture et API.</p></div>
+              <div><h3>Quand je change d’écran</h3><p>Après avoir introduit la slide 8 « La démo vérifie la valeur et la limite métier », je dis : « Je vais maintenant vous montrer l’API en fonctionnement. »</p></div>
             </div>
             <div class="switch-screen">ENSUITE : Alt + Tab → VS Code ou terminal déjà ouvert.</div>
           </article>
@@ -377,7 +378,7 @@
             <p class="screen-label">ÉCRAN 3 — POWERPOINT</p>
             <div class="screen-content">
               <div><h3>Ce que j’ouvre</h3><p>Je reprends le diaporama directement sur la slide 9. Je vérifie avant l’appel que le retour ne redémarre pas à la slide 1.</p></div>
-              <div><h3>Ce que je fais</h3><p>Je présente les slides 9 à 12 : méthode d’évaluation, résultats, limites et recommandation.</p></div>
+              <div><h3>Ce que je fais</h3><p>Je présente les slides 9 à 12 : tests et CI/CD proposée, méthode RAGAS et résultats, limites et recommandation.</p></div>
               <div><h3>Ce que je dis</h3><p>Je termine par : « La faisabilité technique et métier est démontrée. La prochaine étape recommandée est un pilote multi-villes mesuré. »</p></div>
               <div><h3>Quand je change d’écran</h3><p>À la fin de la slide 12, je ne lance pas encore les questions. Je dis : « Avant de conclure, je vous montre rapidement où sont documentées et organisées les preuves du projet. »</p></div>
             </div>
@@ -417,6 +418,89 @@
             <div class="switch-screen">FIN : discussion de 10 minutes, puis débrief de 5 minutes.</div>
           </article>
         </div>
+      </section>
+
+      <section class="chapter" id="script-reprise">
+        <p class="eyebrow">Reprise du jeudi 13 · script à suivre en priorité</p>
+        <h2>Mon déroulé de 15 minutes, écran par écran</h2>
+        <p class="intro">
+          Cette section est mon script actuel : elle correspond exactement au PowerPoint retravaillé. Les fiches plus
+          bas restent utiles pour approfondir une réponse, mais je ne les lis pas dans l’ordre pendant l’oral. Je suis
+          ici la chronologie suivante : slides 1 à 8, démonstration, slides 9 à 12, rapport et dépôt, puis discussion.
+        </p>
+        <div class="alert"><strong>Objectif de durée :</strong> 14 min 35 de présentation guidée, ce qui laisse environ 25 secondes de respiration et de transition. Je ne dois jamais accélérer pour « finir vite » : je marque une pause entre les parties.</div>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>00:00–00:50</span><h3>Slide 1 — Un POC RAG pour décider d’un pilote culturel</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« Bonjour Jérémy. Je vais vous présenter le POC RAG que j’ai développé pour Puls-Events. Le besoin est de pouvoir répondre à des questions sur des événements culturels avec des informations réelles et vérifiables, plutôt qu’avec une réponse plausible mais potentiellement inventée. La décision que ce POC doit éclairer est simple : avons-nous suffisamment de preuves pour lancer un pilote mesuré ?</p><p>J’ai préparé un corpus Paris de 7 586 événements OpenAgenda, transformé en 14 903 passages interrogeables dans FAISS. La chaîne est exposée par FastAPI, conteneurisée, et couverte par 59 tests automatisés. Je vais montrer non seulement le résultat, mais aussi les méthodes qui permettent de lui faire confiance : préparation des données, découpage, prompt, tests et évaluation. »</p></section>
+          <div class="step-body"><div class="note"><h4>À retenir</h4><p>Je commence par la décision métier, pas par les technologies. Je dis « preuve de faisabilité », jamais « produit prêt pour la production ».</p></div><div class="note spoken"><h4>Transition</h4><p>« D’abord, pourquoi avons-nous besoin d’un RAG plutôt que d’un chatbot classique ? »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>00:50–01:50</span><h3>Slide 2 — Le RAG réduit le risque de recommandation non vérifiable</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« Une recherche par mots-clés est utile lorsqu’on connaît le bon terme, mais elle comprend mal une intention formulée naturellement. À l’inverse, un LLM seul formule très bien une réponse, mais il ne connaît pas nécessairement le catalogue à jour : il peut inventer un événement, une date ou un lieu.</p><p>Le RAG combine les deux forces. Je recherche d’abord les passages d’événements qui correspondent sémantiquement à la demande. Puis je donne uniquement ce contexte au modèle Mistral pour qu’il rédige. Enfin, l’API renvoie les sources. La recherche apporte les faits ; le modèle apporte une réponse lisible. Le bénéfice métier est la traçabilité : l’utilisateur peut vérifier ce qui lui est recommandé. »</p></section>
+          <div class="step-body"><div class="note"><h4>Si Jérémy challenge</h4><p><strong>« Le RAG supprime-t-il toutes les hallucinations ? »</strong> Non. Il les réduit et les rend détectables ; le prompt, les sources, les refus prudents et l’évaluation sont les garde-fous complémentaires.</p></div><div class="note spoken"><h4>Transition</h4><p>« Cette fiabilité commence avant le modèle : elle dépend de la qualité des données préparées. »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>01:50–03:00</span><h3>Slide 3 — Le nettoyage rend les données OpenAgenda exploitables</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« Je pars des données OpenAgenda, qui sont riches mais hétérogènes. Une fiche peut contenir du HTML, des champs manquants, des dates au mauvais format, plusieurs localisations, ou un doublon. Indexer ces données brutes rendrait la recherche moins fiable.</p><p>J’ai donc construit une étape de préparation reproductible : je filtre le périmètre Paris et les événements récents, je normalise les dates et les champs textuels, je supprime les balises HTML, j’écarte les enregistrements insuffisants et je déduplique avec un identifiant d’événement. Je conserve aussi les métadonnées utiles : titre, date, lieu, URL et ville. Le résultat est un corpus propre de 7 586 événements, sauvegardé dans un fichier parquet. Cela sépare clairement la source brute du jeu de données réellement indexé. »</p></section>
+          <div class="step-body"><div class="note"><h4>Ce que je peux montrer si demandé</h4><p>Dans <code>src/openagenda_rag/ingestion.py</code>, la préparation nettoie le HTML, normalise et déduplique. Je le montre seulement sur demande : la slide explique déjà la méthode.</p></div><div class="note spoken"><h4>Transition</h4><p>« Une fois les fiches propres, il reste à décider comment les rendre retrouvables dans une question en langage naturel. »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>03:00–04:10</span><h3>Slide 4 — Un événement réel devient plusieurs passages recherchables</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« Voici un exemple réel, l’événement CHIMERE. Sa description complète fait 10 273 caractères. La placer entière dans une seule unité de recherche diluerait les informations pertinentes, et elle serait trop longue à donner au modèle avec d’autres événements.</p><p>Je découpe donc les descriptions en passages de 1 000 caractères avec 200 caractères de chevauchement. Le chevauchement évite de perdre une information importante située à la frontière entre deux passages. Pour CHIMERE, le premier passage contient le titre et le contexte ; le suivant contient déjà 997 caractères de description. Chaque passage est converti en vecteur de 1 024 dimensions par <code>mistral-embed</code>, puis stocké dans FAISS avec ses métadonnées. C’est ainsi que 7 586 événements deviennent 14 903 passages recherchables. Ce sont ces passages précis, et non une réponse pré-écrite, qui seront donnés à Mistral. »</p></section>
+          <div class="step-body"><div class="note"><h4>Pourquoi 1 000 / 200 ?</h4><p>C’est un compromis POC : assez de contexte pour comprendre un passage, assez court pour une recherche ciblée. Ce n’est pas « optimal par nature » : je le comparerais sur un jeu annoté plus large.</p></div><div class="note spoken"><h4>Transition</h4><p>« Maintenant que les bons passages peuvent être retrouvés, je contrôle ce que le modèle a le droit d’en faire. »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>04:10–05:15</span><h3>Slide 5 — La réponse est contrainte par le prompt et les sources</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« Au moment d’une question, je recherche les quatre passages les plus proches, donc <code>top_k = 4</code>. Le prompt transmet la question, ces passages et leurs métadonnées. Il demande à Mistral de répondre en français à partir des sources fournies, de ne pas inventer et d’indiquer quand les informations ne suffisent pas.</p><p>Les deux modèles ont des rôles distincts. <code>mistral-embed</code> produit les vecteurs pour comparer sémantiquement les questions et les passages : je l’ai choisi pour l’indexation et le retrieval. <code>mistral-small-latest</code> produit le texte final : c’est un modèle génératif léger, adapté au POC pour concilier qualité, coût et latence. La température est fixée à 0,1 afin de rendre les réponses plus stables pendant l’évaluation et la démo. Je ne prétends pas que ce sont les meilleurs modèles universels : ils forment une baseline cohérente, à comparer sur le même benchmark avant toute décision de production. »</p></section>
+          <div class="step-body"><div class="note"><h4>Réponse courte si on demande mes prompts</h4><p>Le prompt système impose : répondre seulement avec le contexte, ne pas inventer, rester en français, signaler l’absence d’information. Le prompt utilisateur contient la question et les quatre passages avec leurs métadonnées.</p></div><div class="note spoken"><h4>Transition</h4><p>« Ces choix deviennent une chaîne très simple, avec une phase hors ligne et une phase de réponse en ligne. »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>05:15–06:10</span><h3>Slide 6 — La chaîne isole chaque responsabilité</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« L’architecture sépare volontairement deux temps. Hors ligne, je collecte les données, les nettoie, les découpe et construis l’index FAISS. Cette opération est reproductible via des scripts et ne se fait pas à chaque requête.</p><p>En ligne, FastAPI reçoit la question. LangChain orchestre la recherche dans FAISS, les passages sont injectés dans le prompt, puis Mistral génère la réponse et les sources sont retournées. Cette séparation rend le diagnostic plus clair : une erreur peut venir de la donnée, de l’index, de la recherche, du prompt ou de l’API ; chaque responsabilité peut être testée séparément. »</p></section>
+          <div class="step-body"><div class="note"><h4>Mot simple pour LangChain</h4><p>LangChain est la couche d’orchestration : elle relie la recherche, la construction du contexte et l’appel du modèle. Ce n’est ni la base vectorielle ni le modèle.</p></div><div class="note spoken"><h4>Transition</h4><p>« Cette chaîne est ensuite exposée sous une forme exploitable par une équipe produit. »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>06:10–07:00</span><h3>Slide 7 — L’API rend le POC testable et démontrable</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« Le POC est accessible par une API REST FastAPI. L’endpoint de santé permet de vérifier que le service et l’index sont prêts. L’endpoint de question reçoit une requête JSON avec la question, puis retourne une réponse, des sources et des métadonnées utiles.</p><p>Docker Compose encapsule le lancement local : l’environnement est plus reproductible et la démo ne dépend pas d’une installation manuelle. Dans une application produit, le front web ou mobile appellerait simplement cette API. Je passe maintenant à une démonstration courte, avec un cas dans le périmètre et un cas volontairement hors périmètre. »</p></section>
+          <div class="step-body"><div class="note"><h4>Avant de basculer</h4><p>Je reste une seconde sur la slide 8, je dis la phrase ci-dessus, puis je fais Alt+Tab vers le terminal. Je ne navigue pas dans le code.</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>07:00–09:25</span><h3>Slide 8 puis terminal — La démo vérifie la valeur et la limite métier</h3></div>
+          <section class="oral-script"><h4>Ce que je dis avant le terminal</h4><p>« Je montre d’abord que l’API est saine, puis deux comportements. Le premier est une question Paris : je dois obtenir une recommandation et des sources. Le second demande Lyon, qui est hors de mon corpus : je veux une réponse prudente, pas une invention. »</p><h4>Ce que je dis pendant le terminal</h4><p>« Je lance le script de démonstration. Il vérifie Docker et <code>/health</code>, puis appelle l’API. Je pointe seulement trois éléments : la réponse, au moins une source URL et le comportement de refus ou de prudence sur Lyon. Cette seconde question est importante : elle montre que j’ai aussi testé une limite métier, pas uniquement un cas favorable. »</p></section>
+          <div class="step-body"><div class="note"><h4>Commande prête</h4><p><code>bash scripts/demo_api_5min.sh</code>. Si le service n’est pas lancé : <code>docker compose up -d</code>, puis <code>curl http://localhost:8000/health</code>. Je ne montre jamais <code>.env</code>.</p></div><div class="note spoken"><h4>Retour PPT</h4><p>« La démo montre le comportement. Je vais maintenant montrer comment je le contrôle au-delà de ces deux exemples. »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>09:25–10:40</span><h3>Slide 9 — Les tests protègent le code ; la CI/CD est la suite</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« Il faut distinguer les tests logiciels et l’évaluation de qualité. Les 59 tests automatisés couvrent les éléments contrôlables : ingestion, nettoyage, indexation FAISS, logique RAG, API et scripts d’évaluation. Ils répondent à la question : après une modification, les comportements attendus sont-ils toujours présents ?</p><p>La CI/CD visible ici est une proposition d’industrialisation, et non une fonctionnalité implémentée dans ce POC. Concrètement, dans un pipeline futur, chaque changement lancerait les tests et les contrôles de qualité ; si tout est vert, l’image Docker serait construite puis déployée dans un environnement de test. Une promotion en production demanderait ensuite des règles de sécurité et une validation. L’intérêt est d’éviter de publier une régression du code ou de la qualité sans la détecter. »</p></section>
+          <div class="step-body"><div class="note"><h4>Phrase de transparence obligatoire</h4><p>« Docker et les tests sont livrés. La CI/CD est le prolongement que je recommande ; je ne la présente pas comme déjà configurée. »</p></div><div class="note spoken"><h4>Transition</h4><p>« Les tests vérifient le contrat technique. Pour juger la qualité d’une réponse RAG, j’ajoute une évaluation dédiée. »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>10:40–12:00</span><h3>Slide 10 — RAGAS explique où améliorer la réponse</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« RAGAS est une bibliothèque d’évaluation conçue pour les systèmes RAG. Elle ne remplace pas un jugement humain ni un benchmark large ; elle fournit des métriques automatisables pour diagnostiquer la chaîne. Pour chaque cas, je fournis une question, les contextes récupérés, la réponse générée et une réponse de référence annotée.</p><p>J’obtiens sur trois cas : fidélité 0,900, pertinence 0,846, précision du contexte 1,000 et correction 0,683. Je les interprète avec prudence. La précision du contexte et la fidélité indiquent que les passages retrouvés sont utiles et que la réponse les utilise bien. Le score de correction plus faible signifie que la réponse ne reprend pas toujours avec assez de précision tous les détails attendus par la référence. Ma première action serait donc d’analyser les erreurs, de structurer le format de réponse et d’élargir le jeu annoté avant de changer de modèle. Trois cas valident le protocole, pas une performance générale. »</p></section>
+          <div class="step-body"><div class="note"><h4>Si Jérémy demande « pourquoi RAGAS ? »</h4><p>Parce qu’un score unique masque la cause : RAGAS aide à distinguer un mauvais contexte récupéré d’une mauvaise utilisation du contexte par le modèle. Les tests logiciels, RAGAS et une revue humaine sont complémentaires.</p></div><div class="note spoken"><h4>Transition</h4><p>« Ces résultats sont encourageants, mais ils doivent être lus avec les limites du POC. »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>12:00–13:00</span><h3>Slide 11 — Les limites sont connues et actionnables</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« Je distingue trois limites. D’abord les données : le périmètre est Paris et le corpus est un snapshot ; une collecte planifiée et plus de contrôles de fraîcheur sont nécessaires. Ensuite la recherche et le modèle : les paramètres de chunking et <code>top_k</code> sont cohérents pour le POC mais pas optimisés sur un benchmark large ; je dois ajouter des cas difficiles et un seuil de similarité métier. Enfin l’exploitation : FAISS est local et l’API est une instance unique ; une production demanderait authentification, gestion des secrets, logs, métriques, alertes et tests de charge.</p><p>La limite métier la plus importante est une réponse plausible mais incomplète. Mes garde-fous actuels sont les sources, le prompt prudent, les cas hors périmètre et l’évaluation. La suite consiste à rendre ces garde-fous mesurables et plus déterministes. »</p></section>
+          <div class="step-body"><div class="note spoken"><h4>Transition</h4><p>« Plutôt que de généraliser immédiatement, je recommande une étape intermédiaire mesurée. »</p></div></div>
+        </article>
+
+        <article class="reprise-step">
+          <div class="step-head"><span>13:00–13:55</span><h3>Slide 12 — Je recommande un pilote multi-villes mesuré</h3></div>
+          <section class="oral-script"><h4>Ce que je dis, mot pour mot</h4><p>« Ma recommandation est un pilote multi-villes, pas un déploiement national immédiat. Première étape : élargir les données, les catégories et le jeu annoté, puis mesurer les réponses utiles, sourcées et les refus corrects. Deuxième étape : ajouter les garde-fous métier, notamment filtres explicites, seuil de similarité et réponses structurées. Troisième étape, si la valeur est confirmée : industrialiser avec collecte planifiée, versionnement du corpus et de l’index, CI/CD, supervision, sécurité et tests de charge.</p><p>Le POC démontre donc la faisabilité de bout en bout et fournit un chemin de décision crédible. Je vous montre très rapidement les preuves documentaires, puis je suis prêt à répondre à vos questions. »</p></section>
+          <div class="step-body"><div class="note"><h4>Après la slide — 40 secondes maximum</h4><p>Rapport PDF : je montre le sommaire et je dis qu’il détaille architecture, protocole, résultats et limites. Dépôt GitHub : je pointe README, <code>src</code>, <code>scripts</code>, <code>tests</code>, <code>evaluation</code> et <code>docker-compose.yml</code>. Je ne lis pas le rapport à la place de présenter mon travail.</p></div><div class="note spoken"><h4>Conclusion</h4><p>« Merci. Je suis prêt à répondre à vos questions, notamment sur les choix de modèles, l’évaluation ou la trajectoire d’industrialisation. »</p></div></div>
+        </article>
       </section>
 
       <section class="chapter" id="avant-appel">
@@ -485,11 +569,12 @@ curl http://localhost:8000/health</code></pre>
       </section>
 
       <section class="chapter" id="conducteur">
-        <p class="eyebrow">Présentation · 12 à 15 minutes</p>
-        <h2>Mes 12 fiches synchronisées avec le PowerPoint</h2>
+        <p class="eyebrow">Références détaillées · à utiliser après le script de reprise</p>
+        <h2>Mes 12 fiches d’approfondissement</h2>
         <p class="intro">
-          Je ne récite pas tous les blocs. Je prononce surtout « Ce que je dis ». Les autres parties m’aident à
-          savoir précisément ce qui se passe dans le système et à ne pas sur-vendre le POC.
+          Le script à lire pendant l’oral est désormais celui de la section <a href="#script-reprise">« Mon déroulé de 15 minutes »</a>.
+          Ces fiches plus longues servent d’antisèche pour comprendre les détails, répondre aux relances et ne pas
+          sur-vendre le POC.
         </p>
 
         <article class="step" id="slide-1">
