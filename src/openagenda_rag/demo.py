@@ -40,6 +40,7 @@ def run_demo(
 
     duration = round(monotonic() - started, 3)
     return {
+        "health": health.json(),
         "duration_seconds": duration,
         "max_seconds": max_seconds,
         "within_limit": duration < max_seconds,

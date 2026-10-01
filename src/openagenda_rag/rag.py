@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from datetime import date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 import ast
@@ -16,7 +17,10 @@ SYSTEM_PROMPT = """Tu es l'assistant de recommandation culturelle de Puls-Events
 Tu dois repondre uniquement a partir du contexte fourni.
 Si le contexte ne permet pas de repondre, dis clairement que tu ne sais pas.
 Fais des recommandations concretes, bien formulees, en citant les titres, lieux, dates et URLs quand ils existent.
-N'invente ni evenement, ni date, ni lien."""
+N'invente ni evenement, ni date, ni lien.
+N'ajoute aucune recommandation de plateforme, lieu ou URL absente du contexte.
+Si la ville demandee n'est pas couverte, dis seulement que tu ne sais pas a partir de ce corpus.
+Compare les dates a la date du jour fournie : un evenement termine est passe, pas une sortie a venir."""
 
 
 @dataclass
@@ -145,6 +149,25 @@ def build_source_entries(documents: list["Document"]) -> list[SourceEntry]:
     return entries
 
 
+def _temporal_status(metadata: dict[str, Any]) -> str:
+    def parse_day(field: str) -> date | None:
+        try:
+            return datetime.fromisoformat(str(metadata.get(field))).date()
+        except ValueError:
+            return None
+
+    today = date.today()
+    last_day = parse_day("last_timing")
+    first_day = parse_day("first_timing")
+    if last_day is not None and last_day < today:
+        return "evenement termine ; ne pas le recommander comme sortie a venir"
+    if first_day is not None and first_day > today:
+        return "debut a venir"
+    if first_day is not None and last_day is not None and first_day <= today <= last_day:
+        return "periode en cours ; occurrences et horaires a verifier"
+    return "dates insuffisantes ; ne pas affirmer que l'evenement est a venir"
+
+
 def format_document_blocks_for_prompt(documents: list["Document"]) -> list[str]:
     blocks: list[str] = []
     for index, document in enumerate(documents, start=1):
@@ -161,6 +184,7 @@ def format_document_blocks_for_prompt(documents: list["Document"]) -> list[str]:
                     f"Lieu: {metadata.get('location_name') or 'inconnu'}",
                     f"Debut: {metadata.get('first_timing') or 'inconnu'}",
                     f"Fin: {metadata.get('last_timing') or 'inconnue'}",
+                    f"Statut temporel calcule: {_temporal_status(metadata)}",
                     f"Categories: {categories}",
                     f"URL: {metadata.get('canonical_url') or 'indisponible'}",
                     "Contenu:",
@@ -186,7 +210,7 @@ def build_prompt() -> ChatPromptTemplate:
             ("system", SYSTEM_PROMPT),
             (
                 "human",
-                "Contexte:\n{context}\n\nQuestion utilisateur:\n{question}\n\n"
+                "Date du jour: {current_date}\n\nContexte:\n{context}\n\nQuestion utilisateur:\n{question}\n\n"
                 "Reponds en francais, de maniere concise mais utile. "
                 "Si tu recommandes des evenements, explique brievement pourquoi ils correspondent a la demande.",
             ),
@@ -222,6 +246,7 @@ def answer_question(
     messages = prompt.invoke(
         {
             "question": cleaned_question,
+            "current_date": date.today().isoformat(),
             "context": format_documents_for_prompt(documents),
         }
     )

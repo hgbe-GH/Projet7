@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from fastapi.testclient import TestClient
+import httpx
+import pytest
 
 from openagenda_rag.api import create_app
 
@@ -134,3 +136,56 @@ def test_rebuild_endpoint_checks_admin_token_when_configured():
 
     assert response.status_code == 403
     assert response.json()["detail"] == "Invalid admin token."
+
+
+@pytest.mark.parametrize("endpoint", ["/ask", "/rebuild"])
+@pytest.mark.parametrize("upstream_status, expected_status", [(429, 503), (401, 503), (502, 502)])
+def test_provider_http_errors_are_controlled_without_leaking_details(endpoint, upstream_status, expected_status):
+    request = httpx.Request("POST", "https://api.mistral.ai/v1/chat/completions")
+    upstream = httpx.Response(upstream_status, request=request, json={"secret": "private-detail"})
+
+    class UnavailableService(FakeService):
+        def ask(self, question):
+            raise httpx.HTTPStatusError("private-detail", request=request, response=upstream)
+
+        def rebuild(self, **kwargs):
+            return self.ask("")
+
+    client = TestClient(create_app(service=UnavailableService()))
+    response = client.post(endpoint, json={"question": "Concert"} if endpoint == "/ask" else {})
+
+    assert response.status_code == expected_status
+    assert "private-detail" not in response.text
+    assert "Mistral" in response.json()["detail"]
+    if upstream_status == 429:
+        assert "429" in response.json()["detail"]
+
+
+@pytest.mark.parametrize("endpoint", ["/ask", "/rebuild"])
+def test_provider_timeout_is_reported_as_unavailable(endpoint):
+    class TimeoutService(FakeService):
+        def ask(self, question):
+            raise httpx.ReadTimeout("private-detail")
+
+        def rebuild(self, **kwargs):
+            return self.ask("")
+
+    client = TestClient(create_app(service=TimeoutService()))
+    response = client.post(endpoint, json={"question": "Concert"} if endpoint == "/ask" else {})
+    assert response.status_code == 503
+    assert "private-detail" not in response.text
+
+
+@pytest.mark.parametrize("endpoint", ["/ask", "/rebuild"])
+def test_unexpected_errors_do_not_leak_internal_details(endpoint):
+    class BrokenService(FakeService):
+        def ask(self, question):
+            raise RuntimeError("private-detail")
+
+        def rebuild(self, **kwargs):
+            return self.ask("")
+
+    client = TestClient(create_app(service=BrokenService()))
+    response = client.post(endpoint, json={"question": "Concert"} if endpoint == "/ask" else {})
+    assert response.status_code == 500
+    assert "private-detail" not in response.text

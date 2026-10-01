@@ -1,0 +1,140 @@
+{
+  "duration_seconds": 3.541,
+  "max_seconds": 300.0,
+  "scenarios": [
+    {
+      "answer": "**Concert Fishers** à Paris :\nUn concert de reprises pop, rock et funk, dans le cadre de la **Fête de la musique 2026**.\n📅 **Date** : 21 juin 2026\n🕒 **Horaires** : 19h30 - 23h30\n📍 **Lieu** : Le Gymnase Montparnasse, Paris\n🔗 [Plus d'infos](https://openagenda.com/fetedelamusique2026/events/concert-fishers)\n\nSi tu aimes les reprises énergiques de ces styles, cet événement est fait pour toi !",
+      "case_id": "nominal",
+      "question": "Parle-moi de Concert Fishers a Paris",
+      "sources": [
+        {
+          "canonical_url": "https://openagenda.com/fetedelamusique2026/events/concert-fishers",
+          "categories": [],
+          "chunk_id": "57857032::chunk-0",
+          "city": "Paris",
+          "event_uid": "57857032",
+          "first_timing": "2026-06-21T19:30:00+02:00",
+          "last_timing": "2026-06-21T23:30:00+02:00",
+          "location_name": "Le Gymnase Montparnasse",
+          "title": "Concert Fishers"
+        },
+        {
+          "canonical_url": "https://openagenda.com/fetedelamusique2026/events/fiddler-on-the-seine",
+          "categories": [],
+          "chunk_id": "26512588::chunk-0",
+          "city": "Paris",
+          "event_uid": "26512588",
+          "first_timing": "2026-06-21T20:00:00+02:00",
+          "last_timing": "2026-06-21T21:00:00+02:00",
+          "location_name": "Fontaine, rue du pot de fer, Paris 75005",
+          "title": "Fiddler On The Seine"
+        },
+        {
+          "canonical_url": "https://openagenda.com/unidivers-oui-sortir/events/generation-crozes-hermitage",
+          "categories": [
+            "Convivialité",
+            "dégustation",
+            "Partage",
+            "Vins",
+            "Soirée",
+            "Paris"
+          ],
+          "chunk_id": "70440856::chunk-2",
+          "city": "Paris",
+          "event_uid": "70440856",
+          "first_timing": "2025-10-23T18:00:00+02:00",
+          "last_timing": "2025-10-23T23:00:00+02:00",
+          "location_name": "La Félicità",
+          "title": "Génération Crozes Hermitage"
+        },
+        {
+          "canonical_url": "https://openagenda.com/fetedelamusique2026/events/paafclash20",
+          "categories": [],
+          "chunk_id": "5071653::chunk-0",
+          "city": "Paris",
+          "event_uid": "5071653",
+          "first_timing": "2026-06-21T12:00:00+02:00",
+          "last_timing": "2026-06-22T01:00:00+02:00",
+          "location_name": "5 rue Jean Poulmarch, 75010 Paris",
+          "title": "PAAFclash2.0"
+        }
+      ]
+    },
+    {
+      "answer": "Je ne sais pas. Le contexte fourni ne mentionne aucune exposition photo à Lyon.",
+      "case_id": "limite",
+      "question": "Quelles expositions photo a Lyon ?",
+      "sources": [
+        {
+          "canonical_url": "https://openagenda.com/culture/events/les-journees-europeennes-du-patrimoine-354037",
+          "categories": [],
+          "chunk_id": "15656829::chunk-0",
+          "city": "Paris",
+          "event_uid": "15656829",
+          "first_timing": "2025-09-20T14:30:00+02:00",
+          "last_timing": "2025-09-21T18:30:00+02:00",
+          "location_name": "Les Comptoirs de l'Inde",
+          "title": "Visite et exposition"
+        },
+        {
+          "canonical_url": "https://openagenda.com/totaleimpro20/events/salon-de-la-photo",
+          "categories": [
+            "photographie amateurs professionnels matériels exposition salon"
+          ],
+          "chunk_id": "13788508::chunk-0",
+          "city": "Paris",
+          "event_uid": "13788508",
+          "first_timing": "2025-10-09T10:00:00+02:00",
+          "last_timing": "2025-10-12T19:00:00+02:00",
+          "location_name": "Grande Halle de la Villette",
+          "title": "SALON DE LA PHOTO"
+        },
+        {
+          "canonical_url": "https://openagenda.com/planlibre/events/reveler-levolution-des-paysages-parisiens",
+          "categories": [
+            "photographie",
+            "atlas",
+            "paysage",
+            "Paris",
+            "CAUE",
+            "ville",
+            "exposition",
+            "expo"
+          ],
+          "chunk_id": "53866108::chunk-1",
+          "city": "Paris",
+          "event_uid": "53866108",
+          "first_timing": "2026-07-08T12:00:00+02:00",
+          "last_timing": "2026-09-12T20:00:00+02:00",
+          "location_name": "La Roche",
+          "title": "Révéler l'évolution des paysages parisiens"
+        },
+        {
+          "canonical_url": "https://openagenda.com/unidivers-oui-sortir/events/augmenta-le-defi-de-lhomme",
+          "categories": [
+            "exposition",
+            "IA",
+            "digital",
+            "photographie",
+            "scénographie",
+            "art",
+            "mode",
+            "intelligence artificielle",
+            "technologie",
+            "humanité",
+            "machine",
+            "ordinateur"
+          ],
+          "chunk_id": "83410600::chunk-3",
+          "city": "Paris",
+          "event_uid": "83410600",
+          "first_timing": "2025-11-05T11:00:00+01:00",
+          "last_timing": "2026-01-17T18:00:00+01:00",
+          "location_name": "Appart Renoma",
+          "title": "AUGMENTA le défi de l'Homme"
+        }
+      ]
+    }
+  ],
+  "within_limit": true
+}

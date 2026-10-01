@@ -54,7 +54,10 @@ def main() -> int:
             payload["rebuild_body"] = rebuild.json()
 
     print(json.dumps(payload, ensure_ascii=True, indent=2))
-    return 0
+    checked_statuses = [payload["health_status"], payload["ask_status"]]
+    if args.include_rebuild:
+        checked_statuses.append(payload["rebuild_status"])
+    return 0 if all(200 <= code < 300 for code in checked_statuses) else 1
 
 
 if __name__ == "__main__":

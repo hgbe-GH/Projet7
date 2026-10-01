@@ -1,0 +1,230 @@
+[
+  {
+    "title": "Un assistant culturel fondé sur des événements réels",
+    "label": "La mission Puls-Events",
+    "seconds": 45,
+    "claim": "Un POC complet pour tester la recherche en langage naturel.",
+    "points": [
+      "7 586 événements à Paris",
+      "14 903 passages dans FAISS",
+      "Réponses sourcées via une API Docker"
+    ],
+    "body": "<div class=\"cover-title\">Un assistant culturel<br>fondé sur des<br><em>événements réels.</em></div><p class=\"cover-sub\">POC RAG · Puls-Events</p><div class=\"numbers\"><div><strong>7 586</strong><span>événements à Paris</span></div><div><strong>14 903</strong><span>passages indexés</span></div></div><p class=\"author\">Hugo Gaube · Data scientist freelance<br>Projet 7 · 1er octobre 2026</p>",
+    "speech": "Bonjour Jérémy. Je vais vous présenter le prototype réalisé pour Puls-Events, un assistant de recommandation culturelle qui utilise les événements OpenAgenda. Le besoin est de permettre aux utilisateurs de poser une question naturellement, puis de recevoir une réponse qu'ils peuvent vérifier grâce aux sources. Mon livrable couvre toute la chaîne : collecte et préparation des données, recherche vectorielle, génération de réponse, API et conteneur Docker. Le corpus livré contient 7 586 événements parisiens. Il s'agit d'un POC, donc d'une preuve de faisabilité. Je vais expliquer les choix, montrer l'API et présenter les résultats ainsi que les limites avant un déploiement plus large.",
+    "simple": "Tu joues le rôle du freelance qui livre un prototype à son client. Jérémy est le responsable technique. Tu présentes une solution testable, avec ses preuves et ses limites. POC signifie preuve de concept : vérifier que l'idée fonctionne avant de construire un produit à grande échelle.",
+    "technical": "Le brief demande LangChain, Mistral, FAISS, une API, les scripts de reconstruction, des tests, un jeu annoté, un rapport, Docker et une démo. L'historique de conversation n'est pas nécessaire. Le modèle n'a pas été entraîné ou ajusté dans ce projet.",
+    "show": "Partage uniquement la fenêtre du diaporama. Garde ce guide hors du partage.",
+    "proof": "README.md ; document de mission, message de Jérémy ; seed-data/processed/fetch_manifest.json.",
+    "pitfall": "Ne dis pas que c'est déjà un produit en production ni que tu as entraîné Mistral.",
+    "transition": "Commençons par le risque métier que le RAG cherche à réduire."
+  },
+  {
+    "title": "Le RAG relie la réponse au catalogue",
+    "label": "Besoin métier et principe",
+    "seconds": 65,
+    "claim": "Rechercher les informations, puis rédiger à partir de ces informations.",
+    "points": [
+      "Recherche sémantique dans le catalogue",
+      "Contexte transmis à Mistral",
+      "Réponse avec lieux, dates et liens"
+    ],
+    "body": "<p class=\"example\">« Je cherche une sortie en famille à Paris avec une visite théâtralisée. »</p><div class=\"flow\"><div><b>01</b><h3>Rechercher</h3><p>Les passages proches<br>du sens de la question.</p></div><span>→</span><div><b>02</b><h3>Augmenter</h3><p>Donner ces passages<br>comme contexte à Mistral.</p></div><span>→</span><div><b>03</b><h3>Répondre</h3><p>Une recommandation<br>avec des sources.</p></div></div><p class=\"takeaway\">Le RAG apporte des documents au modèle au moment de la question.</p>",
+    "speech": "Le problème métier est qu'une recherche par mots-clés ne correspond pas toujours à la façon dont un utilisateur exprime son envie. Par exemple, une sortie en famille peut correspondre à une visite jouée par des comédiens, même si les mots utilisés diffèrent. Un modèle de langage seul peut produire une réponse convaincante sans connaître les événements du catalogue. Le RAG combine deux capacités. Il recherche d'abord des passages proches du sens de la question. Il ajoute ensuite ces passages au contexte du modèle. Enfin, Mistral formule une réponse en français. Les sources permettent de revenir aux événements d'origine. Le RAG réduit ainsi le risque d'invention, mais ne le supprime pas : il faut encore vérifier la pertinence des passages et la fidélité de la réponse.",
+    "simple": "Imagine un conseiller avec un catalogue devant lui. FAISS trouve les fiches utiles ; Mistral les lit et rédige. Retrieval = recherche. Augmented = on ajoute les fiches à la question. Generation = le modèle rédige. Le catalogue reste à l'extérieur du modèle.",
+    "technical": "Ce n'est ni du fine-tuning ni de l'entraînement. L'embedding représente le texte numériquement, le retriever sélectionne des documents et ChatPromptTemplate assemble les messages transmis au chat. Les documents sont consultés à chaque question.",
+    "show": "Pointe les trois étapes. L'exemple famille existe dans le jeu RAGAS ; ce n'est pas une nouvelle preuve live.",
+    "proof": "src/openagenda_rag/rag.py : answer_question(), build_prompt() ; tests/fixtures/ragas_eval_dataset.csv.",
+    "pitfall": "Ne promets pas zéro hallucination. Une recherche proche n'est pas nécessairement une réponse pertinente.",
+    "transition": "Cette approche dépend d'abord de la qualité du catalogue préparé."
+  },
+  {
+    "title": "Le corpus est un instantané explicite de Paris",
+    "label": "Données et préparation",
+    "seconds": 75,
+    "claim": "Paris · du 10 juillet 2025 au 10 juillet 2026 · 7 586 événements.",
+    "points": [
+      "Source OpenAgenda via Opendatasoft public",
+      "Filtres ville et première date de l'événement",
+      "HTML nettoyé, identifiants dédupliqués, métadonnées conservées"
+    ],
+    "body": "<div class=\"split\"><div><div class=\"large-number\">7 586</div><p>événements normalisés</p><div class=\"date-range\">10 juillet 2025<br><span>↓</span><br>10 juillet 2026</div></div><div><ol class=\"editorial-list\"><li><strong>Collecter</strong><span>API publique Opendatasoft, données OpenAgenda.</span></li><li><strong>Filtrer</strong><span>Ville de Paris et première date dans la fenêtre.</span></li><li><strong>Normaliser</strong><span>Retirer le HTML, gérer les valeurs absentes, dédupliquer.</span></li><li><strong>Conserver</strong><span>Titre, description, lieu, dates, URL et catégories.</span></li></ol></div></div><p class=\"takeaway\">Corpus figé en juillet 2026 ; sa fraîcheur doit être réévaluée pour un usage actuel.</p>",
+    "speech": "Les données proviennent d'OpenAgenda à travers le jeu public exposé par Opendatasoft. Cette source est celle du lien donné dans la mission et ne demande pas de clé pour la collecte. Le script filtre Paris et la première date des événements, du 10 juillet 2025 au 10 juillet 2026. Il parcourt les résultats, nettoie les descriptions HTML, gère les champs absents et supprime les doublons par identifiant. Il produit un fichier Parquet structuré et un manifeste qui trace les paramètres et le volume. Je conserve les dates, le lieu et l'URL pour que la réponse soit vérifiable. Cette fenêtre était celle du POC construit en juillet. Pour une utilisation aujourd'hui, le corpus doit être actualisé : je ne présente pas ce catalogue figé comme un agenda à jour.",
+    "simple": "Une API de données donne des fiches d'événements. Le nettoyage rend leurs champs utilisables. Parquet est un format de tableau compact. Le manifeste est la fiche d'identité de la collecte : source, filtres, date et quantité. Le seed est la copie de référence livrée avec le projet.",
+    "technical": "build_records_where_clause() filtre firstdate_begin, pas chaque occurrence récurrente. last_timing peut dépasser juillet 2026. La borne haute fixe exclut les événements qui commencent après la collecte. Les données ne sont pas automatiquement rafraîchies. 39 titres sont absents dans le seed, mais leurs descriptions peuvent rester indexables. Déduplication par event_uid ; les titres identiques avec des UID différents ne sont pas fusionnés.",
+    "show": "Explique la fenêtre telle qu'elle est. Si on te demande le fichier, ouvre le manifeste de collecte, pas le JSON brut entier.",
+    "proof": "scripts/fetch_events.py ; src/openagenda_rag/ingestion.py ; seed-data/processed/fetch_manifest.json ; events.parquet.",
+    "pitfall": "La consigne demande des événements récents et vise des recommandations à venir. Au 1er octobre, certains événements du seed ont plus d'un an. La fraîcheur constitue donc un écart actuel à signaler et à corriger par une nouvelle collecte, pas à masquer.",
+    "transition": "Une fois les fiches préparées, il faut les rendre recherchables par leur sens."
+  },
+  {
+    "title": "Les descriptions deviennent des passages recherchables",
+    "label": "Chunking et embeddings",
+    "seconds": 75,
+    "claim": "1 000 caractères par passage, 200 de chevauchement, vecteurs de 1 024 dimensions.",
+    "points": [
+      "CHIMERE : 10 273 caractères → 15 passages",
+      "mistral-embed : lots de 50",
+      "Tout le corpus : 14 903 vecteurs dans IndexFlatL2"
+    ],
+    "body": "<div class=\"split\"><div><p class=\"mono-label\">EXEMPLE RÉEL · CHIMERE</p><div class=\"large-number\">10 273</div><p>caractères dans la fiche</p><div class=\"chunk-demo\"><div>Passage 1 <small>… fin partagée</small></div><div><small>début partagé …</small> Passage 2</div><div>… 15 passages au total</div></div></div><div class=\"definition-stack\"><div><strong>1 000 / 200</strong><p>caractères / chevauchement maximal</p></div><div><strong>mistral-embed</strong><p>1 024 nombres par vecteur · lots de 50</p></div><div><strong>14 903</strong><p>vecteurs pour l’ensemble des 7 586 événements</p></div></div></div><p class=\"takeaway\">Les métadonnées relient chaque passage à son événement d’origine.</p>",
+    "speech": "Certaines fiches sont longues. Les indexer comme un seul bloc risquerait de diluer une information utile. J'utilise donc le découpage récursif de LangChain, configuré à 1 000 caractères avec un chevauchement maximal de 200 caractères. Le chevauchement limite la perte d'information aux frontières. Par exemple, une fiche CHIMERE contient 10 273 caractères et produit 15 passages, car le découpage tient aussi compte des séparateurs. Le modèle mistral-embed transforme chaque passage en un vecteur de 1 024 dimensions, autrement dit une liste de nombres représentant son sens. La construction se fait par lots de 50. Au total, FAISS contient 14 903 vecteurs pour les 7 586 événements. Chaque passage conserve l'identifiant de l'événement, ses dates, son lieu et son lien.",
+    "simple": "Un chunk est un morceau de texte. Un embedding est une liste de nombres qui permet de comparer le sens des textes. FAISS est l'outil qui range ces vecteurs et retrouve les plus proches. Il ne rédige aucune phrase et ne remplace pas Mistral.",
+    "technical": "RecursiveCharacterTextSplitter, add_start_index=True. Le chevauchement est un paramètre maximal, pas 200 caractères garantis à chaque frontière. chunk_id = event_uid::chunk-N. L'index réel est IndexFlatL2 : recherche exacte selon la distance euclidienne au carré, sans normalisation explicite dans le code. Moins la distance est élevée, plus les vecteurs sont proches. Tous les 7 586 UID sont représentés. CHIMERE 69427795 a 15 chunks ; une autre fiche porte le même titre avec un UID différent.",
+    "show": "Distingue la fiche d'exemple et les volumes de tout le corpus. Aucun réindexage en direct.",
+    "proof": "src/openagenda_rag/indexing.py : build_documents(), build_vector_store() ; seed-data/index/index_manifest.json ; index.faiss.",
+    "pitfall": "Caractères et tokens sont différents. Ne dis pas que CHIMERE seul produit 14 903 chunks. Un vecteur n'est ni un résumé ni une réponse.",
+    "transition": "L'index est préparé. Voyons ce qui se passe lorsqu'un utilisateur pose une question."
+  },
+  {
+    "title": "Mistral reçoit la question et quatre passages",
+    "label": "Recherche et génération",
+    "seconds": 70,
+    "claim": "L'embedding retrouve ; le modèle de chat rédige.",
+    "points": [
+      "Question vectorisée avec mistral-embed",
+      "top_k = 4 passages récupérés",
+      "ministral-8b-2512, température 0,1, 700 tokens maximum"
+    ],
+    "body": "<div class=\"flow compact\"><div><b>QUESTION</b><h3>mistral-embed</h3><p>Le même espace<br>vectoriel que le corpus.</p></div><span>→</span><div><b>RECHERCHE</b><h3>FAISS · top 4</h3><p>Passages + titres,<br>lieux, dates et URL.</p></div><span>→</span><div><b>RÉDACTION</b><h3>Ministral 8B</h3><p>Réponse française<br>à partir du contexte.</p></div></div><blockquote>« Réponds uniquement à partir du contexte fourni.<br>Si le contexte ne permet pas de répondre, dis que tu ne sais pas. »</blockquote><p class=\"takeaway\">Le prompt encadre la réponse ; il ne garantit pas un refus fiable dans tous les cas.</p>",
+    "speech": "Au moment d'une question, on utilise le même modèle d'embedding que pour les documents. Cela rend leurs vecteurs comparables. FAISS sélectionne les quatre passages les plus proches : c'est le paramètre top-k. Le code assemble ensuite un contexte avec le texte et les métadonnées, puis le transmet avec la question à ministral-8b-2512. Pour la soutenance, ce modèle remplace mistral-small-latest, limité par Mistral aujourd'hui. Le prompt demande de répondre seulement à partir du contexte, de citer les informations disponibles et de ne pas inventer. La température est basse, à 0,1, pour limiter la variation ; la réponse est limitée à 700 tokens. Le JSON renvoie la réponse et les sources récupérées, regroupées par événement. Attention : quatre passages peuvent provenir du même événement. Et l'absence de seuil de pertinence signifie que le modèle doit encore décider si le contexte permet de répondre.",
+    "simple": "Les deux modèles ont deux métiers différents. mistral-embed transforme textes et questions en nombres. ministral-8b-2512 lit le contexte et produit des phrases. top-k signifie combien de passages on lui donne ; cela ne signifie pas quatre recommandations.",
+    "technical": "answer_question() appelle retriever.invoke(), build_source_entries(), puis prompt.invoke() et chat_model.invoke(). Les sources sont les événements récupérés, pas une validation que chaque source soutient chaque phrase. Aucun filtre de date ou de ville n'est appliqué dynamiquement dans le retriever. L'absence de documents déclenche un refus déterministe ; en recherche top-k, le résultat non vide est fréquent même hors sujet. random_seed=42 stabilise sans garantir une sortie identique. L'alias latest peut évoluer. Le modèle de démonstration est fixé à ministral-8b-2512 dans .env. L’embedding reste mistral-embed : l’index est compatible sans reconstruction. Les scores RAGAS historiques concernent mistral-small-latest et ne valident pas ce changement. La date du jour et un statut temporel calculé sont transmis au prompt ; aucun filtre de date ne supprime les passages.",
+    "show": "Pointe la séparation embedding/chat et le texte du prompt. Si demandé, ouvre SYSTEM_PROMPT dans rag.py.",
+    "proof": "src/openagenda_rag/rag.py ; src/openagenda_rag/settings.py : load_rag_settings().",
+    "pitfall": "Ne dis pas que les sources renvoyées sont toutes utilisées dans la réponse ni que le refus Lyon est codé comme une règle de ville.",
+    "transition": "Ces étapes sont séparées dans le code pour pouvoir les tester et les remplacer."
+  },
+  {
+    "title": "La préparation de l’index précède les questions",
+    "label": "Architecture du projet",
+    "seconds": 60,
+    "claim": "Deux parcours distincts : construire le catalogue et répondre aux utilisateurs.",
+    "points": [
+      "Préparation : collecte → Parquet → embeddings → FAISS",
+      "Usage : API → service RAG → recherche → Mistral",
+      "Scripts de lancement séparés des modules métier"
+    ],
+    "body": "<div class=\"pipeline\"><p class=\"mono-label\">PRÉPARATION DU CORPUS</p><div>OpenAgenda <span>→</span> Nettoyage / Parquet <span>→</span> Embeddings Mistral <span>→</span> FAISS</div><p class=\"mono-label\">À CHAQUE QUESTION</p><div>FastAPI <span>→</span> Service RAG <span>→</span> Recherche FAISS <span>→</span> Chat Mistral</div></div><div class=\"repo-line\"><code>scripts/</code><span>lancer les étapes</span><code>src/openagenda_rag/</code><span>logique métier</span><code>tests/</code><span>vérifier</span></div><p class=\"takeaway\">Le service réutilise le retriever et le client de chat après la première question.</p>",
+    "speech": "L'architecture distingue la préparation des données du traitement des questions. La préparation collecte les fiches, les normalise, calcule leurs embeddings et sauvegarde l'index. Elle est faite avant l'utilisation du chatbot et appelle déjà Mistral pour les vecteurs. À chaque question, l'API appelle le service RAG, qui recharge l'index si nécessaire, recherche les passages et sollicite le modèle de chat. Le retriever et le client Mistral sont initialisés à la première question puis conservés en mémoire pour les suivantes. Le dossier scripts contient les commandes de lancement, tandis que src contient la logique métier. Cette séparation permet d'utiliser le même moteur depuis le terminal, l'API et l'évaluation. Elle évite de relancer la collecte ou l'indexation pour chaque demande.",
+    "simple": "La préparation construit une bibliothèque. L'usage consulte cette bibliothèque. Le service est le point central qui relie les briques. LangChain fournit les objets pour les documents, le découpage, la recherche et les messages ; il ne remplace pas le code du projet.",
+    "technical": "OpenAgendaRAGService._ensure_runtime() initialise les objets paresseusement. Ce sont des clients et un retriever en mémoire, pas les poids de Mistral en local. rebuild() reconstruit depuis le Parquet et invalide ces objets ; il ne recollecte pas les événements. La CLI réutilise le service ; la génération reste distante même sans HTTP local.",
+    "show": "Si Jérémy demande le code, montre service.py puis rag.py. Évite de naviguer entre toutes les fonctions.",
+    "proof": "src/openagenda_rag/service.py ; scripts/chatbot.py ; scripts/run_api.py.",
+    "pitfall": "Ne qualifie pas la préparation de complètement hors ligne : elle appelle Mistral. /health ne charge pas l'index et ne teste pas la clé.",
+    "transition": "L'API donne aux équipes un contrat simple pour tester cette chaîne."
+  },
+  {
+    "title": "L’API rend le POC accessible aux équipes",
+    "label": "FastAPI et Docker",
+    "seconds": 65,
+    "claim": "Une question HTTP, une réponse JSON, un environnement conteneurisé.",
+    "points": [
+      "GET /health et documentation /docs",
+      "POST /ask ; POST /rebuild depuis le Parquet",
+      "Seed dans l'image, données de travail dans un volume"
+    ],
+    "body": "<div class=\"split\"><div class=\"endpoints\"><div><b>GET</b><strong>/health</strong><span>État déclaré et configuration.</span></div><div><b>POST</b><strong>/ask</strong><span>Question → réponse et sources.</span></div><div><b>POST</b><strong>/rebuild</strong><span>Recréer l’index depuis le Parquet.</span></div><div><b>GET</b><strong>/docs</strong><span>Documentation Swagger interactive.</span></div></div><div><pre>{\n  \"question\": \"Parle-moi de Concert Fishers a Paris\"\n}</pre><p class=\"docker-detail\">Docker · Python 3.12<br>Seed livré + volume persistant<br>Clé Mistral injectée via l’environnement</p></div></div><p class=\"takeaway\">La recherche est locale ; les embeddings de question et la génération utilisent Mistral en ligne.</p>",
+    "speech": "FastAPI expose trois routes métier. Health indique que le serveur répond et montre sa configuration. Ask accepte une question et renvoie un JSON avec la réponse, les sources et le nombre de passages récupérés. Rebuild reconstruit l'index depuis le fichier Parquet ; il ne lance pas une nouvelle collecte. Swagger, sur docs, permet de lire et tester le contrat sans écrire de client. Docker embarque le code, les dépendances et le seed. Au premier démarrage, l'index et les données sont copiés dans un volume persistant. La clé Mistral est injectée par l'environnement et n'est pas versionnée. Le jeton d'administration de rebuild est optionnel et doit être configuré avant une exposition publique. Le POC reste dépendant d'internet pour vectoriser la question et générer la réponse.",
+    "simple": "Une API est une porte d'entrée pour d'autres logiciels. GET lit, POST envoie une action ou des données. JSON est le format des messages. Swagger est la page de documentation interactive. Docker fournit le même environnement ; le volume garde les fichiers modifiés lorsque le conteneur est recréé.",
+    "technical": "Validation Pydantic : question vide → 422 ; espaces seuls → 400 ; index absent → 503. Les erreurs HTTP Mistral 429 et d’accès sont contrôlées en 503, les autres erreurs HTTP fournisseur en 502, les erreurs réseau en 503. Les détails des exceptions fournisseur et inattendues ne sont plus exposés. /rebuild est protégé uniquement si API_REBUILD_TOKEN est défini. /health vérifie le serveur et sa configuration, sans appeler Mistral.",
+    "show": "Pendant la démo, ouvre Swagger et montre les routes ; garde /rebuild fermé. Tu peux cliquer le lien Démo de la slide suivante.",
+    "proof": "src/openagenda_rag/api.py ; Dockerfile ; docker-compose.yml ; scripts/docker_entrypoint.sh.",
+    "pitfall": "Ne dis pas que /rebuild est forcément protégé ou que /health valide Mistral et l'index.",
+    "transition": "Je vais maintenant montrer un cas présent dans le corpus et un cas hors périmètre."
+  },
+  {
+    "title": "La démonstration montre un résultat et une limite",
+    "label": "Démonstration API",
+    "seconds": 140,
+    "claim": "Un événement parisien sourcé, puis une demande à Lyon hors corpus.",
+    "points": [
+      "Nominal : Concert Fishers à Paris",
+      "Limite : expositions photo à Lyon",
+      "Examiner la réponse, les sources et les dates"
+    ],
+    "body": "<div class=\"demo-cases\"><div><p class=\"mono-label\">CAS NOMINAL</p><h3>Concert Fishers<br>à Paris</h3><p>Comparer la réponse aux dates,<br>au lieu et au lien source.</p></div><div><p class=\"mono-label\">CAS LIMITE</p><h3>Expositions photo<br>à Lyon</h3><p>Observer le refus<br>dans un corpus limité à Paris.</p></div></div><p class=\"takeaway\">Le refus est observé sur ce cas ; il dépend du prompt et du modèle.</p><a class=\"demo-link\" href=\"demo-soutenance.html\" target=\"_blank\" rel=\"noopener\">Ouvrir la démonstration API ↗</a>",
+    "speech": "Je commence par montrer que l'API répond et que ses routes sont documentées. Pour le premier cas, je demande des informations sur Concert Fishers à Paris. Le résultat doit permettre de retrouver l'événement, son lieu, sa date et son URL. Il s'agit d'un exemple du corpus livré, pas d'une sortie à venir aujourd'hui. Je compare la réponse au premier événement source. Les autres sources sont les voisins récupérés et ne sont pas toutes nécessaires à cette réponse. Pour le second cas, je demande des expositions photo à Lyon. Le corpus contient Paris. Dans la répétition directe d'aujourd'hui, le modèle dit qu'il ne sait pas et n'invente pas d'exposition lyonnaise. FAISS renvoie quand même des passages : cela illustre la limite de la recherche sans seuil de pertinence.",
+    "simple": "Ta démo doit prouver trois choses : le contrat API existe ; la réponse utilise une vraie fiche ; le système sait reconnaître au moins un cas hors corpus. Le premier événement est ancien : annonce-le. Si Mistral est indisponible, montre les réponses enregistrées en le disant explicitement.",
+    "technical": "Le 1er octobre, les deux scénarios /ask ont réussi en direct avec ministral-8b-2512. Le rapport outputs/demo/demo_api_2026-10-01.json en conserve les réponses, le modèle et l’horodatage. La mesure couvre health et les deux questions, pas chaque requête ni un benchmark. Mistral Small renvoyait 429 ; le modèle de génération a été changé, sans modifier mistral-embed ni reconstruire FAISS. La sortie peut encore contenir un conseil général non sourcé : le signaler si présent.",
+    "show": "140 s au total : 20 s health/Swagger ; 50 s cas nominal ; 40 s Lyon ; 30 s explication et retour au deck. Une tentative live maximum en cas de quota, puis enregistrement. Mode secours disponible hors réseau.",
+    "proof": "scripts/demo_api_5min.py ; outputs/demo/demo_api_2026-10-01.json ; démonstrateur HTML ; état de préparation.",
+    "pitfall": "Ne présente pas un enregistrement comme un appel direct. Compare les faits et les dates aux sources. Si un conseil général non sourcé apparaît, explique que le prompt réduit les erreurs sans les éliminer. Aucun secret à l’écran.",
+    "transition": "La démonstration donne un exemple ; les tests et les métriques complètent cette preuve."
+  },
+  {
+    "title": "Les tests du code et la qualité des réponses se complètent",
+    "label": "Validation et tests",
+    "seconds": 65,
+    "claim": "76 tests réussis aujourd'hui ; quatre cas fonctionnels annotés.",
+    "points": [
+      "76 tests unitaires et API, avec doublures de services",
+      "4 cas fonctionnels : titres attendus et refus",
+      "Un classement correct n'implique pas une réponse parfaite"
+    ],
+    "body": "<div class=\"split\"><div><div class=\"large-number\">76<span>/76</span></div><p>tests réussis le 1er octobre 2026</p><pre>python -m pytest -q\n76 passed in 2.99s</pre></div><div><ol class=\"editorial-list\"><li><strong>Code</strong><span>Collecte, normalisation, chunks, persistance, API, erreurs.</span></li><li><strong>Comportement</strong><span>4 questions annotées ; règles sur les titres et les refus.</span></li><li><strong>Qualité</strong><span>RAGAS complète les règles locales avec un modèle juge.</span></li></ol></div></div><p class=\"takeaway\">Les tests sont locaux et automatisés ; aucune pipeline CI/CD n’est livrée.</p>",
+    "speech": "J'ai exécuté aujourd'hui la suite : les 76 tests passent. Ils vérifient notamment les filtres, la normalisation, la construction et le rechargement de l'index, la forme des réponses, la validation API et le calcul des métriques. Ces tests utilisent des doublures pour les services externes. Ils protègent les comportements du code, sans garantir que Mistral est accessible ni que toutes les réponses métier sont bonnes. Un deuxième niveau contient quatre questions annotées avec des réponses et des titres attendus. Les résultats enregistrés classent les quatre cas comme corrects selon les règles locales. Ces règles sont assez permissives : un titre peut être retrouvé dans les sources sans que la réponse soit parfaite. Je complète donc cette évaluation par RAGAS. L'automatisation en CI serait une prochaine étape ; elle n'est pas implémentée ici.",
+    "simple": "Les tests de code vérifient les mécanismes. Le jeu annoté vérifie des exemples de questions. RAGAS examine la qualité du texte et du contexte. Ce sont trois niveaux de preuve différents. Une doublure simule un service externe pour tester sans internet et sans coût.",
+    "technical": "evaluation.py utilise SequenceMatcher sur du texte normalisé : similarité lexicale, pas embedding sémantique. exact_match_soft = égalité après normalisation. matched_expected_titles cherche dans answer OU sources. Sans titre attendu, certaines expressions de refus suffisent à classer correct. Les sorties historiques ont 4 corrects, exact_match_soft_rate=0 et similarité moyenne ~0,131. Ce n'est pas contradictoire, car les mesures ne testent pas la même chose. --ragas sur evaluate_rag.py ne lance pas les quatre métriques ; le vrai script est evaluate_ragas.py.",
+    "show": "Annonce le résultat des tests, puis explique ce qu'ils couvrent. Montre le petit jeu CSV si demandé.",
+    "proof": "tests/ ; tests/fixtures/rag_eval_dataset.csv ; scripts/evaluate_rag.py ; outputs/evaluation/latest_summary.json.",
+    "pitfall": "Ne transforme pas 4/4 en une précision de 100 % du système. Les tests ne font pas tous des appels Mistral réels.",
+    "transition": "RAGAS nous aide à distinguer une bonne recherche d'une réponse pleinement correcte."
+  },
+  {
+    "title": "Les scores RAGAS orientent les améliorations",
+    "label": "Évaluation des réponses",
+    "seconds": 100,
+    "claim": "Trois cas évalués : fidélité élevée, correction encore à améliorer.",
+    "points": [
+      "Fidélité 0,900 ; pertinence 0,846",
+      "Précision du contexte 1,000 ; correction 0,683",
+      "Résultats du 23 juillet 2026, trois cas seulement"
+    ],
+    "body": "<div class=\"metrics\"><div><strong>0,900</strong><h3>Fidélité</h3><p>Réponse soutenue<br>par le contexte.</p></div><div><strong>0,846</strong><h3>Pertinence</h3><p>Réponse adaptée<br>à la question.</p></div><div><strong>1,000</strong><h3>Précision du contexte</h3><p>Passages pertinents<br>bien classés.</p></div><div class=\"priority\"><strong>0,683</strong><h3>Correction</h3><p>Accord avec<br>la référence humaine.</p></div></div><p class=\"method\">Question + passages transmis + réponse + référence annotée → quatre métriques.</p><p class=\"takeaway\">3 cas · résultats enregistrés le 23 juillet 2026 · un signal initial, pas un benchmark général.</p>",
+    "speech": "L'évaluation RAGAS porte sur trois cas : Concert Fishers, le Salon de la Photo et une sortie en famille avec visite théâtralisée. Pour chaque cas, je conserve la question, les passages réellement transmis au modèle, la réponse et une référence humaine. Un modèle juge calcule quatre métriques. La fidélité mesure si la réponse est soutenue par le contexte. La pertinence mesure son adéquation à la question. La précision du contexte apprécie la pertinence et le classement des passages récupérés ; elle ne mesure pas la couverture de tout le catalogue. La correction compare la réponse à la référence. Les moyennes enregistrées le 23 juillet sont 0,900, 0,846, 1,000 et 0,683. Le dernier score montre que des écarts demeurent même avec un contexte utile. Sur le cas famille, le score de correction est d'environ 0,581 et la réponse ajoute des informations pratiques à vérifier. La priorité est donc de mieux cadrer la réponse, contrôler les faits et élargir le jeu d'évaluation. Trois exemples démontrent la méthode, pas la performance générale.",
+    "simple": "Fidélité : est-ce écrit dans les fiches ? Pertinence : est-ce que ça répond à la question ? Précision du contexte : les passages utiles arrivent-ils bien placés ? Correction : est-ce conforme à ce que la réponse humaine attend ? Une réponse peut être fidèle à un document, mais incomplète ou mal ciblée.",
+    "technical": "RAGAS 0.4.3 ; juge ministral-8b-2512 ; embeddings mistral-embed. Faithfulness juge les affirmations soutenues. ContextPrecision s'appuie sur une référence pour évaluer les contextes récupérés et leur classement : 1,0 ne signifie ni tous les chunks utiles ni rappel parfait. AnswerCorrectness combine comparaison factuelle et similarité. Le script appelle les métriques séquentiellement avec reprises après erreurs transitoires. Les seuils fort≥0,8 et acceptable≥0,6 sont des conventions du projet. Le même fournisseur sert à générer et juger : biais possible, review humaine nécessaire. Les références courtes peuvent pénaliser des développements utiles, mais cela ne justifie pas les faits inventés.",
+    "show": "Lis les quatre scores avec leur sens, puis donne la limite du petit échantillon. En discussion, ouvre les exemples RAGAS du rapport.",
+    "proof": "scripts/evaluate_ragas.py ; src/openagenda_rag/ragas_evaluation.py ; outputs/evaluation/ragas_results.json ; rapport, section 7.",
+    "pitfall": "0,900 n'est pas un taux de satisfaction de 90 %. 1,000 n'est pas un rappel de 100 %. Ces scores historiques n'ont pas été recalculés aujourd'hui.",
+    "transition": "Ces résultats et la démonstration permettent d'identifier les limites prioritaires."
+  },
+  {
+    "title": "Les limites définissent le travail avant production",
+    "label": "Limites et risques observés",
+    "seconds": 65,
+    "claim": "Actualiser les données, renforcer le refus et mesurer davantage.",
+    "points": [
+      "Corpus Paris figé ; pas de filtre dynamique sur les dates",
+      "Refus par prompt, sans seuil de pertinence",
+      "Dépendance Mistral ; quotas observés ; petit jeu d'évaluation"
+    ],
+    "body": "<ol class=\"limit-list\"><li><span>01</span><div><h3>Fraîcheur et couverture</h3><p>Paris uniquement, collecte figée ; filtres métier à ajouter.</p></div></li><li><span>02</span><div><h3>Pertinence et refus</h3><p>Top-k sans seuil ; réponse et sources à contrôler.</p></div></li><li><span>03</span><div><h3>Exploitation et qualité mesurée</h3><p>API Mistral distante, quotas ; trois cas RAGAS.</p></div></li></ol><p class=\"takeaway\">Démo directe rétablie avec un autre modèle Mistral ; scores historiques à réévaluer.</p>",
+    "speech": "La première limite est le corpus : il est limité à Paris et figé en juillet. Pour recommander des sorties actuelles, il faut automatiser son actualisation et filtrer les dates au moment de la demande. La deuxième concerne la recherche : le top-k renvoie les voisins les plus proches même lorsqu'ils ne répondent pas réellement à la question. Le refus repose alors sur le prompt et le modèle. Un seuil calibré et des filtres explicites seraient plus robustes. La troisième limite est l'exploitation. L'index est local, mais les embeddings de question et la génération appellent Mistral. Aujourd'hui, Mistral Small était limité. La démo a été rétablie avec Ministral 8B, sans changer les embeddings. Les erreurs fournisseur sont désormais contrôlées. Ce nouveau modèle doit être réévalué ; les anciens scores ne lui sont pas attribués. Enfin, trois cas RAGAS restent insuffisants pour conclure à une qualité générale.",
+    "simple": "Tu n'as pas besoin de défendre le prototype comme parfait. Tu dois connaître ses limites, montrer leur effet et proposer une action concrète. La panne initiale a été contournée par un modèle Mistral disponible. Ce changement permet la démo, mais ne prouve pas une qualité équivalente.",
+    "technical": "Pas de reranker, recherche hybride, seuil de distance, filtre de métadonnées par question, authentification globale, limitation de débit ni supervision livrés. Reconstruction destructive sur le répertoire cible : pas de bascule atomique et risque de concurrence à traiter en production. Pickle de FAISS chargé avec allow_dangerous_deserialization=True : uniquement artefacts de confiance. Les noms latest et les dépendances transitives non totalement figées limitent la reproductibilité stricte.",
+    "show": "Relie chaque limite à une amélioration. Si la démo enregistrée a été utilisée, rappelle simplement la cause observée.",
+    "proof": "README.md : limites ; src/openagenda_rag/rag.py ; api.py ; indexing.py ; état de préparation.",
+    "pitfall": "Ne prétends pas que Docker rend le projet entièrement hors ligne, qu'un seuil seul comprend toutes les contraintes, ou que l'API est prête pour une exposition publique.",
+    "transition": "Je propose donc une suite mesurée, fondée sur les risques identifiés."
+  },
+  {
+    "title": "Un pilote mesuré est la prochaine étape",
+    "label": "Livraison et perspectives",
+    "seconds": 75,
+    "claim": "Le POC livre la chaîne complète ; la valeur produit reste à mesurer.",
+    "points": [
+      "Actualiser le corpus et ajouter des garde-fous de date/ville",
+      "Élargir les références et comparer les paramètres",
+      "Mesurer utilité, erreurs, latence et coût avant industrialisation"
+    ],
+    "body": "<p class=\"closing\">La chaîne est livrée.<br><em>La qualité reste à mesurer<br>à plus grande échelle.</em></p><div class=\"closing-actions\"><p><b>1.</b> Actualiser le corpus et ajouter les filtres métier.</p><p><b>2.</b> Élargir le jeu annoté et calibrer la recherche.</p><p><b>3.</b> Mesurer un pilote avant industrialisation.</p></div><p class=\"closing-proof\">Rapport technique · dépôt GitHub · scripts · tests · résultats documentés</p>",
+    "speech": "Pour conclure, le POC livre une chaîne complète : des données réelles, un index persistant, une génération augmentée, une API, Docker, des tests et une méthode d'évaluation. Je recommande d'abord d'actualiser le corpus et d'ajouter les garde-fous de ville et de date. Ensuite, d'élargir le jeu annoté et de comparer les paramètres de recherche. Un pilote doit mesurer la réponse utile, les refus corrects, les clics vers les sources, la latence et le coût. Je vous montre brièvement les preuves dans le rapport et le dépôt. Le rapport documente les choix et les résultats. Dans le dépôt, scripts permet de relancer les étapes, src contient le moteur et l'API, tests les validations, et seed-data le corpus de référence. Ces éléments permettent à une autre personne de reproduire et d'examiner le POC. Je suis prêt à répondre à vos questions.",
+    "simple": "La conclusion répond à la demande du client : est-ce faisable, quelles preuves avons-nous, que faut-il faire ensuite ? Tu proposes une expérimentation, pas une promesse de conversion ou de qualité universelle.",
+    "technical": "Priorités : fraîcheur et contraintes métier ; jeu annoté diversifié et cas négatifs ; optimisation mesurée ; gestion quotas/erreurs/secrets ; authentification, logs, CI, tests de charge et mises à jour atomiques. Les clics et la satisfaction doivent être observés avec des utilisateurs. Aucun coût précis ni objectif de latence de production n'a été mesuré dans ce POC.",
+    "show": "30 s de conclusion ; 20 s rapport (architecture, évaluation, limites) ; 25 s dépôt (scripts/, src/, tests/, seed-data/). Retourne ensuite au deck. Tous les liens sont dans le guide.",
+    "proof": "README.md ; outputs/rapport-technique-openagenda-rag.pdf ; https://github.com/hgbe-GH/Projet7.",
+    "pitfall": "Ne consacre pas plusieurs minutes à parcourir le dépôt. La présentation doit rester entre 10 et 20 minutes, cible 15.",
+    "transition": "Discussion : écoute la question, réponds en une phrase, puis donne la preuve ou la limite utile."
+  }
+]

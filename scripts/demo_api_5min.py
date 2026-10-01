@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 import subprocess
 import sys
-from time import monotonic, sleep
+from time import monotonic
 
 import httpx
 
@@ -60,21 +61,15 @@ def main() -> int:
             )
 
     with httpx.Client(base_url=args.base_url, timeout=args.timeout) as client:
-        for attempt in range(60):
-            try:
-                payload = run_demo(
-                    client=client,
-                    scenarios=SCENARIOS,
-                    max_seconds=args.max_seconds,
-                    started_at=started,
-                )
-                break
-            except httpx.HTTPError:
-                if attempt == 59:
-                    raise
-                sleep(1)
+        payload = run_demo(
+            client=client,
+            scenarios=SCENARIOS,
+            max_seconds=args.max_seconds,
+            started_at=started,
+        )
 
     args.output_path.parent.mkdir(parents=True, exist_ok=True)
+    payload["generated_at"] = datetime.now(timezone.utc).isoformat()
     args.output_path.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",

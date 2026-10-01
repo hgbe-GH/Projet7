@@ -1,5 +1,24 @@
 # Rapport technique — assistant RAG de recommandation culturelle
 
+**Soutenance du 1er octobre 2026 à 14 h :** [préparation et checklist](outputs/AVANT-14H.md),
+[diaporama HTML](outputs/presentation-soutenance-openagenda-rag.html),
+[PowerPoint de 12 slides](outputs/openagenda-rag-soutenance.pptx),
+[guide personnel](outputs/guide-soutenance-openagenda-rag.html) et
+[rapport PDF actualisé](outputs/rapport-technique-openagenda-rag.pdf).
+
+Pour la démonstration du jour, renseigner `MISTRAL_API_KEY` et
+`RAG_CHAT_MODEL=ministral-8b-2512` dans un fichier `.env` personnel, puis lancer :
+
+```bash
+docker compose up -d --build
+python docs/soutenance/serve_soutenance.py
+```
+
+Ouvrir ensuite `http://127.0.0.1:8765`. Les pages et les réponses enregistrées
+restent consultables sans réseau ; les appels directs nécessitent Mistral.
+Le corpus et les évaluations de juillet sont historiques. Les limites et le
+changement de modèle sont décrits dans la dernière section de ce rapport.
+
 POC RAG pour la mission OpenClassrooms "assistant de recommandation d'evenements culturels" pour Puls-Events.
 
 Le depot couvre les etapes 1 a 6 :
@@ -39,6 +58,8 @@ La borne temporelle est appliquee au moment de la collecte. Certaines lignes peu
 ├── README.md
 ├── Dockerfile
 ├── docker-compose.yml
+├── docs/soutenance/    # sources, conducteur, revue et serveur des supports
+├── outputs/            # livrables sélectionnés et preuves versionnés
 ├── seed-data/
 │   ├── index/
 │   └── processed/
@@ -617,3 +638,28 @@ Les tests couvrent notamment :
 - augmenter et diversifier le jeu annote pour produire des intervalles de confiance ;
 - suivre latence, cout, qualite et derive des donnees dans un environnement de production ;
 - ajouter authentification, limitation de debit et observabilite avant industrialisation.
+
+### Vérification de soutenance du 1er octobre 2026
+
+Le modèle historique du POC et des évaluations de juillet reste
+`mistral-small-latest`. Lors de la préparation, cette génération a renvoyé
+HTTP 429, tandis que `mistral-embed` répondait HTTP 200 avec la même clé.
+Pour la démonstration, `.env` configure désormais
+`RAG_CHAT_MODEL=ministral-8b-2512`. Les embeddings et l’index FAISS restent
+compatibles : aucun réindexage n’a été nécessaire. Ce choix permet de
+rétablir la démo ; les scores historiques ne mesurent pas ce modèle alternatif.
+
+L’API traite désormais les erreurs HTTP fournisseur (limite 429 et accès :
+503 ; autres réponses d’erreur : 502) et les erreurs réseau (503), sans
+exposer les détails des exceptions fournisseur ou inattendues. Le script
+de démonstration s’arrête au premier échec plutôt que de répéter 60 fois les
+appels. Le prompt reçoit la date du jour et un statut temporel calculé à
+partir des métadonnées ; ce statut n’est pas un filtre de recherche et ne
+remplace pas l’actualisation du corpus.
+
+Les 76 tests locaux passent. Les réponses des deux scénarios réels, la
+configuration `/health`, l’horodatage et la durée globale sont conservés dans
+`outputs/demo/demo_api_2026-10-01.json`. La qualité doit encore être contrôlée :
+le modèle peut ajouter un conseil général hors contexte malgré les consignes.
+Les supports et le guide personnel sont servis par
+`python docs/soutenance/serve_soutenance.py` sur `http://127.0.0.1:8765`.

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from datetime import date
 
 from openagenda_rag.rag import (
     answer_question,
@@ -162,6 +163,14 @@ def test_format_documents_for_prompt_includes_metadata_and_content():
     assert "https://example.com/evt-1" in prompt_context
 
 
+def test_prompt_context_marks_finished_events_and_handles_unknown_dates():
+    documents = _sample_documents()[:1]
+    documents.append(FakeDocument("Dates inconnues", {"last_timing": "inconnue"}))
+    context = format_documents_for_prompt(documents)
+    assert "Statut temporel calcule: evenement termine" in context
+    assert "Statut temporel calcule: dates insuffisantes" in context
+
+
 def test_answer_question_returns_answer_sources_and_chunk_count():
     retriever = FakeRetriever(_sample_documents())
     chat_model = FakeChatModel("Je recommande le concert jazz a Paris.")
@@ -179,6 +188,14 @@ def test_answer_question_returns_answer_sources_and_chunk_count():
     assert len(payload["sources"]) == 2
     assert retriever.queries == ["Je cherche un concert a Paris"]
     assert chat_model.messages
+
+
+def test_answer_question_provides_current_date_for_historical_events():
+    chat_model = FakeChatModel()
+    answer_question("Parle-moi du concert", FakeRetriever(_sample_documents()[:1]), chat_model)
+    human_text = chat_model.messages[0].to_messages()[-1].content
+    assert f"Date du jour: {date.today().isoformat()}" in human_text
+    assert "2025-06-21" in human_text
 
 
 def test_answer_question_includes_non_empty_retrieved_contexts_in_order_when_requested():

@@ -44,6 +44,7 @@ def test_run_demo_executes_nominal_and_edge_cases_under_limit():
     )
 
     assert result["duration_seconds"] == 32.0
+    assert result["health"] == {"status": "ok"}
     assert [item["case_id"] for item in result["scenarios"]] == [
         "nominal",
         "limite",

@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-10-01T10:45:16.401250+02:00",
+  "soutenance": "2026-10-01T14:00:00+02:00",
+  "tests": {
+    "passed": 76,
+    "failed": 0,
+    "duration_seconds": 2.99,
+    "command": "PYTHONNOUSERSITE=1 /home/hgbe/anaconda3/envs/openagenda-rag/bin/python -m pytest -q"
+  },
+  "index": {
+    "event_count": 7586,
+    "chunk_count": 14903,
+    "dimensions": 1024,
+    "type": "IndexFlatL2",
+    "all_event_uids_indexed": true
+  },
+  "api": {
+    "health_http_status": 200,
+    "docker_started": true,
+    "live_generation_http_status": 200,
+    "provider_error": null,
+    "live_generation_verified_successfully_today": true,
+    "chat_model": "ministral-8b-2512",
+    "embedding_model": "mistral-embed",
+    "initial_small_model_error": 429,
+    "alternative_model_evaluated_with_ragas": false,
+    "demo_duration_seconds": 4.773
+  },
+  "presentation": {
+    "slides": 12,
+    "planned_seconds": 900,
+    "demo_and_repo_included": true
+  },
+  "ragas": {
+    "historical": true,
+    "generated_at": "2026-07-23T14:36:49Z",
+    "example_count": 3,
+    "recalculated_today": false,
+    "faithfulness": 0.9,
+    "answer_relevancy": 0.845826,
+    "context_precision": 1.0,
+    "answer_correctness": 0.683017
+  },
+  "checks": {
+    "desktop_overflow": false,
+    "mobile_horizontal_overflow": false,
+    "keyboard_navigation": true,
+    "presenter_sync": true,
+    "recorded_demo": true,
+    "modified_question_blocks_stale_record": true
+  },
+  "sources_sha256": {
+    "seed-data/index/index_manifest.json": "0d8c452633033b6dfd89afaa7069369dfbe65c501821ce3d8fc8998021922fb9",
+    "seed-data/processed/fetch_manifest.json": "ede638cf4ae20272b616f432bc2d85fa789e3bb573bfc8cda1ffd62b258a99e6",
+    "outputs/evaluation/ragas_results.json": "d61eb76349ef4853169eb74403a0d48dda26ba0ba913838a721a87639a5abe53",
+    "outputs/demo/demo_api_timing.json": "6e9a061b8c1f9a0770c69ec53652ab4d9afe59839e473ec9b6fabe14547c869b",
+    "outputs/demo/demo_api_2026-10-01.json": "c685479068853e5d42df89b11d02f8da932ff8720bbafeda5aa1c017dbedaaaa"
+  }
+}

@@ -1,0 +1,53 @@
+SOUTENANCE — HUGO GAUBE — 1er octobre 2026 à 14 h
+
+COMMENCER
+Lire AVANT-14H.md pour la liste priorisée et les contrôles avant l’entretien.
+1. Ouvrir guide-soutenance-openagenda-rag.html, rubrique « Comprendre le projet ».
+2. Lire le script des 12 étapes avec les explications simples.
+3. Répéter la démo, puis l'ensemble avec le chronomètre. Cible : 15 minutes, démo et dépôt inclus.
+
+PAGES LOCALES (SERVEUR LANCÉ)
+Guide personnel : http://127.0.0.1:8765/guide-soutenance-openagenda-rag.html
+Diaporama : http://127.0.0.1:8765/presentation-soutenance-openagenda-rag.html
+Démo : http://127.0.0.1:8765/demo-soutenance.html
+Swagger : http://127.0.0.1:8000/docs
+
+PENDANT L'ENTRETIEN
+Partager la fenêtre du diaporama ou de la démo. Garder le guide hors du partage.
+Flèches gauche/droite pour naviguer ; F ou bouton Plein écran ; chronomètre dans la barre inférieure.
+Dans le guide, « Envoyer au diaporama » synchronise une fenêtre déjà ouverte sur la même origine.
+L'API est appelée par le serveur de préparation ; aucun secret n'est nécessaire dans les pages.
+Une question modifiée ne peut pas afficher un enregistrement d'une autre question.
+
+ÉTAT RÉEL
+76 tests réussis aujourd'hui. Index vérifié : 7 586 événements, 14 903 vecteurs, 1 024 dimensions, IndexFlatL2.
+Docker et /health disponibles. Deux scénarios /ask réussis en direct avec ministral-8b-2512 (4,773 s au total).
+Le modèle remplace mistral-small-latest, limité aujourd’hui en 429. Les embeddings sont conservés.
+L’API remonte désormais les erreurs fournisseur en 503/502 sans exposer leurs détails.
+La démo enregistrée conserve la répétition du jour et reste explicitement séparée du direct.
+Le seed couvre le 10/07/2025 au 10/07/2026 ; il ne représente pas un agenda actualisé en octobre.
+RAGAS : résultats du 23/07/2026 sur trois cas, non recalculés aujourd'hui ; ils concernent l’ancien modèle.
+
+SECOURS
+presentation-soutenance-openagenda-rag.pdf : 12 slides identiques au HTML.
+openagenda-rag-soutenance.pptx : 12 slides dans la charte du support précédent, notes orales synchronisées.
+script-oral-soutenance.pdf : 13 pages, une fiche par slide après la page d'accueil.
+guide-soutenance-openagenda-rag.pdf : version complète avec toutes les explications et questions.
+architecture-autoevaluation-soutenance.html / .pdf : composants et états des exigences.
+Les HTML et la démo enregistrée fonctionnent aussi par ouverture directe du fichier, sans serveur ni internet.
+Les appels live nécessitent le serveur local, Docker et Mistral disponible.
+
+RELANCER APRÈS FERMETURE (DEPUIS LA RACINE DU PROJET)
+docker compose up -d --no-build
+python docs/soutenance/serve_soutenance.py
+
+REPRODUIRE LES SUPPORTS HTML
+python docs/soutenance/generer_support.py
+python docs/soutenance/generer_annexe.py
+La seconde commande demande Graphviz (dot). Les pages déjà générées n'ont pas cette dépendance.
+
+PREUVES
+Rapport : outputs/rapport-technique-openagenda-rag.pdf et README.md
+Dépôt : https://github.com/hgbe-GH/Projet7
+Tests : PYTHONNOUSERSITE=1 /home/hgbe/anaconda3/envs/openagenda-rag/bin/python -m pytest -q
+Les anciens supports sont conservés dans outputs/archives/. Le dépôt sur la plateforme OpenClassrooms reste à faire.

@@ -1,0 +1,621 @@
+{
+  "outputSlides": [
+    {
+      "outputSlide": 1,
+      "sourceSlide": 1,
+      "narrativeRole": "content: La mission Puls-Events",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/cj6tovah",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Un assistant RAG\npour recommander\nsans inventer",
+          "newText": "Un assistant culturel\nfondé sur des\névénements réels",
+          "bbox": [
+            72,
+            162,
+            674,
+            182
+          ],
+          "sourceShapeId": "6"
+        },
+        {
+          "shapeId": "sh/nyd0z610",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Soutenance — reprise",
+          "newText": "Soutenance · 1er octobre 2026",
+          "bbox": [
+            74,
+            582,
+            420,
+            28
+          ],
+          "sourceShapeId": "10"
+        }
+      ]
+    },
+    {
+      "outputSlide": 2,
+      "sourceSlide": 2,
+      "narrativeRole": "content: Besoin métier et principe",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/ylc7u54z",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Une question devient une recommandation sourcée",
+          "newText": "Le RAG relie la réponse au catalogue",
+          "bbox": [
+            64,
+            101,
+            1132,
+            76
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/wb2hwfyx",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "« Que faire\nce week-end ? »",
+          "newText": "« Une sortie\nen famille ? »",
+          "bbox": [
+            84,
+            382,
+            166,
+            104
+          ],
+          "sourceShapeId": "10"
+        }
+      ]
+    },
+    {
+      "outputSlide": 3,
+      "sourceSlide": 3,
+      "narrativeRole": "content: Données et préparation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/vy90je9c",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Le nettoyage transforme OpenAgenda en corpus exploitable",
+          "newText": "Le corpus est un instantané explicite de Paris",
+          "bbox": [
+            64,
+            101,
+            1132,
+            76
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/oj2t83it",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Paris · < 1 an",
+          "newText": "Paris · seed juillet 2026",
+          "bbox": [
+            650,
+            280,
+            212,
+            28
+          ],
+          "sourceShapeId": "13"
+        },
+        {
+          "shapeId": "sh/ed8bat47",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Je conserve titre, description, date, lieu et URL : chaque réponse peut revenir à sa source.",
+          "newText": "Titre, description, date, lieu et URL conservés. Corpus figé : fraîcheur à réévaluer.",
+          "bbox": [
+            650,
+            550,
+            480,
+            34
+          ],
+          "sourceShapeId": "28"
+        }
+      ]
+    },
+    {
+      "outputSlide": 4,
+      "sourceSlide": 4,
+      "narrativeRole": "content: Chunking et embeddings",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/xs72x4na",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "CHIMERE devient 14 903 passages recherchables",
+          "newText": "Les descriptions deviennent des passages recherchables",
+          "bbox": [
+            64,
+            101,
+            1132,
+            76
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/7adsji5s",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "FAISS\n+ métadonnées",
+          "newText": "FAISS\n14 903 passages",
+          "bbox": [
+            1004,
+            382,
+            166,
+            104
+          ],
+          "sourceShapeId": "34"
+        },
+        {
+          "shapeId": "sh/wval87ed",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Le chevauchement protège les informations placées entre deux passages.",
+          "newText": "CHIMERE : 15 passages. Tout le corpus : 14 903 vecteurs. Métadonnées conservées.",
+          "bbox": [
+            64,
+            592,
+            1120,
+            42
+          ],
+          "sourceShapeId": "37"
+        }
+      ]
+    },
+    {
+      "outputSlide": 5,
+      "sourceSlide": 5,
+      "narrativeRole": "content: Recherche et génération",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/z25kb6xk",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Le prompt impose une réponse fondée sur les sources",
+          "newText": "Mistral reçoit la question et quatre passages",
+          "bbox": [
+            64,
+            101,
+            1132,
+            76
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/vy90je9c",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "La réponse doit rester en français, utiliser le contexte retrouvé, ne pas inventer et dire « Je ne sais pas » lorsque le contexte manque.",
+          "newText": "Le prompt demande une réponse en français fondée sur le contexte, et un refus si les passages ne permettent pas de répondre. Il réduit le risque sans le supprimer.",
+          "bbox": [
+            92,
+            292,
+            350,
+            98
+          ],
+          "sourceShapeId": "9"
+        },
+        {
+          "sourceShapeId": 15,
+          "shapeId": "15",
+          "bbox": [
+            174,
+            531,
+            240,
+            26
+          ],
+          "oldText": "mistral-small-latest",
+          "newText": "ministral-8b-2512",
+          "role": "model-name"
+        }
+      ]
+    },
+    {
+      "outputSlide": 6,
+      "sourceSlide": 6,
+      "narrativeRole": "content: Architecture du projet",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/5o7qpg3e",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "La chaîne RAG sépare préparation et réponse en ligne",
+          "newText": "La préparation de l’index précède les questions",
+          "bbox": [
+            64,
+            101,
+            1132,
+            76
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/8jqh0fep",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Hors ligne : données → index.  En ligne : question → réponse sourcée.",
+          "newText": "Préparation : données → index. À chaque question : recherche → réponse. Mistral est distant.",
+          "bbox": [
+            64,
+            592,
+            1120,
+            42
+          ],
+          "sourceShapeId": "37"
+        }
+      ]
+    },
+    {
+      "outputSlide": 7,
+      "sourceSlide": 7,
+      "narrativeRole": "content: FastAPI et Docker",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/qpg3ex0n",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "FastAPI expose le RAG comme un service testable",
+          "newText": "L’API rend le POC accessible aux équipes",
+          "bbox": [
+            64,
+            101,
+            1132,
+            76
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/hoza1gvy",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "/rebuild protégé",
+          "newText": "/rebuild · jeton optionnel",
+          "bbox": [
+            174,
+            531,
+            240,
+            26
+          ],
+          "sourceShapeId": "15"
+        },
+        {
+          "shapeId": "sh/pg3ex0nu",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "L’index est chargé au démarrage : l’usage courant ne relance ni l’ingestion ni l’indexation.",
+          "newText": "Retriever chargé à la première question, puis réutilisé. /health ne teste pas Mistral.",
+          "bbox": [
+            558,
+            623,
+            658,
+            28
+          ],
+          "sourceShapeId": "20"
+        }
+      ]
+    },
+    {
+      "outputSlide": 8,
+      "sourceSlide": 8,
+      "narrativeRole": "content: Démonstration API",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/1orytsvu",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "La démo vérifie une valeur et une limite métier",
+          "newText": "La démonstration montre un résultat et une limite",
+          "bbox": [
+            64,
+            110,
+            1040,
+            72
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/5gbq1ory",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "index chargé\nservice prêt",
+          "newText": "serveur disponible\nconfiguration déclarée",
+          "bbox": [
+            84,
+            376,
+            220,
+            70
+          ],
+          "sourceShapeId": "9"
+        },
+        {
+          "shapeId": "sh/orytsvu9",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "LATENCE",
+          "newText": "MODE DIRECT",
+          "bbox": [
+            960,
+            318,
+            220,
+            36
+          ],
+          "sourceShapeId": "20"
+        },
+        {
+          "shapeId": "sh/hcrmhk3q",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "démo complète\n≈ 3 secondes",
+          "newText": "Direct rétabli\nMinistral 8B",
+          "bbox": [
+            960,
+            376,
+            220,
+            70
+          ],
+          "sourceShapeId": "21"
+        },
+        {
+          "shapeId": "sh/obm58z25",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Je montre volontairement un cas Paris sourcé et un cas Lyon hors périmètre : pas seulement un exemple favorable.",
+          "newText": "Secours : réponses du jour explicitement enregistrées. Ne pas les présenter comme du live.",
+          "bbox": [
+            64,
+            637,
+            1152,
+            28
+          ],
+          "sourceShapeId": "28"
+        }
+      ]
+    },
+    {
+      "outputSlide": 9,
+      "sourceSlide": 9,
+      "narrativeRole": "content: Validation et tests",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/z25kb6xk",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "59 tests protègent les comportements critiques",
+          "newText": "Les tests du code et la qualité se complètent",
+          "bbox": [
+            64,
+            101,
+            1132,
+            76
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/2lszqtcj",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "LIVRÉ · pytest passe",
+          "newText": "01/10/2026 · 76 tests passent",
+          "bbox": [
+            826,
+            505,
+            350,
+            28
+          ],
+          "sourceShapeId": "28"
+        },
+        {
+          "shapeId": "sh/h4byhgn2",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "CI/CD proposée : à chaque push, tests → image Docker → healthcheck → rapport. Elle n’est pas implémentée dans le POC.",
+          "newText": "76 tests locaux ; 4 cas fonctionnels aux règles permissives ; CI/CD proposée, non implémentée.",
+          "bbox": [
+            88,
+            615,
+            1104,
+            26
+          ],
+          "sourceShapeId": "30"
+        }
+      ]
+    },
+    {
+      "outputSlide": 10,
+      "sourceSlide": 10,
+      "narrativeRole": "content: Évaluation des réponses",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/2hwfyxob",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "RAGAS me dit où améliorer la réponse",
+          "newText": "Les scores RAGAS orientent les améliorations",
+          "bbox": [
+            64,
+            101,
+            1132,
+            76
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/4zidonyd",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "contexte utile",
+          "newText": "précision du contexte",
+          "bbox": [
+            560,
+            280,
+            174,
+            28
+          ],
+          "sourceShapeId": "18"
+        },
+        {
+          "shapeId": "sh/x4nap4r6",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "3 CAS · SIGNAL INITIAL",
+          "newText": "3 CAS · 23/07/2026",
+          "bbox": [
+            564,
+            548,
+            170,
+            32
+          ],
+          "sourceShapeId": "24"
+        }
+      ]
+    },
+    {
+      "outputSlide": 11,
+      "sourceSlide": 11,
+      "narrativeRole": "content: Limites et risques observés",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/d8v6psfi",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Les limites sont connues, donc pilotables",
+          "newText": "Les limites définissent le travail avant production",
+          "bbox": [
+            64,
+            101,
+            1132,
+            76
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/s72x4nap",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "chunks et top_k\nà calibrer",
+          "newText": "top-k sans seuil\nrefus par prompt",
+          "bbox": [
+            472,
+            306,
+            304,
+            76
+          ],
+          "sourceShapeId": "15"
+        },
+        {
+          "shapeId": "sh/xkf6dcbu",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "FAISS local\ninstance unique",
+          "newText": "Mistral distant\nquota / débit",
+          "bbox": [
+            856,
+            306,
+            304,
+            76
+          ],
+          "sourceShapeId": "21"
+        },
+        {
+          "shapeId": "sh/mlkjm1cf",
+          "action": "rewrite",
+          "reason": "Texte hérité sombre sur bandeau sombre : correction de contraste.",
+          "oldText": "Le POC prouve la faisabilité. Ces trois chantiers conditionnent un déploiement élargi.",
+          "newText": "Corpus à actualiser ; refus à renforcer ; modèle de démo changé après une limite sur Small.",
+          "bbox": [
+            278,
+            620,
+            724,
+            24
+          ],
+          "sourceShapeId": "26",
+          "textStyle": {
+            "color": "#FFFFFF"
+          }
+        }
+      ]
+    },
+    {
+      "outputSlide": 12,
+      "sourceSlide": 12,
+      "narrativeRole": "content: Livraison et perspectives",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        {
+          "shapeId": "sh/3ylc7u54",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Le POC est démontrable.\nLa suite est mesurée.",
+          "newText": "Un pilote mesuré\nest la prochaine étape",
+          "bbox": [
+            64,
+            124,
+            720,
+            150
+          ],
+          "sourceShapeId": "5"
+        },
+        {
+          "shapeId": "sh/l0rqd4vm",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Valider un\npilote multi-villes",
+          "newText": "Valider un\npilote mesuré",
+          "bbox": [
+            876,
+            230,
+            302,
+            104
+          ],
+          "sourceShapeId": "23"
+        },
+        {
+          "shapeId": "sh/eloj2t83",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "1. élargir les données et le jeu annoté\n2. ajouter des garde-fous métier\n3. industrialiser si la valeur est confirmée",
+          "newText": "1. actualiser le corpus et filtrer\n2. élargir le jeu annoté\n3. mesurer avant industrialisation",
+          "bbox": [
+            882,
+            372,
+            290,
+            100
+          ],
+          "sourceShapeId": "24"
+        },
+        {
+          "shapeId": "sh/wra5gbq1",
+          "action": "rewrite",
+          "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
+          "oldText": "Rapport, scripts et dépôt disponibles pour la discussion technique",
+          "newText": "Rapport, dépôt, scripts et résultats : preuves consultables pour la discussion technique",
+          "bbox": [
+            64,
+            626,
+            1152,
+            28
+          ],
+          "sourceShapeId": "26"
+        }
+      ]
+    }
+  ],
+  "omittedSourceSlides": []
+}

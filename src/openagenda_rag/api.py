@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any
+import httpx
 
 from fastapi import FastAPI, Header, HTTPException, Request, status
 from pydantic import BaseModel, Field
@@ -60,6 +61,15 @@ def _get_service(request: Request) -> OpenAgendaRAGService:
     return request.app.state.service
 
 
+def _provider_http_error(exc: httpx.HTTPStatusError) -> HTTPException:
+    upstream_status = exc.response.status_code
+    if upstream_status == 429:
+        return HTTPException(status_code=503, detail="Fournisseur Mistral limité (HTTP 429). Réessayer plus tard ou vérifier les limites du modèle.")
+    if upstream_status in (401, 403):
+        return HTTPException(status_code=503, detail="Accès au fournisseur Mistral indisponible. Vérifier la configuration côté serveur.")
+    return HTTPException(status_code=502, detail="Le fournisseur Mistral a renvoyé une erreur. Aucun résultat généré.")
+
+
 def create_app(service: OpenAgendaRAGService | None = None) -> FastAPI:
     app = FastAPI(
         title="OpenAgenda RAG API",
@@ -83,12 +93,16 @@ def create_app(service: OpenAgendaRAGService | None = None) -> FastAPI:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Question must not be empty.")
         try:
             response = _get_service(request).ask(question)
+        except httpx.HTTPStatusError as exc:
+            raise _provider_http_error(exc) from exc
+        except httpx.RequestError as exc:
+            raise HTTPException(status_code=503, detail="Le fournisseur Mistral ne répond pas. Réessayer plus tard.") from exc
         except ValueError as exc:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
         except FileNotFoundError as exc:
             raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=str(exc)) from exc
         except Exception as exc:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(exc)) from exc
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erreur interne du moteur RAG.") from exc
         return AskResponse(**response)
 
     @app.post("/rebuild", response_model=RebuildResponse, summary="Reconstruire l'index vectoriel FAISS")
@@ -113,12 +127,16 @@ def create_app(service: OpenAgendaRAGService | None = None) -> FastAPI:
                 chunk_overlap=payload.chunk_overlap,
                 embedding_model=payload.embedding_model,
             )
+        except httpx.HTTPStatusError as exc:
+            raise _provider_http_error(exc) from exc
+        except httpx.RequestError as exc:
+            raise HTTPException(status_code=503, detail="Le fournisseur Mistral ne répond pas. Réessayer plus tard.") from exc
         except ValueError as exc:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
         except FileNotFoundError as exc:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
         except Exception as exc:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(exc)) from exc
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erreur interne pendant la reconstruction.") from exc
         return RebuildResponse(**response)
 
     return app
