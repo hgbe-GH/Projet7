@@ -29,3 +29,5 @@ prépare une soutenance de POC ; elle ne prétend pas livrer un service de
 production ni une qualité parfaite.
 
 Refonte du fil oral : les douze étapes, le texte à lire et les notes PowerPoint suivent la même analogie de bibliothèque. Les pages sont relancées par un serveur détaché ; le nouveau lanceur permet de le rétablir. Affichage vérifié à 1280 × 720 et 390 × 844, PDF de présentation de douze pages et script oral de treize pages.
+
+Déroulé simplifié à la demande de l’étudiant : diaporama + page de démo, sans visite prévue de GitHub, du code ou du rapport. Guide séparé, sans lien visible dans la présentation. Conclusion de 75 secondes sur le support ; durée totale conservée à 900 secondes. Livrables disponibles à la demande du jury.

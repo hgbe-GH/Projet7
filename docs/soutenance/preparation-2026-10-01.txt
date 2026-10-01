@@ -1,7 +1,7 @@
 Objectif : soutenance à 14 h, 15 minutes de présentation, 10 minutes de discussion, 5 minutes de débrief.
 Sources : document complet de mission exporté en HTML, README, modèle et rapport technique, code, manifestes, corpus, résultats RAGAS enregistrés le 23 juillet 2026, tests exécutés aujourd'hui.
 Support : 12 slides HTML, guide de lecture séparé, démonstrateur local avec affichage explicite des sorties enregistrées, PDF de secours et PowerPoint synchronisé si export disponible.
-Durées des 12 étapes en secondes : 45, 65, 75, 75, 70, 60, 65, 140, 65, 100, 65, 75. Total : 900 secondes, démo et parcours rapport/dépôt inclus.
+Durées des 12 étapes en secondes : 45, 65, 75, 75, 70, 60, 65, 140, 65, 100, 65, 75. Total : 900 secondes, explications, démo et conclusion sur le support incluses.
 Conception : conserver une typographie lisible et une charte violette sobre inspirée du support existant ; aucune dépendance réseau pour les pages ou les notes.
 Vérification technique : 76 tests passent ; index réel IndexFlatL2, 14903 vecteurs, 1024 dimensions ; 7586 événements tous représentés ; CHIMERE 69427795 produit 15 chunks. Docker démarré et /health répond 200. /ask réussit avec ministral-8b-2512 après une limite sur Small. Les scores historiques concernent Small ; les erreurs fournisseur sont désormais contrôlées.
 Exécution : sauvegarder les anciens supports ; écrire une source unique pour les slides et les notes ; générer HTML ; lancer serveur local et Docker ; vérifier navigation, liens, synchronisation, démo enregistrée, erreurs visibles et impression ; fournir les URL et le premier parcours de révision.

@@ -8,8 +8,8 @@ Les 76 tests locaux passent. Il reste à comprendre, répéter et préparer ton 
 2. **25 minutes : lire le conducteur.** Lis les 12 étapes avec leurs explications simples. Le texte « À lire » est ton script ; les détails servent aux questions. Tu peux activer « Afficher seulement le script oral » pendant l'entretien.
 3. **15 minutes : pratiquer la démo.** Ouvre [le démonstrateur](http://127.0.0.1:8765/demo-soutenance.html), vérifie `/health`, lance Concert Fishers en direct et contrôle le lieu, la date et l’URL dans les sources. Ce concert est passé. Lance ensuite Lyon : le corpus Paris ne permet pas de répondre. Les sources récupérées ne sont pas toutes des recommandations. Un conseil général hors contexte reste possible : reconnais-le si présent.
 4. **15 minutes : préparer les questions.** Dans le guide, lis les réponses sur les modèles, FAISS, top-k, la fraîcheur du corpus, RAGAS, les limites et `/rebuild`.
-5. **15 minutes : répéter avec les gestes.** Ouvre [le diaporama](http://127.0.0.1:8765/presentation-soutenance-openagenda-rag.html), démarre son chronomètre et présente les 12 slides. La démo est dans la slide 8. La fin inclut une visite courte du rapport et du dépôt. Vise 15 minutes, puis corrige ce qui fait perdre le fil.
-6. **Avant 13 h 30 : préparer les fenêtres.** Une fenêtre avec diaporama, démo et [Swagger](http://127.0.0.1:8000/docs) ; une autre avec le guide personnel. Ouvre le rapport technique et le dépôt. Garde les PDF accessibles en secours. Le guide doit rester hors partage.
+5. **15 minutes : répéter avec les gestes.** Ouvre [le diaporama](http://127.0.0.1:8765/presentation-soutenance-openagenda-rag.html), démarre son chronomètre et présente les 12 slides. La démo est dans la slide 8. La fin reste sur le support : bilan et trois priorités. Vise 15 minutes, puis corrige ce qui fait perdre le fil.
+6. **Avant 13 h 30 : préparer les fenêtres.** Une fenêtre avec diaporama, démo et [Swagger](http://127.0.0.1:8000/docs) ; une autre avec le guide personnel. Le rapport et le dépôt restent disponibles à la demande du jury. Garde les PDF accessibles en secours. Le guide doit rester hors partage.
 7. **À 13 h 45 : te connecter et vérifier.** Son, caméra, lien de soutenance, alimentation, partage de la bonne fenêtre, chronomètre remis à zéro. Garde Docker et le serveur local ouverts. Si nécessaire, vérifie une fois `/health` ; évite les appels répétés.
 
 ## Les faits à retenir
@@ -27,10 +27,10 @@ Les 76 tests locaux passent. Il reste à comprendre, répéter et préparer ton 
 
 ## Le déroulé
 
-15 minutes de présentation : mission → RAG → données → découpage et embeddings → recherche et génération → préparation de l’index → API et Docker → démo → tests → RAGAS → limites → conclusion, rapport et dépôt.
+15 minutes de présentation : mission → RAG → données → découpage et embeddings → recherche et génération → préparation de l’index → API et Docker → démo → tests → RAGAS → limites → conclusion sur le support.
 Ensuite : 10 minutes de discussion, puis 5 minutes de débrief.
 
-Pour le rapport, utilise `outputs/rapport-technique-openagenda-rag.pdf` et l’actualisation du README local. Dans le dépôt, montre rapidement `scripts/`, `src/`, `tests/` et `seed-data/`.
+Aucune visite de GitHub ou du code n’est prévue. Explique l’architecture et les résultats sur les slides ; montre uniquement la page de démo lors de la slide 8.
 Les correctifs et supports du jour sont destinés au dépôt GitHub. Le dépôt sur la plateforme OpenClassrooms reste à faire. Le kit ZIP inclut les supports et le code actuel sans la clé API.
 
 ## Si un problème revient

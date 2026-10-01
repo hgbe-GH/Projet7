@@ -3,31 +3,37 @@
 SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
   'label': 'Accueillir la demande',
   'seconds': 45,
-  'claim': 'Le visiteur pose une question ; nous cherchons dans des fiches réelles avant de répondre.',
+  'claim': 'Le visiteur pose une question ; nous cherchons dans des fiches réelles avant de '
+           'répondre.',
   'points': ['7 586 événements à Paris',
              '14 903 passages dans FAISS',
              'Réponses sourcées via une API Docker'],
   'body': '<div class="cover-title">Un catalogue culturel.<br>Une question.<br><em>Une réponse '
           'vérifiable.</em></div><p class="cover-sub">Puls-Events · Le parcours d’une bibliothèque '
           'augmentée</p><div class="numbers"><div><strong>7 586</strong><span>fiches '
-          'd’événements</span></div><div><strong>14 903</strong><span>passages indexés</span></div></div><p '
-          'class="author">Hugo Gaube · Data scientist freelance<br>Projet 7 · 1er octobre 2026</p>',
-  'speech': 'Bonjour Jérémy. Pour expliquer ce POC, je vous propose une image simple : une bibliothèque '
-            "d'événements culturels. Un visiteur arrive avec une demande, par exemple une sortie en famille "
-            "à Paris. Il souhaite une réponse utile et des informations qu'il peut vérifier. Mon travail a "
-            'été de constituer le catalogue, de préparer ses fiches pour la recherche, puis de relier cette '
-            'recherche à un modèle qui rédige et à une API que vos équipes peuvent appeler. Le catalogue '
-            'livré contient 7 586 événements parisiens. Je vais suivre ce parcours avec vous, montrer deux '
-            'demandes en direct et expliquer ce qui fonctionne ainsi que ce qui reste à améliorer.',
-  'simple': 'Le catalogue est réel. Le bibliothécaire est une image pour expliquer la recherche, pas une '
-            'personne ni un modèle entraîné sur tes données.',
-  'technical': 'Le brief demande LangChain, Mistral, FAISS, une API, les scripts de reconstruction, des '
-               "tests, un jeu annoté, un rapport, Docker et une démo. L'historique de conversation n'est pas "
-               "nécessaire. Le modèle n'a pas été entraîné ou ajusté dans ce projet.",
+          'd’événements</span></div><div><strong>14 903</strong><span>passages '
+          'indexés</span></div></div><p class="author">Hugo Gaube · Data scientist '
+          'freelance<br>Projet 7 · 1er octobre 2026</p>',
+  'speech': 'Bonjour Jérémy. Pour expliquer ce POC, je vous propose une image simple : une '
+            "bibliothèque d'événements culturels. Un visiteur arrive avec une demande, par exemple "
+            'une sortie en famille à Paris. Il souhaite une réponse utile et des informations '
+            "qu'il peut vérifier. Mon travail a été de constituer le catalogue, de préparer ses "
+            'fiches pour la recherche, puis de relier cette recherche à un modèle qui rédige et à '
+            'une API que vos équipes peuvent appeler. Le catalogue livré contient 7 586 événements '
+            'parisiens. Je vais suivre ce parcours avec vous, montrer deux demandes en direct et '
+            'expliquer ce qui fonctionne ainsi que ce qui reste à améliorer.',
+  'simple': 'Le catalogue est réel. Le bibliothécaire est une image pour expliquer la recherche, '
+            'pas une personne ni un modèle entraîné sur tes données.',
+  'technical': 'Le brief demande LangChain, Mistral, FAISS, une API, les scripts de '
+               'reconstruction, des tests, un jeu annoté, un rapport, Docker et une démo. '
+               "L'historique de conversation n'est pas nécessaire. Le modèle n'a pas été entraîné "
+               'ou ajusté dans ce projet.',
   'show': 'Partage uniquement la fenêtre du diaporama. Garde ce guide hors du partage.',
-  'proof': 'README.md ; document de mission, message de Jérémy ; seed-data/processed/fetch_manifest.json.',
+  'proof': 'README.md ; document de mission, message de Jérémy ; '
+           'seed-data/processed/fetch_manifest.json.',
   'pitfall': "Ne dis pas que c'est déjà un produit en production ni que tu as entraîné Mistral.",
-  'transition': 'Pour comprendre la solution, séparons le catalogue, la recherche et la rédaction.'},
+  'transition': 'Pour comprendre la solution, séparons le catalogue, la recherche et la '
+                'rédaction.'},
  {'title': 'Chercher dans le catalogue avant de répondre',
   'label': 'Catalogue → bibliothécaire → rédaction',
   'seconds': 65,
@@ -35,33 +41,36 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
   'points': ['Recherche sémantique dans le catalogue',
              'Contexte transmis à Mistral',
              'Réponse avec lieux, dates et liens'],
-  'body': '<p class="example">« Je cherche une sortie en famille à Paris. »</p><div class="flow"><div><b>01 '
-          '· CATALOGUE</b><h3>Des fiches réelles</h3><p>OpenAgenda : textes,<br>lieux, dates et '
-          'liens.</p></div><span>→</span><div><b>02 · BIBLIOTHÉCAIRE</b><h3>Des passages '
-          'retrouvés</h3><p>FAISS compare les vecteurs<br>pour retrouver des '
-          'extraits.</p></div><span>→</span><div><b>03 · RÉDACTEUR</b><h3>Une réponse sourcée</h3><p>Mistral '
-          'reçoit ces extraits<br>et formule la réponse.</p></div></div><p class="takeaway">RAG : chercher '
-          'avant de rédiger. Aucun entraînement du modèle sur le catalogue.</p>',
-  'speech': 'Dans notre bibliothèque, les fiches OpenAgenda forment le catalogue. Chaque fiche décrit un '
-            'événement, avec son titre, son lieu, ses dates et son lien. Le bibliothécaire représente la '
-            'recherche avec FAISS : il retrouve des passages proches de la demande. Puis un rédacteur, le '
-            'modèle Mistral, reçoit ces passages et formule la réponse. Les embeddings sont ce qui permet de '
-            'comparer numériquement le sens des textes et de la question. Le RAG consiste à chercher '
-            "d'abord, puis à rédiger avec les informations retrouvées. Je n'ai pas entraîné Mistral sur le "
-            "catalogue : j'ai construit l'index et organisé ce passage d'informations. L'analogie a une "
-            'limite : FAISS compare des vecteurs, il ne comprend pas toutes les contraintes comme un '
+  'body': '<p class="example">« Je cherche une sortie en famille à Paris. »</p><div '
+          'class="flow"><div><b>01 · CATALOGUE</b><h3>Des fiches réelles</h3><p>OpenAgenda : '
+          'textes,<br>lieux, dates et liens.</p></div><span>→</span><div><b>02 · '
+          'BIBLIOTHÉCAIRE</b><h3>Des passages retrouvés</h3><p>FAISS compare les vecteurs<br>pour '
+          'retrouver des extraits.</p></div><span>→</span><div><b>03 · RÉDACTEUR</b><h3>Une '
+          'réponse sourcée</h3><p>Mistral reçoit ces extraits<br>et formule la '
+          'réponse.</p></div></div><p class="takeaway">RAG : chercher avant de rédiger. Aucun '
+          'entraînement du modèle sur le catalogue.</p>',
+  'speech': 'Dans notre bibliothèque, les fiches OpenAgenda forment le catalogue. Chaque fiche '
+            'décrit un événement, avec son titre, son lieu, ses dates et son lien. Le '
+            'bibliothécaire représente la recherche avec FAISS : il retrouve des passages proches '
+            'de la demande. Puis un rédacteur, le modèle Mistral, reçoit ces passages et formule '
+            'la réponse. Les embeddings sont ce qui permet de comparer numériquement le sens des '
+            "textes et de la question. Le RAG consiste à chercher d'abord, puis à rédiger avec les "
+            "informations retrouvées. Je n'ai pas entraîné Mistral sur le catalogue : j'ai "
+            "construit l'index et organisé ce passage d'informations. L'analogie a une limite : "
+            'FAISS compare des vecteurs, il ne comprend pas toutes les contraintes comme un '
             'bibliothécaire humain.',
-  'simple': 'Catalogue = corpus ; passages = chunks ; représentation du sens = embeddings ; bibliothécaire = '
-            'recherche FAISS ; rédacteur = modèle de chat.',
+  'simple': 'Catalogue = corpus ; passages = chunks ; représentation du sens = embeddings ; '
+            'bibliothécaire = recherche FAISS ; rédacteur = modèle de chat.',
   'technical': "Ce n'est ni du fine-tuning ni de l'entraînement. L'embedding représente le texte "
-               'numériquement, le retriever sélectionne des documents et ChatPromptTemplate assemble les '
-               'messages transmis au chat. Les documents sont consultés à chaque question.',
-  'show': "Pointe les trois étapes. L'exemple famille existe dans le jeu RAGAS ; ce n'est pas une nouvelle "
-          'preuve live.',
+               'numériquement, le retriever sélectionne des documents et ChatPromptTemplate '
+               'assemble les messages transmis au chat. Les documents sont consultés à chaque '
+               'question.',
+  'show': "Pointe les trois étapes. L'exemple famille existe dans le jeu RAGAS ; ce n'est pas une "
+          'nouvelle preuve live.',
   'proof': 'src/openagenda_rag/rag.py : answer_question(), build_prompt() ; '
            'tests/fixtures/ragas_eval_dataset.csv.',
-  'pitfall': "Ne promets pas zéro hallucination. Une recherche proche n'est pas nécessairement une réponse "
-             'pertinente.',
+  'pitfall': "Ne promets pas zéro hallucination. Une recherche proche n'est pas nécessairement une "
+             'réponse pertinente.',
   'transition': 'Avant d’aider un visiteur, il faut constituer un catalogue fiable.'},
  {'title': 'Constituer et nettoyer le catalogue',
   'label': 'Les fiches OpenAgenda',
@@ -73,35 +82,41 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
   'body': '<div class="split"><div><div class="large-number">7 586</div><p>fiches d’événements · '
           'Paris</p><div class="date-range">10 juillet 2025<br><span>↓ première date dans la '
           'fenêtre</span><br>10 juillet 2026</div></div><div><ol '
-          'class="editorial-list"><li><strong>Collecter</strong><span>Dataset public OpenAgenda via '
-          'Opendatasoft.</span></li><li><strong>Nettoyer</strong><span>Descriptions HTML, champs et doublons '
-          'par UID.</span></li><li><strong>Garder la référence</strong><span>Titre, description, lieu, dates '
-          'et URL dans le Parquet.</span></li></ol></div></div><p class="takeaway">Le catalogue est figé en '
+          'class="editorial-list"><li><strong>Collecter</strong><span>Dataset public OpenAgenda '
+          'via Opendatasoft.</span></li><li><strong>Nettoyer</strong><span>Descriptions HTML, '
+          'champs et doublons par UID.</span></li><li><strong>Garder la '
+          'référence</strong><span>Titre, description, lieu, dates et URL dans le '
+          'Parquet.</span></li></ol></div></div><p class="takeaway">Le catalogue est figé en '
           'juillet : il doit être actualisé pour conseiller les sorties d’aujourd’hui.</p>',
-  'speech': "J'ai commencé par collecter les fiches du dataset public OpenAgenda indiqué par la mission, "
-            "accessible via Opendatasoft. J'ai choisi Paris et une fenêtre du 10 juillet 2025 au 10 juillet "
-            '2026. La collecte parcourt les pages, retire les doublons par identifiant et nettoie les '
-            'descriptions, notamment les balises HTML. Je garde les informations qui permettent de vérifier '
-            'une réponse : titre, description, lieu, dates et URL. Les données sont exportées dans un '
-            'fichier Parquet, un format structuré relisible par les scripts. Ce catalogue contient 7 586 '
-            "événements. Comme une bibliothèque dont le catalogue n'a pas été mis à jour depuis juillet, il "
-            "manque les nouvelles fiches d'octobre. Je reconnais cette limite : pour conseiller des sorties "
+  'speech': "J'ai commencé par collecter les fiches du dataset public OpenAgenda indiqué par la "
+            "mission, accessible via Opendatasoft. J'ai choisi Paris et une fenêtre du 10 juillet "
+            '2025 au 10 juillet 2026. La collecte parcourt les pages, retire les doublons par '
+            'identifiant et nettoie les descriptions, notamment les balises HTML. Je garde les '
+            'informations qui permettent de vérifier une réponse : titre, description, lieu, dates '
+            'et URL. Les données sont exportées dans un fichier Parquet, un format structuré '
+            'relisible par les scripts. Ce catalogue contient 7 586 événements. Comme une '
+            "bibliothèque dont le catalogue n'a pas été mis à jour depuis juillet, il manque les "
+            "nouvelles fiches d'octobre. Je reconnais cette limite : pour conseiller des sorties "
             'actuelles, il faut actualiser les données et vérifier les dates.',
-  'simple': 'Nettoyer le catalogue ne signifie pas inventer ce qui manque. Tu conserves les informations '
-            'disponibles et les références. Le catalogue est un instantané de juillet.',
-  'technical': 'build_records_where_clause() filtre firstdate_begin, pas chaque occurrence récurrente. '
-               'last_timing peut dépasser juillet 2026. La borne haute fixe exclut les événements qui '
-               'commencent après la collecte. Les données ne sont pas automatiquement rafraîchies. 39 titres '
-               'sont absents dans le seed, mais leurs descriptions peuvent rester indexables. Déduplication '
-               'par event_uid ; les titres identiques avec des UID différents ne sont pas fusionnés.',
-  'show': "Explique la fenêtre telle qu'elle est. Si on te demande le fichier, ouvre le manifeste de "
-          'collecte, pas le JSON brut entier.',
+  'simple': 'Nettoyer le catalogue ne signifie pas inventer ce qui manque. Tu conserves les '
+            'informations disponibles et les références. Le catalogue est un instantané de '
+            'juillet.',
+  'technical': 'build_records_where_clause() filtre firstdate_begin, pas chaque occurrence '
+               'récurrente. last_timing peut dépasser juillet 2026. La borne haute fixe exclut les '
+               'événements qui commencent après la collecte. Les données ne sont pas '
+               'automatiquement rafraîchies. 39 titres sont absents dans le seed, mais leurs '
+               'descriptions peuvent rester indexables. Déduplication par event_uid ; les titres '
+               'identiques avec des UID différents ne sont pas fusionnés.',
+  'show': 'Reste sur la diapositive : montre Paris, la période du catalogue et les trois '
+          'opérations de nettoyage.',
   'proof': 'scripts/fetch_events.py ; src/openagenda_rag/ingestion.py ; '
            'seed-data/processed/fetch_manifest.json ; events.parquet.',
-  'pitfall': 'La consigne demande des événements récents et vise des recommandations à venir. Au 1er '
-             "octobre, certains événements du seed ont plus d'un an. La fraîcheur constitue donc un écart "
-             'actuel à signaler et à corriger par une nouvelle collecte, pas à masquer.',
-  'transition': 'Une fiche peut être longue : nous allons préparer des passages plus faciles à retrouver.'},
+  'pitfall': 'La consigne demande des événements récents et vise des recommandations à venir. Au '
+             "1er octobre, certains événements du seed ont plus d'un an. La fraîcheur constitue "
+             'donc un écart actuel à signaler et à corriger par une nouvelle collecte, pas à '
+             'masquer.',
+  'transition': 'Une fiche peut être longue : nous allons préparer des passages plus faciles à '
+                'retrouver.'},
  {'title': 'Découper les fiches, puis comparer leur sens',
   'label': 'Passages et embeddings',
   'seconds': 75,
@@ -110,37 +125,41 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
              'mistral-embed : lots de 50',
              'Tout le corpus : 14 903 vecteurs dans IndexFlatL2'],
   'body': '<div class="split"><div><p class="mono-label">UNE FICHE LONGUE → PLUSIEURS '
-          'PASSAGES</p><h3>CHIMERE : 15 passages</h3><div class="chunk-demo"><div>Passage 1 · début de la '
-          'description<br><small>fin partagée avec le passage suivant</small></div><div>Passage 2 · suite de '
-          'la description<br><small>chevauchement maximal : 200 caractères</small></div></div><p>Découpage : '
-          '1 000 caractères, séparateurs respectés.</p></div><div><div class="large-number">14 '
-          '903</div><p>passages dans tout le catalogue</p><div class="definition-stack"><div><strong>1 024 '
-          'nombres</strong><p>mistral-embed représente chaque passage.</p></div><div><strong>Une fiche de '
-          'référence</strong><p>Dates, lieu et URL restent attachés au '
-          'passage.</p></div></div></div></div><p class="takeaway">Le texte est le passage ; le vecteur '
-          'représente son sens ; les métadonnées permettent de revenir à la fiche.</p>',
-  'speech': "Dans un catalogue, certaines fiches sont courtes et d'autres très longues. Pour ne pas "
-            'transmettre toute une longue description au rédacteur, je les découpe en passages, appelés '
-            "chunks. Le réglage de départ est de 1 000 caractères, avec jusqu'à 200 caractères de "
-            'chevauchement pour préserver les informations aux frontières. Le découpage cherche à respecter '
-            'les séparateurs du texte. La fiche CHIMERE illustre ce point : elle produit 15 passages. Tout '
-            'le catalogue produit 14 903 passages, et non 14 903 événements. Chaque passage est transformé '
-            'par mistral-embed en un vecteur de 1 024 nombres. Ces nombres servent à comparer le sens ; ce '
-            'ne sont pas des catégories lisibles par un humain. Je conserve aussi le lien vers la fiche, ses '
-            'dates et son lieu.',
-  'simple': 'Le passage est le texte. Le vecteur est sa représentation numérique. Les métadonnées sont sa '
-            'référence dans le catalogue. Ce sont trois choses différentes.',
-  'technical': 'RecursiveCharacterTextSplitter, add_start_index=True. Le chevauchement est un paramètre '
-               'maximal, pas 200 caractères garantis à chaque frontière. chunk_id = event_uid::chunk-N. '
-               "L'index réel est IndexFlatL2 : recherche exacte selon la distance euclidienne au carré, sans "
-               'normalisation explicite dans le code. Moins la distance est élevée, plus les vecteurs sont '
-               'proches. Tous les 7 586 UID sont représentés. CHIMERE 69427795 a 15 chunks ; une autre fiche '
-               'porte le même titre avec un UID différent.',
-  'show': "Distingue la fiche d'exemple et les volumes de tout le corpus. Aucun réindexage en direct.",
+          'PASSAGES</p><h3>CHIMERE : 15 passages</h3><div class="chunk-demo"><div>Passage 1 · '
+          'début de la description<br><small>fin partagée avec le passage '
+          'suivant</small></div><div>Passage 2 · suite de la description<br><small>chevauchement '
+          'maximal : 200 caractères</small></div></div><p>Découpage : 1 000 caractères, '
+          'séparateurs respectés.</p></div><div><div class="large-number">14 903</div><p>passages '
+          'dans tout le catalogue</p><div class="definition-stack"><div><strong>1 024 '
+          'nombres</strong><p>mistral-embed représente chaque passage.</p></div><div><strong>Une '
+          'fiche de référence</strong><p>Dates, lieu et URL restent attachés au '
+          'passage.</p></div></div></div></div><p class="takeaway">Le texte est le passage ; le '
+          'vecteur représente son sens ; les métadonnées permettent de revenir à la fiche.</p>',
+  'speech': "Dans un catalogue, certaines fiches sont courtes et d'autres très longues. Pour ne "
+            'pas transmettre toute une longue description au rédacteur, je les découpe en '
+            "passages, appelés chunks. Le réglage de départ est de 1 000 caractères, avec jusqu'à "
+            '200 caractères de chevauchement pour préserver les informations aux frontières. Le '
+            'découpage cherche à respecter les séparateurs du texte. La fiche CHIMERE illustre ce '
+            'point : elle produit 15 passages. Tout le catalogue produit 14 903 passages, et non '
+            '14 903 événements. Chaque passage est transformé par mistral-embed en un vecteur de 1 '
+            '024 nombres. Ces nombres servent à comparer le sens ; ce ne sont pas des catégories '
+            'lisibles par un humain. Je conserve aussi le lien vers la fiche, ses dates et son '
+            'lieu.',
+  'simple': 'Le passage est le texte. Le vecteur est sa représentation numérique. Les métadonnées '
+            'sont sa référence dans le catalogue. Ce sont trois choses différentes.',
+  'technical': 'RecursiveCharacterTextSplitter, add_start_index=True. Le chevauchement est un '
+               'paramètre maximal, pas 200 caractères garantis à chaque frontière. chunk_id = '
+               "event_uid::chunk-N. L'index réel est IndexFlatL2 : recherche exacte selon la "
+               'distance euclidienne au carré, sans normalisation explicite dans le code. Moins la '
+               'distance est élevée, plus les vecteurs sont proches. Tous les 7 586 UID sont '
+               'représentés. CHIMERE 69427795 a 15 chunks ; une autre fiche porte le même titre '
+               'avec un UID différent.',
+  'show': "Distingue la fiche d'exemple et les volumes de tout le corpus. Aucun réindexage en "
+          'direct.',
   'proof': 'src/openagenda_rag/indexing.py : build_documents(), build_vector_store() ; '
            'seed-data/index/index_manifest.json ; index.faiss.',
-  'pitfall': 'Caractères et tokens sont différents. Ne dis pas que CHIMERE seul produit 14 903 chunks. Un '
-             "vecteur n'est ni un résumé ni une réponse.",
+  'pitfall': 'Caractères et tokens sont différents. Ne dis pas que CHIMERE seul produit 14 903 '
+             "chunks. Un vecteur n'est ni un résumé ni une réponse.",
   'transition': 'Voyons comment le bibliothécaire utilise ces représentations pour une question.'},
  {'title': 'Le bibliothécaire cherche ; le rédacteur répond',
   'label': 'FAISS et modèles Mistral',
@@ -151,42 +170,47 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
              'ministral-8b-2512, température 0,1, 700 tokens maximum'],
   'body': '<div class="pipeline"><div><section><p class="mono-label">REPRÉSENTER LE '
           'SENS</p>mistral-embed</section><span>→</span><section><p '
-          'class="mono-label">BIBLIOTHÉCAIRE</p>FAISS · 4 passages</section><span>→</span><section><p '
-          'class="mono-label">RÉDACTEUR</p>Ministral 8B</section></div></div><blockquote>« Utilise les '
-          'passages fournis. Cite les faits disponibles.<br>Si le catalogue ne permet pas de répondre, '
-          'dis-le. »</blockquote><p class="method">Démo : ministral-8b-2512 après une limite sur '
-          'Small.<br>Embeddings identiques ; scores de juillet propres à l’ancien modèle.</p><p '
-          'class="takeaway">Le bibliothécaire sélectionne les extraits. Le rédacteur formule ; ses consignes '
-          'ne garantissent pas zéro erreur.</p>',
-  'speech': 'Quand le visiteur pose une question, mistral-embed la transforme avec le même modèle que les '
-            'passages. Les vecteurs deviennent ainsi comparables. FAISS retrouve les quatre passages les '
-            "plus proches : c'est le top-k fixé à quatre. Dans notre image, le bibliothécaire dépose quatre "
-            'extraits sur le bureau du rédacteur. Le prompt est sa consigne : répondre en français à partir '
-            "de ces extraits, citer les informations disponibles et dire qu'il ne sait pas si elles "
-            "manquent. Mistral Small était le modèle initial. Aujourd'hui, il renvoyait une limite d'usage ; "
-            "j'ai configuré la version ministral-8b-2512, puis vérifié la démo. L'embedding reste identique, "
-            "donc le catalogue vectoriel n'a pas été reconstruit. Les scores historiques concernent "
-            'toutefois Small. Le prompt aide le rédacteur, mais ne garantit pas une réponse sans erreur.',
-  'simple': 'FAISS choisit les passages ; le modèle de chat rédige. Quatre passages ne signifient pas quatre '
-            'événements. La température 0,1 et la limite de 700 tokens sont des réglages de départ, pas un '
-            'optimum démontré.',
-  'technical': 'answer_question() appelle retriever.invoke(), build_source_entries(), puis prompt.invoke() '
-               'et chat_model.invoke(). Les sources sont les événements récupérés, pas une validation que '
-               "chaque source soutient chaque phrase. Aucun filtre de date ou de ville n'est appliqué "
-               "dynamiquement dans le retriever. L'absence de documents déclenche un refus déterministe ; en "
-               'recherche top-k, le résultat non vide est fréquent même hors sujet. random_seed=42 stabilise '
-               "sans garantir une sortie identique. L'alias latest peut évoluer. Le modèle de démonstration "
-               'est fixé à ministral-8b-2512 dans .env. L’embedding reste mistral-embed : l’index est '
-               'compatible sans reconstruction. Les scores RAGAS historiques concernent mistral-small-latest '
-               'et ne valident pas ce changement. La date du jour et un statut temporel calculé sont '
-               'transmis au prompt ; aucun filtre de date ne supprime les passages.',
-  'show': 'Pointe la séparation embedding/chat et le texte du prompt. Si demandé, ouvre SYSTEM_PROMPT dans '
-          'rag.py.',
+          'class="mono-label">BIBLIOTHÉCAIRE</p>FAISS · 4 '
+          'passages</section><span>→</span><section><p class="mono-label">RÉDACTEUR</p>Ministral '
+          '8B</section></div></div><blockquote>« Utilise les passages fournis. Cite les faits '
+          'disponibles.<br>Si le catalogue ne permet pas de répondre, dis-le. »</blockquote><p '
+          'class="method">Démo : ministral-8b-2512 après une limite sur Small.<br>Embeddings '
+          'identiques ; scores de juillet propres à l’ancien modèle.</p><p class="takeaway">Le '
+          'bibliothécaire sélectionne les extraits. Le rédacteur formule ; ses consignes ne '
+          'garantissent pas zéro erreur.</p>',
+  'speech': 'Quand le visiteur pose une question, mistral-embed la transforme avec le même modèle '
+            'que les passages. Les vecteurs deviennent ainsi comparables. FAISS retrouve les '
+            "quatre passages les plus proches : c'est le top-k fixé à quatre. Dans notre image, le "
+            'bibliothécaire dépose quatre extraits sur le bureau du rédacteur. Le prompt est sa '
+            'consigne : répondre en français à partir de ces extraits, citer les informations '
+            "disponibles et dire qu'il ne sait pas si elles manquent. Mistral Small était le "
+            "modèle initial. Aujourd'hui, il renvoyait une limite d'usage ; j'ai configuré la "
+            "version ministral-8b-2512, puis vérifié la démo. L'embedding reste identique, donc le "
+            "catalogue vectoriel n'a pas été reconstruit. Les scores historiques concernent "
+            'toutefois Small. Le prompt aide le rédacteur, mais ne garantit pas une réponse sans '
+            'erreur.',
+  'simple': 'FAISS choisit les passages ; le modèle de chat rédige. Quatre passages ne signifient '
+            'pas quatre événements. La température 0,1 et la limite de 700 tokens sont des '
+            'réglages de départ, pas un optimum démontré.',
+  'technical': 'answer_question() appelle retriever.invoke(), build_source_entries(), puis '
+               'prompt.invoke() et chat_model.invoke(). Les sources sont les événements récupérés, '
+               'pas une validation que chaque source soutient chaque phrase. Aucun filtre de date '
+               "ou de ville n'est appliqué dynamiquement dans le retriever. L'absence de documents "
+               'déclenche un refus déterministe ; en recherche top-k, le résultat non vide est '
+               'fréquent même hors sujet. random_seed=42 stabilise sans garantir une sortie '
+               "identique. L'alias latest peut évoluer. Le modèle de démonstration est fixé à "
+               'ministral-8b-2512 dans .env. L’embedding reste mistral-embed : l’index est '
+               'compatible sans reconstruction. Les scores RAGAS historiques concernent '
+               'mistral-small-latest et ne valident pas ce changement. La date du jour et un '
+               'statut temporel calculé sont transmis au prompt ; aucun filtre de date ne supprime '
+               'les passages.',
+  'show': 'Pointe la séparation embedding/chat et explique les consignes du rédacteur sur le '
+          'support.',
   'proof': 'src/openagenda_rag/rag.py ; src/openagenda_rag/settings.py : load_rag_settings().',
-  'pitfall': 'Ne dis pas que les sources renvoyées sont toutes utilisées dans la réponse ni que le refus '
-             'Lyon est codé comme une règle de ville.',
-  'transition': 'Cette bibliothèque fonctionne en deux temps : la préparation et le traitement d’une '
-                'demande.'},
+  'pitfall': 'Ne dis pas que les sources renvoyées sont toutes utilisées dans la réponse ni que le '
+             'refus Lyon est codé comme une règle de ville.',
+  'transition': 'Cette bibliothèque fonctionne en deux temps : la préparation et le traitement '
+                'd’une demande.'},
  {'title': 'Préparer les rayons une fois, chercher à chaque demande',
   'label': 'Avant et pendant la question',
   'seconds': 60,
@@ -194,36 +218,40 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
   'points': ['Préparation : collecte → Parquet → embeddings → FAISS',
              'Usage : API → service RAG → recherche → Mistral',
              'Scripts de lancement séparés des modules métier'],
-  'body': '<div class="split"><div><p class="mono-label">AVANT LES QUESTIONS · PRÉPARER LES RAYONS</p><ol '
-          'class="editorial-list"><li><strong>Collecter et nettoyer</strong><span>Construire le catalogue '
-          'structuré.</span></li><li><strong>Découper et vectoriser</strong><span>Préparer les passages et '
-          'leurs embeddings.</span></li><li><strong>Sauvegarder FAISS</strong><span>14 903 vecteurs ; tous '
-          'les UID représentés.</span></li></ol></div><div><p class="mono-label">À CHAQUE DEMANDE · '
-          'CONSULTER LES RAYONS</p><ol class="editorial-list"><li><strong>Vectoriser la '
-          'question</strong><span>Le même espace que les passages.</span></li><li><strong>Chercher puis '
-          'rédiger</strong><span>Quatre contextes, consignes et modèle '
-          'Mistral.</span></li><li><strong>Renvoyer les sources</strong><span>Relier la réponse aux fiches '
-          'du catalogue.</span></li></ol></div></div><p class="takeaway">La recherche FAISS est locale. Les '
-          'embeddings et la rédaction appellent Mistral sur internet.</p>',
-  'speech': 'Il faut distinguer les deux moments. Avant les questions, je prépare les rayons : collecte, '
-            "nettoyage, découpage, calcul des embeddings et enregistrement de l'index FAISS. Chaque passage "
-            'reste relié à sa fiche. Puis, à chaque demande, je vectorise uniquement la question, recherche '
-            'les passages et appelle le rédacteur. Je ne recollecte pas tout OpenAgenda et je ne recalcule '
-            'pas tous les vecteurs à chaque question. Le fichier FAISS livré contient 14 903 vecteurs ; tous '
-            "les identifiants d'événements sont représentés. L'index est chargé à la première demande, puis "
-            'réutilisé. Attention, les rayons sont locaux, mais mistral-embed et le rédacteur sont des '
-            "services distants. Cette bibliothèque dépend donc encore d'internet.",
-  'simple': 'Construire l’index, c’est préparer les rayons. Interroger l’index, c’est chercher dedans. '
-            'Docker contient le seed ; le volume conserve l’index de travail.',
-  'technical': 'OpenAgendaRAGService._ensure_runtime() initialise les objets paresseusement. Ce sont des '
-               'clients et un retriever en mémoire, pas les poids de Mistral en local. rebuild() reconstruit '
-               'depuis le Parquet et invalide ces objets ; il ne recollecte pas les événements. La CLI '
-               'réutilise le service ; la génération reste distante même sans HTTP local.',
-  'show': 'Si Jérémy demande le code, montre service.py puis rag.py. Évite de naviguer entre toutes les '
-          'fonctions.',
+  'body': '<div class="split"><div><p class="mono-label">AVANT LES QUESTIONS · PRÉPARER LES '
+          'RAYONS</p><ol class="editorial-list"><li><strong>Collecter et '
+          'nettoyer</strong><span>Construire le catalogue '
+          'structuré.</span></li><li><strong>Découper et vectoriser</strong><span>Préparer les '
+          'passages et leurs embeddings.</span></li><li><strong>Sauvegarder FAISS</strong><span>14 '
+          '903 vecteurs ; tous les UID représentés.</span></li></ol></div><div><p '
+          'class="mono-label">À CHAQUE DEMANDE · CONSULTER LES RAYONS</p><ol '
+          'class="editorial-list"><li><strong>Vectoriser la question</strong><span>Le même espace '
+          'que les passages.</span></li><li><strong>Chercher puis rédiger</strong><span>Quatre '
+          'contextes, consignes et modèle Mistral.</span></li><li><strong>Renvoyer les '
+          'sources</strong><span>Relier la réponse aux fiches du '
+          'catalogue.</span></li></ol></div></div><p class="takeaway">La recherche FAISS est '
+          'locale. Les embeddings et la rédaction appellent Mistral sur internet.</p>',
+  'speech': 'Il faut distinguer les deux moments. Avant les questions, je prépare les rayons : '
+            "collecte, nettoyage, découpage, calcul des embeddings et enregistrement de l'index "
+            'FAISS. Chaque passage reste relié à sa fiche. Puis, à chaque demande, je vectorise '
+            'uniquement la question, recherche les passages et appelle le rédacteur. Je ne '
+            'recollecte pas tout OpenAgenda et je ne recalcule pas tous les vecteurs à chaque '
+            'question. Le fichier FAISS livré contient 14 903 vecteurs ; tous les identifiants '
+            "d'événements sont représentés. L'index est chargé à la première demande, puis "
+            'réutilisé. Attention, les rayons sont locaux, mais mistral-embed et le rédacteur sont '
+            "des services distants. Cette bibliothèque dépend donc encore d'internet.",
+  'simple': 'Construire l’index, c’est préparer les rayons. Interroger l’index, c’est chercher '
+            'dedans. Docker contient le seed ; le volume conserve l’index de travail.',
+  'technical': 'OpenAgendaRAGService._ensure_runtime() initialise les objets paresseusement. Ce '
+               'sont des clients et un retriever en mémoire, pas les poids de Mistral en local. '
+               'rebuild() reconstruit depuis le Parquet et invalide ces objets ; il ne recollecte '
+               'pas les événements. La CLI réutilise le service ; la génération reste distante '
+               'même sans HTTP local.',
+  'show': 'Pointe les deux moments sur le support : préparer les rayons une fois ; rechercher et '
+          'répondre à chaque demande.',
   'proof': 'src/openagenda_rag/service.py ; scripts/chatbot.py ; scripts/run_api.py.',
-  'pitfall': 'Ne qualifie pas la préparation de complètement hors ligne : elle appelle Mistral. /health ne '
-             "charge pas l'index et ne teste pas la clé.",
+  'pitfall': 'Ne qualifie pas la préparation de complètement hors ligne : elle appelle Mistral. '
+             "/health ne charge pas l'index et ne teste pas la clé.",
   'transition': 'Pour que vos équipes puissent poser une question, il reste à ouvrir un guichet.'},
  {'title': 'Un guichet pour les équipes produit',
   'label': 'FastAPI et Docker',
@@ -232,35 +260,42 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
   'points': ['GET /health et documentation /docs',
              'POST /ask ; POST /rebuild depuis le Parquet',
              "Seed dans l'image, données de travail dans un volume"],
-  'body': '<div class="split"><div class="endpoints"><div><b>GET</b><strong>/health</strong><span>Le guichet '
-          'répond ; sa configuration est '
-          'affichée.</span></div><div><b>POST</b><strong>/ask</strong><span>Une demande → réponse et '
-          'sources.</span></div><div><b>POST</b><strong>/rebuild</strong><span>Reconstituer les rayons '
-          'depuis le Parquet.</span></div></div><div><p class="mono-label">LE MESSAGE AU GUICHET</p><pre>{\n'
+  'body': '<div class="split"><div '
+          'class="endpoints"><div><b>GET</b><strong>/health</strong><span>Le guichet répond ; sa '
+          'configuration est affichée.</span></div><div><b>POST</b><strong>/ask</strong><span>Une '
+          'demande → réponse et '
+          'sources.</span></div><div><b>POST</b><strong>/rebuild</strong><span>Reconstituer les '
+          'rayons depuis le Parquet.</span></div></div><div><p class="mono-label">LE MESSAGE AU '
+          'GUICHET</p><pre>{\n'
           '  "question":\n'
           '  "Parle-moi de Concert Fishers a Paris"\n'
           '}</pre><p class="docker-detail">FastAPI · contrat HTTP / JSON<br>Docker · environnement '
-          'transportable<br>Clé Mistral conservée côté serveur</p></div></div><p class="takeaway">/health ne '
-          'vérifie pas toute la bibliothèque. /rebuild ne collecte pas de nouvelles fiches.</p>',
-  'speech': 'FastAPI est le guichet de notre bibliothèque. Une application lui envoie une question en JSON '
-            'et reçoit une réponse, des sources et le nombre de passages récupérés. La route ask fait ce '
-            'travail. Health indique que le guichet répond et affiche sa configuration, mais ne vérifie pas '
-            'à elle seule que le bibliothécaire et le rédacteur peuvent répondre. Rebuild reconstruit les '
-            'rayons à partir du Parquet ; elle ne collecte pas de nouvelles fiches. Swagger documente ces '
-            'routes. Docker rassemble le code, les dépendances et le catalogue de départ pour lancer le même '
-            'service ailleurs. La clé Mistral reste côté serveur. Le jeton de reconstruction est optionnel '
-            "dans le POC ; il faut sécuriser ce guichet avant de l'exposer publiquement.",
-  'simple': 'API = guichet accessible par un logiciel. JSON = format du message. Docker = environnement '
-            'transportable ; il ne rend pas Mistral local.',
-  'technical': 'Validation Pydantic : question vide → 422 ; espaces seuls → 400 ; index absent → 503. Les '
-               'erreurs HTTP Mistral 429 et d’accès sont contrôlées en 503, les autres erreurs HTTP '
-               'fournisseur en 502, les erreurs réseau en 503. Les détails des exceptions fournisseur et '
-               'inattendues ne sont plus exposés. /rebuild est protégé uniquement si API_REBUILD_TOKEN est '
-               'défini. /health vérifie le serveur et sa configuration, sans appeler Mistral.',
-  'show': 'Pendant la démo, ouvre Swagger et montre les routes ; garde /rebuild fermé. Tu peux cliquer le '
-          'lien Démo de la slide suivante.',
-  'proof': 'src/openagenda_rag/api.py ; Dockerfile ; docker-compose.yml ; scripts/docker_entrypoint.sh.',
-  'pitfall': "Ne dis pas que /rebuild est forcément protégé ou que /health valide Mistral et l'index.",
+          'transportable<br>Clé Mistral conservée côté serveur</p></div></div><p '
+          'class="takeaway">/health ne vérifie pas toute la bibliothèque. /rebuild ne collecte pas '
+          'de nouvelles fiches.</p>',
+  'speech': 'FastAPI est le guichet de notre bibliothèque. Une application lui envoie une question '
+            'en JSON et reçoit une réponse, des sources et le nombre de passages récupérés. La '
+            'route ask fait ce travail. Health indique que le guichet répond et affiche sa '
+            'configuration, mais ne vérifie pas à elle seule que le bibliothécaire et le rédacteur '
+            'peuvent répondre. Rebuild reconstruit les rayons à partir du Parquet ; elle ne '
+            'collecte pas de nouvelles fiches. Swagger documente ces routes. Docker rassemble le '
+            'code, les dépendances et le catalogue de départ pour lancer le même service ailleurs. '
+            'La clé Mistral reste côté serveur. Le jeton de reconstruction est optionnel dans le '
+            "POC ; il faut sécuriser ce guichet avant de l'exposer publiquement.",
+  'simple': 'API = guichet accessible par un logiciel. JSON = format du message. Docker = '
+            'environnement transportable ; il ne rend pas Mistral local.',
+  'technical': 'Validation Pydantic : question vide → 422 ; espaces seuls → 400 ; index absent → '
+               '503. Les erreurs HTTP Mistral 429 et d’accès sont contrôlées en 503, les autres '
+               'erreurs HTTP fournisseur en 502, les erreurs réseau en 503. Les détails des '
+               'exceptions fournisseur et inattendues ne sont plus exposés. /rebuild est protégé '
+               'uniquement si API_REBUILD_TOKEN est défini. /health vérifie le serveur et sa '
+               'configuration, sans appeler Mistral.',
+  'show': 'Reste sur le schéma du guichet API. Explique les routes sans ouvrir Swagger ; la '
+          'démonstration se fait dans la page dédiée à la slide suivante.',
+  'proof': 'src/openagenda_rag/api.py ; Dockerfile ; docker-compose.yml ; '
+           'scripts/docker_entrypoint.sh.',
+  'pitfall': 'Ne dis pas que /rebuild est forcément protégé ou que /health valide Mistral et '
+             "l'index.",
   'transition': 'Passons maintenant au guichet avec deux demandes concrètes.'},
  {'title': 'Au guichet : une fiche trouvée, une demande hors catalogue',
   'label': 'Démo en direct',
@@ -269,40 +304,46 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
   'points': ['Nominal : Concert Fishers à Paris',
              'Limite : expositions photo à Lyon',
              'Examiner la réponse, les sources et les dates'],
-  'body': '<div class="demo-cases"><div><p class="mono-label">UNE FICHE DANS LE CATALOGUE</p><h3>Concert '
-          'Fishers<br>à Paris</h3><p>Appeler en direct.<br>Comparer lieu, date et URL à la '
-          'fiche.</p></div><div><p class="mono-label">UNE DEMANDE HORS CATALOGUE</p><h3>Expositions '
-          'photo<br>à Lyon</h3><p>Observer le refus.<br>Le catalogue couvre Paris.</p></div></div><p '
-          'class="takeaway">Une fiche passée sert d’exemple. Les passages récupérés ne sont pas tous des '
-          'recommandations.</p><a class="demo-link" href="demo-soutenance.html" target="_blank" '
-          'rel="noopener">Ouvrir le guichet de démonstration ↗</a>',
-  'speech': "Je montre d'abord les routes et la configuration du guichet. Dans la page de démonstration, je "
-            "demande des informations sur Concert Fishers à Paris et je clique sur l'appel direct. La page "
-            "transmet la question à l'API, qui recherche les passages et appelle le rédacteur. Je compare "
-            'maintenant la réponse à la fiche : Concert Fishers, Le Gymnase Montparnasse, le 21 juin 2026 et '
-            "l'URL OpenAgenda. Cet événement est passé ; il sert à vérifier la chaîne sur le catalogue "
-            'livré. Pour la deuxième demande, je cherche des expositions photo à Lyon. Notre catalogue '
-            "couvre Paris. Le modèle indique qu'il ne sait pas répondre à partir de ce corpus. Le "
-            'bibliothécaire retrouve tout de même des passages voisins : ce ne sont pas des recommandations '
-            'pour Lyon. Cette distinction explique pourquoi un filtre de ville serait utile.',
-  'simple': 'La page est une interface HTML ajoutée pour la soutenance. Elle appelle réellement le guichet '
-            'FastAPI. Son bouton enregistré montre une répétition sauvegardée, explicitement séparée du '
-            'direct.',
-  'technical': 'Le 1er octobre, les deux scénarios /ask ont réussi en direct avec ministral-8b-2512. Le '
-               'rapport outputs/demo/demo_api_2026-10-01.json en conserve les réponses, le modèle et '
-               'l’horodatage. La mesure couvre health et les deux questions, pas chaque requête ni un '
-               'benchmark. Mistral Small renvoyait 429 ; le modèle de génération a été changé, sans modifier '
-               'mistral-embed ni reconstruire FAISS. La sortie peut encore contenir un conseil général non '
-               'sourcé : le signaler si présent.',
-  'show': '140 s au total : 20 s health/Swagger ; 50 s cas nominal ; 40 s Lyon ; 30 s explication et retour '
-          'au deck. Une tentative live maximum en cas de quota, puis enregistrement. Mode secours disponible '
-          'hors réseau.',
-  'proof': 'scripts/demo_api_5min.py ; outputs/demo/demo_api_2026-10-01.json ; démonstrateur HTML ; état de '
-           'préparation.',
-  'pitfall': 'Ne présente pas un enregistrement comme un appel direct. Compare les faits et les dates aux '
-             'sources. Si un conseil général non sourcé apparaît, explique que le prompt réduit les erreurs '
-             'sans les éliminer. Aucun secret à l’écran.',
-  'transition': 'Deux demandes donnent des exemples. Comment vérifier plus largement la bibliothèque ?'},
+  'body': '<div class="demo-cases"><div><p class="mono-label">UNE FICHE DANS LE '
+          'CATALOGUE</p><h3>Concert Fishers<br>à Paris</h3><p>Appeler en direct.<br>Comparer lieu, '
+          'date et URL à la fiche.</p></div><div><p class="mono-label">UNE DEMANDE HORS '
+          'CATALOGUE</p><h3>Expositions photo<br>à Lyon</h3><p>Observer le refus.<br>Le catalogue '
+          'couvre Paris.</p></div></div><p class="takeaway">Une fiche passée sert d’exemple. Les '
+          'passages récupérés ne sont pas tous des recommandations.</p><a class="demo-link" '
+          'href="demo-soutenance.html" target="_blank" rel="noopener">Ouvrir le guichet de '
+          'démonstration ↗</a>',
+  'speech': "Je reste dans la page de démonstration et je vérifie d'abord l'état du guichet avec "
+            "le bouton health. Ce contrôle vérifie la configuration du serveur ; l'appel suivant "
+            'montrera si toute la chaîne répond. Dans la page de démonstration, je demande des '
+            "informations sur Concert Fishers à Paris et je clique sur l'appel direct. La page "
+            "transmet la question à l'API, qui recherche les passages et appelle le rédacteur. Je "
+            'compare maintenant la réponse à la fiche : Concert Fishers, Le Gymnase Montparnasse, '
+            "le 21 juin 2026 et l'URL OpenAgenda. Cet événement est passé ; il sert à vérifier la "
+            'chaîne sur le catalogue livré. Pour la deuxième demande, je cherche des expositions '
+            "photo à Lyon. Notre catalogue couvre Paris. Le modèle indique qu'il ne sait pas "
+            'répondre à partir de ce corpus. Le bibliothécaire retrouve tout de même des passages '
+            'voisins : ce ne sont pas des recommandations pour Lyon. Cette distinction explique '
+            'pourquoi un filtre de ville serait utile.',
+  'simple': 'La page est une interface HTML ajoutée pour la soutenance. Elle appelle réellement le '
+            'guichet FastAPI. Son bouton enregistré montre une répétition sauvegardée, '
+            'explicitement séparée du direct.',
+  'technical': 'Le 1er octobre, les deux scénarios /ask ont réussi en direct avec '
+               'ministral-8b-2512. Le rapport outputs/demo/demo_api_2026-10-01.json en conserve '
+               'les réponses, le modèle et l’horodatage. La mesure couvre health et les deux '
+               'questions, pas chaque requête ni un benchmark. Mistral Small renvoyait 429 ; le '
+               'modèle de génération a été changé, sans modifier mistral-embed ni reconstruire '
+               'FAISS. La sortie peut encore contenir un conseil général non sourcé : le signaler '
+               'si présent.',
+  'show': '140 s au total : 20 s bouton health dans la page de démo ; 50 s cas nominal ; 40 s Lyon '
+          '; 30 s explication et retour au diaporama. Une tentative live maximum en cas de quota, '
+          'puis enregistrement annoncé.',
+  'proof': 'scripts/demo_api_5min.py ; outputs/demo/demo_api_2026-10-01.json ; démonstrateur HTML '
+           '; état de préparation.',
+  'pitfall': 'Ne présente pas un enregistrement comme un appel direct. Compare les faits et les '
+             'dates aux sources. Si un conseil général non sourcé apparaît, explique que le prompt '
+             'réduit les erreurs sans les éliminer. Aucun secret à l’écran.',
+  'transition': 'Deux demandes donnent des exemples. Comment vérifier plus largement la '
+                'bibliothèque ?'},
  {'title': 'Tester le mécanisme et examiner les réponses',
   'label': 'Tests et jeu annoté',
   'seconds': 65,
@@ -310,39 +351,44 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
   'points': ['76 tests unitaires et API, avec doublures de services',
              '4 cas fonctionnels : titres attendus et refus',
              "Un classement correct n'implique pas une réponse parfaite"],
-  'body': '<div class="split"><div><div class="large-number">76<span>/76</span></div><p>tests locaux réussis '
-          'le 1er octobre</p><pre>python -m pytest -q</pre></div><div><ol '
-          'class="editorial-list"><li><strong>Les rayons et le guichet</strong><span>Collecte, passages, '
-          'indexation, API et erreurs.</span></li><li><strong>Les réponses attendues</strong><span>Quatre '
-          'questions annotées ; règles locales permissives.</span></li><li><strong>Les appels '
-          'réels</strong><span>Vérifiés séparément dans la démonstration.</span></li></ol></div></div><p '
-          'class="takeaway">Le mécanisme peut fonctionner et le conseil rester imparfait. Tests du code et '
-          'qualité des réponses se complètent.</p>',
-  'speech': 'Pour contrôler la bibliothèque, je distingue la mécanique et la qualité des conseils. Les 76 '
-            'tests locaux passent : ils vérifient notamment les filtres, le nettoyage, le découpage, '
-            "l'indexation, le contrat API et les erreurs. Ils utilisent des doublures pour ne pas dépendre "
-            'du fournisseur à chaque exécution. Les appels réels sont vérifiés séparément dans la démo. Le '
-            'jeu fonctionnel contient quatre questions annotées, avec des titres attendus et un cas de '
-            'refus. Sa règle est permissive : un titre présent dans les sources peut suffire à classer le '
-            'cas comme correct, même si la réponse reste imparfaite. Quatre cas corrects ne signifient donc '
-            "pas cent pour cent de fiabilité. Aucune chaîne CI/CD n'est livrée ; les scripts permettent déjà "
+  'body': '<div class="split"><div><div class="large-number">76<span>/76</span></div><p>tests '
+          'locaux réussis le 1er octobre</p><pre>python -m pytest -q</pre></div><div><ol '
+          'class="editorial-list"><li><strong>Les rayons et le guichet</strong><span>Collecte, '
+          'passages, indexation, API et erreurs.</span></li><li><strong>Les réponses '
+          'attendues</strong><span>Quatre questions annotées ; règles locales '
+          'permissives.</span></li><li><strong>Les appels réels</strong><span>Vérifiés séparément '
+          'dans la démonstration.</span></li></ol></div></div><p class="takeaway">Le mécanisme '
+          'peut fonctionner et le conseil rester imparfait. Tests du code et qualité des réponses '
+          'se complètent.</p>',
+  'speech': 'Pour contrôler la bibliothèque, je distingue la mécanique et la qualité des conseils. '
+            'Les 76 tests locaux passent : ils vérifient notamment les filtres, le nettoyage, le '
+            "découpage, l'indexation, le contrat API et les erreurs. Ils utilisent des doublures "
+            'pour ne pas dépendre du fournisseur à chaque exécution. Les appels réels sont '
+            'vérifiés séparément dans la démo. Le jeu fonctionnel contient quatre questions '
+            'annotées, avec des titres attendus et un cas de refus. Sa règle est permissive : un '
+            'titre présent dans les sources peut suffire à classer le cas comme correct, même si '
+            'la réponse reste imparfaite. Quatre cas corrects ne signifient donc pas cent pour '
+            "cent de fiabilité. Aucune chaîne CI/CD n'est livrée ; les scripts permettent déjà "
             "d'automatiser les vérifications.",
-  'simple': 'Un guichet qui répond et des rayons accessibles ne prouvent pas que le rédacteur donne toujours '
-            'le bon conseil. Les tests du code et l’évaluation des réponses sont complémentaires.',
-  'technical': 'evaluation.py utilise SequenceMatcher sur du texte normalisé : similarité lexicale, pas '
-               'embedding sémantique. exact_match_soft = égalité après normalisation. '
-               'matched_expected_titles cherche dans answer OU sources. Sans titre attendu, certaines '
-               'expressions de refus suffisent à classer correct. Les sorties historiques ont 4 corrects, '
-               "exact_match_soft_rate=0 et similarité moyenne ~0,131. Ce n'est pas contradictoire, car les "
-               'mesures ne testent pas la même chose. --ragas sur evaluate_rag.py ne lance pas les quatre '
-               'métriques ; le vrai script est evaluate_ragas.py.',
-  'show': "Annonce le résultat des tests, puis explique ce qu'ils couvrent. Montre le petit jeu CSV si "
-          'demandé.',
+  'simple': 'Un guichet qui répond et des rayons accessibles ne prouvent pas que le rédacteur '
+            'donne toujours le bon conseil. Les tests du code et l’évaluation des réponses sont '
+            'complémentaires.',
+  'technical': 'evaluation.py utilise SequenceMatcher sur du texte normalisé : similarité '
+               'lexicale, pas embedding sémantique. exact_match_soft = égalité après '
+               'normalisation. matched_expected_titles cherche dans answer OU sources. Sans titre '
+               'attendu, certaines expressions de refus suffisent à classer correct. Les sorties '
+               'historiques ont 4 corrects, exact_match_soft_rate=0 et similarité moyenne ~0,131. '
+               "Ce n'est pas contradictoire, car les mesures ne testent pas la même chose. --ragas "
+               'sur evaluate_rag.py ne lance pas les quatre métriques ; le vrai script est '
+               'evaluate_ragas.py.',
+  'show': 'Reste sur la diapositive : annonce les 76 tests et explique la différence avec les '
+          'quatre questions annotées.',
   'proof': 'tests/ ; tests/fixtures/rag_eval_dataset.csv ; scripts/evaluate_rag.py ; '
            'outputs/evaluation/latest_summary.json.',
-  'pitfall': 'Ne transforme pas 4/4 en une précision de 100 % du système. Les tests ne font pas tous des '
-             'appels Mistral réels.',
-  'transition': 'RAGAS apporte une seconde lecture : examiner les extraits et le travail du rédacteur.'},
+  'pitfall': 'Ne transforme pas 4/4 en une précision de 100 % du système. Les tests ne font pas '
+             'tous des appels Mistral réels.',
+  'transition': 'RAGAS apporte une seconde lecture : examiner les extraits et le travail du '
+                'rédacteur.'},
  {'title': 'Le lecteur contrôle les extraits et la rédaction',
   'label': 'Comprendre les scores RAGAS',
   'seconds': 100,
@@ -351,42 +397,44 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
              'Précision du contexte 1,000 ; correction 0,683',
              'Résultats du 23 juillet 2026, trois cas seulement'],
   'body': '<p class="method">Un lecteur examine trois réponses, leurs extraits et une référence '
-          'humaine.</p><div class="metrics"><div><strong>0,900</strong><h3>Fidélité</h3><p>Le rédacteur '
-          's’appuie-t-il sur les extraits '
-          '?</p></div><div><strong>0,846</strong><h3>Pertinence</h3><p>Répond-il à la demande du visiteur '
-          '?</p></div><div><strong>1,000</strong><h3>Précision du contexte</h3><p>Les extraits apportés '
-          'sont-ils utiles et bien ordonnés ?</p></div><div '
-          'class="priority"><strong>0,683</strong><h3>Correction</h3><p>La réponse correspond-elle à la '
-          'référence ?</p></div></div><p class="takeaway">Trois cas · 23 juillet · Mistral Small. Ces scores '
-          'ne mesurent pas le modèle de la démo actuelle.</p>',
-  'speech': "J'ai aussi utilisé RAGAS sur trois cas, avec les passages effectivement récupérés, la réponse "
-            'et une référence humaine. Reprenons la bibliothèque. La fidélité demande si les affirmations du '
-            'rédacteur sont soutenues par les extraits : sa moyenne est 0,900. La pertinence demande si la '
-            "réponse traite la demande du visiteur : 0,846. La précision du contexte examine l'utilité et "
-            "l'ordre des extraits apportés par le bibliothécaire : 1,000. Ce score ne signifie pas qu'il a "
-            'retrouvé tous les événements pertinents. La correction compare la réponse à la référence '
-            'attendue : 0,683. Une réponse peut donc être cohérente avec les extraits, tout en oubliant une '
-            "information ou en s'éloignant de la référence. Le cas famille est le plus faible en correction, "
-            'autour de 0,581. Ces résultats datent du 23 juillet, utilisent Mistral Small et ne portent que '
-            'sur trois cas. Ils orientent les améliorations ; ils ne démontrent pas la qualité générale de '
-            'Ministral 8B.',
-  'simple': 'Fidélité = appui sur les extraits. Pertinence = réponse à la demande. Précision du contexte = '
-            'utilité des extraits. Correction = accord avec la référence. Ce sont des scores du petit '
-            'échantillon, pas des pourcentages de satisfaction.',
-  'technical': 'RAGAS 0.4.3 ; juge ministral-8b-2512 ; embeddings mistral-embed. Faithfulness juge les '
-               "affirmations soutenues. ContextPrecision s'appuie sur une référence pour évaluer les "
-               'contextes récupérés et leur classement : 1,0 ne signifie ni tous les chunks utiles ni rappel '
-               'parfait. AnswerCorrectness combine comparaison factuelle et similarité. Le script appelle '
-               'les métriques séquentiellement avec reprises après erreurs transitoires. Les seuils fort≥0,8 '
-               'et acceptable≥0,6 sont des conventions du projet. Le même fournisseur sert à générer et '
-               'juger : biais possible, review humaine nécessaire. Les références courtes peuvent pénaliser '
-               'des développements utiles, mais cela ne justifie pas les faits inventés.',
-  'show': 'Lis les quatre scores avec leur sens, puis donne la limite du petit échantillon. En discussion, '
-          'ouvre les exemples RAGAS du rapport.',
+          'humaine.</p><div class="metrics"><div><strong>0,900</strong><h3>Fidélité</h3><p>Le '
+          'rédacteur s’appuie-t-il sur les extraits '
+          '?</p></div><div><strong>0,846</strong><h3>Pertinence</h3><p>Répond-il à la demande du '
+          'visiteur ?</p></div><div><strong>1,000</strong><h3>Précision du contexte</h3><p>Les '
+          'extraits apportés sont-ils utiles et bien ordonnés ?</p></div><div '
+          'class="priority"><strong>0,683</strong><h3>Correction</h3><p>La réponse correspond-elle '
+          'à la référence ?</p></div></div><p class="takeaway">Trois cas · 23 juillet · Mistral '
+          'Small. Ces scores ne mesurent pas le modèle de la démo actuelle.</p>',
+  'speech': "J'ai aussi utilisé RAGAS sur trois cas, avec les passages effectivement récupérés, la "
+            'réponse et une référence humaine. Reprenons la bibliothèque. La fidélité demande si '
+            'les affirmations du rédacteur sont soutenues par les extraits : sa moyenne est 0,900. '
+            'La pertinence demande si la réponse traite la demande du visiteur : 0,846. La '
+            "précision du contexte examine l'utilité et l'ordre des extraits apportés par le "
+            "bibliothécaire : 1,000. Ce score ne signifie pas qu'il a retrouvé tous les événements "
+            'pertinents. La correction compare la réponse à la référence attendue : 0,683. Une '
+            'réponse peut donc être cohérente avec les extraits, tout en oubliant une information '
+            "ou en s'éloignant de la référence. Le cas famille est le plus faible en correction, "
+            'autour de 0,581. Ces résultats datent du 23 juillet, utilisent Mistral Small et ne '
+            'portent que sur trois cas. Ils orientent les améliorations ; ils ne démontrent pas la '
+            'qualité générale de Ministral 8B.',
+  'simple': 'Fidélité = appui sur les extraits. Pertinence = réponse à la demande. Précision du '
+            'contexte = utilité des extraits. Correction = accord avec la référence. Ce sont des '
+            'scores du petit échantillon, pas des pourcentages de satisfaction.',
+  'technical': 'RAGAS 0.4.3 ; juge ministral-8b-2512 ; embeddings mistral-embed. Faithfulness juge '
+               "les affirmations soutenues. ContextPrecision s'appuie sur une référence pour "
+               'évaluer les contextes récupérés et leur classement : 1,0 ne signifie ni tous les '
+               'chunks utiles ni rappel parfait. AnswerCorrectness combine comparaison factuelle '
+               'et similarité. Le script appelle les métriques séquentiellement avec reprises '
+               'après erreurs transitoires. Les seuils fort≥0,8 et acceptable≥0,6 sont des '
+               'conventions du projet. Le même fournisseur sert à générer et juger : biais '
+               'possible, review humaine nécessaire. Les références courtes peuvent pénaliser des '
+               'développements utiles, mais cela ne justifie pas les faits inventés.',
+  'show': "Reste sur les quatre scores : explique leur sens, l'exemple de correction faible et les "
+          'limites du petit échantillon.',
   'proof': 'scripts/evaluate_ragas.py ; src/openagenda_rag/ragas_evaluation.py ; '
            'outputs/evaluation/ragas_results.json ; rapport, section 7.',
-  'pitfall': "0,900 n'est pas un taux de satisfaction de 90 %. 1,000 n'est pas un rappel de 100 %. Ces "
-             "scores historiques n'ont pas été recalculés aujourd'hui.",
+  'pitfall': "0,900 n'est pas un taux de satisfaction de 90 %. 1,000 n'est pas un rappel de 100 %. "
+             "Ces scores historiques n'ont pas été recalculés aujourd'hui.",
   'transition': 'Ces contrôles mettent en évidence trois limites concrètes de notre bibliothèque.'},
  {'title': 'Un catalogue daté, une recherche imparfaite, un rédacteur externe',
   'label': 'Limites et améliorations',
@@ -395,37 +443,43 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
   'points': ['Corpus Paris figé ; pas de filtre dynamique sur les dates',
              'Refus par prompt, sans seuil de pertinence',
              "Dépendance Mistral ; quotas observés ; petit jeu d'évaluation"],
-  'body': '<ol class="limit-list"><li><span>01</span><div><h3>Le catalogue vieillit</h3><p>Paris, collecte '
-          'figée ; actualiser les fiches et les dates.</p></div></li><li><span>02</span><div><h3>Le '
-          'bibliothécaire apporte des voisins</h3><p>Top-k sans seuil ; ajouter des contraintes ville et '
+  'body': '<ol class="limit-list"><li><span>01</span><div><h3>Le catalogue vieillit</h3><p>Paris, '
+          'collecte figée ; actualiser les fiches et les '
+          'dates.</p></div></li><li><span>02</span><div><h3>Le bibliothécaire apporte des '
+          'voisins</h3><p>Top-k sans seuil ; ajouter des contraintes ville et '
           'date.</p></div></li><li><span>03</span><div><h3>Le rédacteur reste externe et '
           'faillible</h3><p>Quotas Mistral, conseils hors contexte ; contrôler et '
           'réévaluer.</p></div></li></ol><p class="takeaway">L’analogie aide à comprendre les '
           'responsabilités. Elle ne transforme pas le POC en service de production.</p>',
-  'speech': 'La première limite concerne le catalogue : il est limité à Paris et figé en juillet. Il faut '
-            'actualiser les fiches et filtrer les occurrences pour recommander des sorties actuelles. La '
-            'deuxième concerne le bibliothécaire : il apporte les passages les plus proches, même lorsque '
-            'leur ville ou leur date ne répond pas à la demande. Un seuil calibré et des filtres explicites '
-            'rendraient le refus plus robuste. La troisième concerne le rédacteur : il dépend de Mistral, '
-            "peut rencontrer une limite d'usage et peut encore ajouter un conseil hors contexte. J'ai "
-            'rétabli la démo avec Ministral 8B et contrôlé les erreurs fournisseur, mais cela ne prouve pas '
-            'une qualité équivalente à Small. Il faut réévaluer ce modèle, diversifier les questions et '
-            'renforcer les contrôles avant un déploiement plus large.',
-  'simple': 'Catalogue incomplet → données à actualiser. Mauvais extraits → recherche à calibrer. Conseil '
-            'fragile → réponse à vérifier. L’analogie explique les responsabilités sans masquer les limites.',
-  'technical': 'Pas de reranker, recherche hybride, seuil de distance, filtre de métadonnées par question, '
-               'authentification globale, limitation de débit ni supervision livrés. Reconstruction '
-               'destructive sur le répertoire cible : pas de bascule atomique et risque de concurrence à '
-               'traiter en production. Pickle de FAISS chargé avec allow_dangerous_deserialization=True : '
-               'uniquement artefacts de confiance. Les noms latest et les dépendances transitives non '
-               'totalement figées limitent la reproductibilité stricte.',
+  'speech': 'La première limite concerne le catalogue : il est limité à Paris et figé en juillet. '
+            'Il faut actualiser les fiches et filtrer les occurrences pour recommander des sorties '
+            'actuelles. La deuxième concerne le bibliothécaire : il apporte les passages les plus '
+            'proches, même lorsque leur ville ou leur date ne répond pas à la demande. Un seuil '
+            'calibré et des filtres explicites rendraient le refus plus robuste. La troisième '
+            "concerne le rédacteur : il dépend de Mistral, peut rencontrer une limite d'usage et "
+            "peut encore ajouter un conseil hors contexte. J'ai rétabli la démo avec Ministral 8B "
+            'et contrôlé les erreurs fournisseur, mais cela ne prouve pas une qualité équivalente '
+            'à Small. Il faut réévaluer ce modèle, diversifier les questions et renforcer les '
+            'contrôles avant un déploiement plus large.',
+  'simple': 'Catalogue incomplet → données à actualiser. Mauvais extraits → recherche à calibrer. '
+            'Conseil fragile → réponse à vérifier. L’analogie explique les responsabilités sans '
+            'masquer les limites.',
+  'technical': 'Pas de reranker, recherche hybride, seuil de distance, filtre de métadonnées par '
+               'question, authentification globale, limitation de débit ni supervision livrés. '
+               'Reconstruction destructive sur le répertoire cible : pas de bascule atomique et '
+               'risque de concurrence à traiter en production. Pickle de FAISS chargé avec '
+               'allow_dangerous_deserialization=True : uniquement artefacts de confiance. Les noms '
+               'latest et les dépendances transitives non totalement figées limitent la '
+               'reproductibilité stricte.',
   'show': 'Relie chaque limite à une amélioration. Si la démo enregistrée a été utilisée, rappelle '
           'simplement la cause observée.',
-  'proof': 'README.md : limites ; src/openagenda_rag/rag.py ; api.py ; indexing.py ; état de préparation.',
-  'pitfall': "Ne prétends pas que Docker rend le projet entièrement hors ligne, qu'un seuil seul comprend "
-             "toutes les contraintes, ou que l'API est prête pour une exposition publique.",
-  'transition': 'La prochaine étape est donc d’améliorer cette bibliothèque et de mesurer son utilité avec '
-                'vos équipes.'},
+  'proof': 'README.md : limites ; src/openagenda_rag/rag.py ; api.py ; indexing.py ; état de '
+           'préparation.',
+  'pitfall': "Ne prétends pas que Docker rend le projet entièrement hors ligne, qu'un seuil seul "
+             "comprend toutes les contraintes, ou que l'API est prête pour une exposition "
+             'publique.',
+  'transition': 'La prochaine étape est donc d’améliorer cette bibliothèque et de mesurer son '
+                'utilité avec vos équipes.'},
  {'title': 'Une bibliothèque testable ; un pilote à mesurer',
   'label': 'Livraison et perspectives',
   'seconds': 75,
@@ -433,35 +487,44 @@ SLIDES = [{'title': 'Un catalogue culturel, une réponse vérifiable',
   'points': ['Actualiser le corpus et ajouter des garde-fous de date/ville',
              'Élargir les références et comparer les paramètres',
              'Mesurer utilité, erreurs, latence et coût avant industrialisation'],
-  'body': '<p class="closing">La bibliothèque est testable.<br><em>Son utilité à grande échelle<br>reste à '
-          'mesurer.</em></p><div class="closing-actions"><p><b>1.</b> Actualiser le catalogue et appliquer '
-          'les contraintes métier.</p><p><b>2.</b> Contrôler les réponses sur davantage de '
-          'références.</p><p><b>3.</b> Mesurer un pilote avant industrialisation.</p></div><p '
-          'class="closing-proof">Rapport · dépôt GitHub · scripts · tests · catalogue de référence</p>',
-  'speech': 'Pour conclure, le POC livre notre bibliothèque : un catalogue réel, des passages indexés, une '
-            'recherche par proximité de sens, un rédacteur guidé par les sources et un guichet API '
-            "accessible avec Docker. Je propose d'abord d'actualiser le catalogue et d'ajouter les "
-            "contraintes de ville et de date. Ensuite, d'élargir les références humaines et de comparer les "
-            "réglages ainsi que les modèles. Enfin, un pilote doit mesurer l'utilité des réponses, les refus "
-            'corrects, les clics vers les sources, la latence et le coût. Je vous montre brièvement le '
-            'rapport et le dépôt : scripts permet de relancer les étapes, src contient le moteur et le '
-            'guichet, tests les contrôles, et seed-data le catalogue de référence et son index. La solution '
-            'est examinable et testable ; sa qualité à plus grande échelle reste à mesurer. Je suis prêt à '
-            'répondre à vos questions.',
-  'simple': 'Ta conclusion : une chaîne concrète est livrée, des preuves existent et les prochains travaux '
-            'répondent aux limites observées. Pas de promesse de production ou de qualité parfaite.',
-  'technical': 'Priorités : fraîcheur et contraintes métier ; jeu annoté diversifié et cas négatifs ; '
-               'optimisation mesurée ; gestion quotas/erreurs/secrets ; authentification, logs, CI, tests de '
-               'charge et mises à jour atomiques. Les clics et la satisfaction doivent être observés avec '
-               "des utilisateurs. Aucun coût précis ni objectif de latence de production n'a été mesuré dans "
-               'ce POC.',
-  'show': '30 s de conclusion ; 20 s rapport (architecture, évaluation, limites) ; 25 s dépôt (scripts/, '
-          'src/, tests/, seed-data/). Retourne ensuite au deck. Tous les liens sont dans le guide.',
-  'proof': 'README.md ; outputs/rapport-technique-openagenda-rag.pdf ; https://github.com/hgbe-GH/Projet7.',
-  'pitfall': 'Ne consacre pas plusieurs minutes à parcourir le dépôt. La présentation doit rester entre 10 '
-             'et 20 minutes, cible 15.',
-  'transition': 'Discussion : commence par la réponse courte, puis explique le composant et la preuve '
-                'concernés.'}]
+  'body': '<p class="closing">La bibliothèque est testable.<br><em>Son utilité à grande '
+          'échelle<br>reste à mesurer.</em></p><div class="closing-actions"><p><b>1.</b> '
+          'Actualiser le catalogue et appliquer les contraintes métier.</p><p><b>2.</b> Contrôler '
+          'les réponses sur davantage de références.</p><p><b>3.</b> Mesurer un pilote avant '
+          'industrialisation.</p></div><p class="closing-proof">Catalogue réel · recherche de '
+          'passages · réponses sourcées · tests et évaluation</p>',
+  'speech': 'Pour conclure, reprenons le trajet du visiteur dans notre bibliothèque. Il pose une '
+            'question ; le guichet la reçoit ; sa représentation numérique permet au '
+            'bibliothécaire de retrouver les passages proches ; le rédacteur les utilise pour '
+            'formuler une réponse, accompagnée des fiches à vérifier. Le POC réalise ce parcours '
+            'avec un catalogue réel, une recherche locale et des modèles existants. La '
+            'démonstration a montré ce qui fonctionne, mais aussi pourquoi une source retrouvée '
+            "n'est pas toujours adaptée à la demande. Pour aller plus loin, je propose trois "
+            "priorités. D'abord, actualiser le catalogue et appliquer les contraintes de ville et "
+            'de date. Ensuite, élargir les références humaines pour comparer les réglages et les '
+            'modèles sur davantage de situations, y compris les demandes sans réponse. Enfin, '
+            'mesurer un pilote avec les équipes : utilité des réponses, refus corrects, clics vers '
+            "les sources, latence et coût. Les tests vérifient la mécanique ; l'évaluation et les "
+            'utilisateurs doivent vérifier son utilité. La bibliothèque est testable, et sa '
+            'qualité à grande échelle reste à mesurer. Je suis prêt à répondre à vos questions.',
+  'simple': 'Ta conclusion : une chaîne concrète est livrée, des preuves existent et les prochains '
+            'travaux répondent aux limites observées. Pas de promesse de production ou de qualité '
+            'parfaite.',
+  'technical': 'Priorités : fraîcheur et contraintes métier ; jeu annoté diversifié et cas '
+               'négatifs ; optimisation mesurée ; gestion quotas/erreurs/secrets ; '
+               'authentification, logs, CI, tests de charge et mises à jour atomiques. Les clics '
+               'et la satisfaction doivent être observés avec des utilisateurs. Aucun coût précis '
+               "ni objectif de latence de production n'a été mesuré dans ce POC.",
+  'show': 'Reste sur la conclusion pendant 75 s : rappelle le parcours de la bibliothèque, relie '
+          'les trois améliorations aux limites, puis ouvre la discussion. Aucun changement vers '
+          "GitHub, le code ou le rapport n'est prévu.",
+  'proof': 'README.md ; outputs/rapport-technique-openagenda-rag.pdf ; '
+           'https://github.com/hgbe-GH/Projet7.',
+  'pitfall': 'Garde la conclusion sur le support. Ne promets ni une qualité parfaite ni un service '
+             'prêt pour la production. Le rapport et le dépôt sont disponibles si le jury les '
+             "demande ; leur visite n'est pas intégrée à ton récit.",
+  'transition': 'Discussion : commence par la réponse courte, puis explique le composant et la '
+                'preuve concernés.'}]
 
 QUESTIONS = [('Pourquoi le RAG, et avez-vous entraîné le modèle ?',
   "Le RAG ajoute les passages du catalogue au moment de la question. Je n'ai ni entraîné ni ajusté Mistral ; "

@@ -619,7 +619,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Rapport, scripts et dépôt disponibles pour la discussion technique",
-          "newText": "Rapport, dépôt, scripts et résultats : preuves consultables pour la discussion technique",
+          "newText": "Catalogue réel, recherche de passages, réponses sourcées : un parcours testable",
           "bbox": [
             64,
             626,

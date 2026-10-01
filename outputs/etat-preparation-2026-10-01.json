@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-01T11:41:15.701609+02:00",
+  "checked_at": "2026-10-01T12:14:36.107607+02:00",
   "soutenance": "2026-10-01T14:00:00+02:00",
   "tests": {
     "passed": 76,
@@ -29,8 +29,10 @@
   "presentation": {
     "slides": 12,
     "planned_seconds": 900,
-    "demo_and_repo_included": true,
-    "narrative": "catalogue → passages → sens → bibliothécaire FAISS → rédacteur Mistral → guichet API → contrôle"
+    "narrative": "catalogue → passages → sens → bibliothécaire FAISS → rédacteur Mistral → guichet API → contrôle",
+    "demo_included": true,
+    "repo_walkthrough_planned": false,
+    "private_guide_link_visible": false
   },
   "ragas": {
     "historical": true,

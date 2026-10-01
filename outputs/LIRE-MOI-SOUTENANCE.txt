@@ -5,7 +5,7 @@ Fil conducteur : catalogue → passages → sens → bibliothécaire → rédact
 Lire AVANT-14H.md pour la liste priorisée et les contrôles avant l’entretien.
 1. Ouvrir guide-soutenance-openagenda-rag.html, rubrique « Comprendre le projet ».
 2. Lire le script des 12 étapes avec les explications simples.
-3. Répéter la démo, puis l'ensemble avec le chronomètre. Cible : 15 minutes, démo et dépôt inclus.
+3. Répéter la démo, puis l'ensemble avec le chronomètre. Cible : 15 minutes, explications et démo incluses ; conclusion sur le support.
 
 PAGES LOCALES (SERVEUR LANCÉ)
 Guide personnel : http://127.0.0.1:8765/guide-soutenance-openagenda-rag.html
