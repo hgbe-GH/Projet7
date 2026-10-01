@@ -3,7 +3,7 @@
     {
       "outputSlide": 1,
       "sourceSlide": 1,
-      "narrativeRole": "content: La mission Puls-Events",
+      "narrativeRole": "content: Accueillir la demande",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -11,7 +11,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Un assistant RAG\npour recommander\nsans inventer",
-          "newText": "Un assistant culturel\nfondé sur des\névénements réels",
+          "newText": "Un catalogue culturel.\nUne question.\nUne réponse vérifiable.",
           "bbox": [
             72,
             162,
@@ -39,7 +39,7 @@
     {
       "outputSlide": 2,
       "sourceSlide": 2,
-      "narrativeRole": "content: Besoin métier et principe",
+      "narrativeRole": "content: Catalogue → bibliothécaire → rédaction",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -47,7 +47,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Une question devient une recommandation sourcée",
-          "newText": "Le RAG relie la réponse au catalogue",
+          "newText": "Chercher dans le catalogue avant de répondre",
           "bbox": [
             64,
             101,
@@ -75,7 +75,7 @@
     {
       "outputSlide": 3,
       "sourceSlide": 3,
-      "narrativeRole": "content: Données et préparation",
+      "narrativeRole": "content: Les fiches OpenAgenda",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -83,7 +83,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Le nettoyage transforme OpenAgenda en corpus exploitable",
-          "newText": "Le corpus est un instantané explicite de Paris",
+          "newText": "Constituer et nettoyer le catalogue",
           "bbox": [
             64,
             101,
@@ -111,7 +111,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Je conserve titre, description, date, lieu et URL : chaque réponse peut revenir à sa source.",
-          "newText": "Titre, description, date, lieu et URL conservés. Corpus figé : fraîcheur à réévaluer.",
+          "newText": "Des fiches nettoyées et des références conservées. Catalogue figé : mise à jour nécessaire.",
           "bbox": [
             650,
             550,
@@ -125,7 +125,7 @@
     {
       "outputSlide": 4,
       "sourceSlide": 4,
-      "narrativeRole": "content: Chunking et embeddings",
+      "narrativeRole": "content: Passages et embeddings",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -133,7 +133,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "CHIMERE devient 14 903 passages recherchables",
-          "newText": "Les descriptions deviennent des passages recherchables",
+          "newText": "Découper les fiches, puis comparer leur sens",
           "bbox": [
             64,
             101,
@@ -161,7 +161,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Le chevauchement protège les informations placées entre deux passages.",
-          "newText": "CHIMERE : 15 passages. Tout le corpus : 14 903 vecteurs. Métadonnées conservées.",
+          "newText": "Une fiche CHIMERE : 15 passages. Tout le catalogue : 14 903 vecteurs.",
           "bbox": [
             64,
             592,
@@ -175,7 +175,7 @@
     {
       "outputSlide": 5,
       "sourceSlide": 5,
-      "narrativeRole": "content: Recherche et génération",
+      "narrativeRole": "content: FAISS et modèles Mistral",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -183,7 +183,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Le prompt impose une réponse fondée sur les sources",
-          "newText": "Mistral reçoit la question et quatre passages",
+          "newText": "Le bibliothécaire cherche ; le rédacteur répond",
           "bbox": [
             64,
             101,
@@ -197,7 +197,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "La réponse doit rester en français, utiliser le contexte retrouvé, ne pas inventer et dire « Je ne sais pas » lorsque le contexte manque.",
-          "newText": "Le prompt demande une réponse en français fondée sur le contexte, et un refus si les passages ne permettent pas de répondre. Il réduit le risque sans le supprimer.",
+          "newText": "Le bibliothécaire apporte quatre passages ; le rédacteur reçoit les consignes et les sources. Le prompt réduit le risque sans garantir une réponse parfaite.",
           "bbox": [
             92,
             292,
@@ -224,7 +224,7 @@
     {
       "outputSlide": 6,
       "sourceSlide": 6,
-      "narrativeRole": "content: Architecture du projet",
+      "narrativeRole": "content: Avant et pendant la question",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -232,7 +232,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "La chaîne RAG sépare préparation et réponse en ligne",
-          "newText": "La préparation de l’index précède les questions",
+          "newText": "Préparer les rayons une fois, chercher à chaque demande",
           "bbox": [
             64,
             101,
@@ -246,7 +246,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Hors ligne : données → index.  En ligne : question → réponse sourcée.",
-          "newText": "Préparation : données → index. À chaque question : recherche → réponse. Mistral est distant.",
+          "newText": "Avant : préparer les rayons. À chaque demande : chercher puis rédiger. Mistral reste distant.",
           "bbox": [
             64,
             592,
@@ -268,7 +268,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "FastAPI expose le RAG comme un service testable",
-          "newText": "L’API rend le POC accessible aux équipes",
+          "newText": "Un guichet pour les équipes produit",
           "bbox": [
             64,
             101,
@@ -296,7 +296,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "L’index est chargé au démarrage : l’usage courant ne relance ni l’ingestion ni l’indexation.",
-          "newText": "Retriever chargé à la première question, puis réutilisé. /health ne teste pas Mistral.",
+          "newText": "FastAPI est le guichet. /health montre sa configuration ; /ask exécute la chaîne complète.",
           "bbox": [
             558,
             623,
@@ -310,7 +310,7 @@
     {
       "outputSlide": 8,
       "sourceSlide": 8,
-      "narrativeRole": "content: Démonstration API",
+      "narrativeRole": "content: Démo en direct",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -318,7 +318,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "La démo vérifie une valeur et une limite métier",
-          "newText": "La démonstration montre un résultat et une limite",
+          "newText": "Au guichet : une fiche trouvée, une demande hors catalogue",
           "bbox": [
             64,
             110,
@@ -374,7 +374,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Je montre volontairement un cas Paris sourcé et un cas Lyon hors périmètre : pas seulement un exemple favorable.",
-          "newText": "Secours : réponses du jour explicitement enregistrées. Ne pas les présenter comme du live.",
+          "newText": "Le guichet reçoit deux demandes : une fiche trouvée, puis un refus hors catalogue. Secours enregistré explicite.",
           "bbox": [
             64,
             637,
@@ -388,7 +388,7 @@
     {
       "outputSlide": 9,
       "sourceSlide": 9,
-      "narrativeRole": "content: Validation et tests",
+      "narrativeRole": "content: Tests et jeu annoté",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -396,7 +396,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "59 tests protègent les comportements critiques",
-          "newText": "Les tests du code et la qualité se complètent",
+          "newText": "Tester le mécanisme et examiner les réponses",
           "bbox": [
             64,
             101,
@@ -424,7 +424,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "CI/CD proposée : à chaque push, tests → image Docker → healthcheck → rapport. Elle n’est pas implémentée dans le POC.",
-          "newText": "76 tests locaux ; 4 cas fonctionnels aux règles permissives ; CI/CD proposée, non implémentée.",
+          "newText": "76 tests vérifient les rayons et le guichet ; quatre questions annotées examinent les réponses. Pas de CI/CD.",
           "bbox": [
             88,
             615,
@@ -432,13 +432,27 @@
             26
           ],
           "sourceShapeId": "30"
+        },
+        {
+          "shapeId": "sh/6psfil0r",
+          "action": "rewrite",
+          "reason": "Synchroniser le compteur avec les tests exécutés.",
+          "oldText": "59",
+          "newText": "76",
+          "bbox": [
+            836,
+            276,
+            330,
+            105
+          ],
+          "sourceShapeId": "24"
         }
       ]
     },
     {
       "outputSlide": 10,
       "sourceSlide": 10,
-      "narrativeRole": "content: Évaluation des réponses",
+      "narrativeRole": "content: Comprendre les scores RAGAS",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -446,7 +460,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "RAGAS me dit où améliorer la réponse",
-          "newText": "Les scores RAGAS orientent les améliorations",
+          "newText": "Le lecteur contrôle les extraits et la rédaction",
           "bbox": [
             64,
             101,
@@ -488,7 +502,7 @@
     {
       "outputSlide": 11,
       "sourceSlide": 11,
-      "narrativeRole": "content: Limites et risques observés",
+      "narrativeRole": "content: Limites et améliorations",
       "reuseMode": "duplicate-slide",
       "editTargets": [
         {
@@ -496,7 +510,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Les limites sont connues, donc pilotables",
-          "newText": "Les limites définissent le travail avant production",
+          "newText": "Un catalogue daté, une recherche imparfaite, un rédacteur externe",
           "bbox": [
             64,
             101,
@@ -538,7 +552,7 @@
           "action": "rewrite",
           "reason": "Texte hérité sombre sur bandeau sombre : correction de contraste.",
           "oldText": "Le POC prouve la faisabilité. Ces trois chantiers conditionnent un déploiement élargi.",
-          "newText": "Corpus à actualiser ; refus à renforcer ; modèle de démo changé après une limite sur Small.",
+          "newText": "Catalogue à actualiser ; recherche à calibrer ; rédacteur à contrôler et modèle alternatif à réévaluer.",
           "bbox": [
             278,
             620,
@@ -563,7 +577,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "Le POC est démontrable.\nLa suite est mesurée.",
-          "newText": "Un pilote mesuré\nest la prochaine étape",
+          "newText": "Une bibliothèque testable.\nUn pilote à mesurer.",
           "bbox": [
             64,
             124,
@@ -591,7 +605,7 @@
           "action": "rewrite",
           "reason": "Synchronisation avec le conducteur et correction des faits vérifiés.",
           "oldText": "1. élargir les données et le jeu annoté\n2. ajouter des garde-fous métier\n3. industrialiser si la valeur est confirmée",
-          "newText": "1. actualiser le corpus et filtrer\n2. élargir le jeu annoté\n3. mesurer avant industrialisation",
+          "newText": "1. actualiser le catalogue et filtrer\n2. contrôler les réponses sur plus de cas\n3. mesurer un pilote avant industrialisation",
           "bbox": [
             882,
             372,
@@ -613,6 +627,20 @@
             28
           ],
           "sourceShapeId": "26"
+        },
+        {
+          "shapeId": "sh/zupwb2hw",
+          "action": "rewrite",
+          "reason": "Synchroniser le compteur avec les tests exécutés.",
+          "oldText": "59 tests + RAGAS",
+          "newText": "76 tests + RAGAS",
+          "bbox": [
+            654,
+            334,
+            208,
+            28
+          ],
+          "sourceShapeId": "14"
         }
       ]
     }

@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-10-01T10:45:16.401250+02:00",
+  "checked_at": "2026-10-01T11:41:15.701609+02:00",
   "soutenance": "2026-10-01T14:00:00+02:00",
   "tests": {
     "passed": 76,
     "failed": 0,
-    "duration_seconds": 2.99,
+    "duration_seconds": 3.19,
     "command": "PYTHONNOUSERSITE=1 /home/hgbe/anaconda3/envs/openagenda-rag/bin/python -m pytest -q"
   },
   "index": {
@@ -29,7 +29,8 @@
   "presentation": {
     "slides": 12,
     "planned_seconds": 900,
-    "demo_and_repo_included": true
+    "demo_and_repo_included": true,
+    "narrative": "catalogue → passages → sens → bibliothécaire FAISS → rédacteur Mistral → guichet API → contrôle"
   },
   "ragas": {
     "historical": true,
@@ -47,7 +48,10 @@
     "keyboard_navigation": true,
     "presenter_sync": true,
     "recorded_demo": true,
-    "modified_question_blocks_stale_record": true
+    "modified_question_blocks_stale_record": true,
+    "detached_server_restart_verified": true,
+    "compact_1280_720_overflow": false,
+    "print_overflow": false
   },
   "sources_sha256": {
     "seed-data/index/index_manifest.json": "0d8c452633033b6dfd89afaa7069369dfbe65c501821ce3d8fc8998021922fb9",

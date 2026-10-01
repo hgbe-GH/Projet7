@@ -1,6 +1,9 @@
 # Supports de soutenance
 
 Le contenu commun des 12 slides et des notes est dans `contenu_support.py`.
+Le fil conducteur est une bibliothèque : catalogue, passages, sens, bibliothécaire,
+rédacteur, guichet, puis contrôle des réponses. Les termes techniques et les
+limites de l’analogie sont explicités dans chaque fiche.
 Les fichiers générés sont versionnés dans `outputs/` pour être immédiatement consultables.
 
 Depuis la racine du dépôt :
@@ -8,12 +11,13 @@ Depuis la racine du dépôt :
 ```sh
 python docs/soutenance/generer_support.py
 python docs/soutenance/generer_annexe.py
-python docs/soutenance/serve_soutenance.py
+python scripts/lancer_soutenance.py
 ```
 
 La première commande génère le diaporama, le guide, le démonstrateur, le contenu
 JSON et les deux conducteurs Markdown. La seconde demande Graphviz (`dot`) et
-recrée le diagramme UML et l’autoévaluation. Le serveur local permet la démo
+recrée le diagramme UML et l’autoévaluation. Le lanceur démarre Docker et le serveur des pages en arrière-plan, qui reste
+accessible après fermeture du terminal. Le serveur local permet la démo
 avec le proxy vers FastAPI, sur le port 8000. Ouvrir `http://127.0.0.1:8765`.
 
 Le démonstrateur embarque la répétition du jour depuis

@@ -2,98 +2,98 @@
 
 12 slides ; 15 minutes, démonstration et parcours du dépôt inclus.
 
-## 01 — Un assistant culturel fondé sur des événements réels (45 s)
+## 01 — Un catalogue culturel, une réponse vérifiable (45 s)
 
-Bonjour Jérémy. Je vais vous présenter le prototype réalisé pour Puls-Events, un assistant de recommandation culturelle qui utilise les événements OpenAgenda. Le besoin est de permettre aux utilisateurs de poser une question naturellement, puis de recevoir une réponse qu'ils peuvent vérifier grâce aux sources. Mon livrable couvre toute la chaîne : collecte et préparation des données, recherche vectorielle, génération de réponse, API et conteneur Docker. Le corpus livré contient 7 586 événements parisiens. Il s'agit d'un POC, donc d'une preuve de faisabilité. Je vais expliquer les choix, montrer l'API et présenter les résultats ainsi que les limites avant un déploiement plus large.
+Bonjour Jérémy. Pour expliquer ce POC, je vous propose une image simple : une bibliothèque d'événements culturels. Un visiteur arrive avec une demande, par exemple une sortie en famille à Paris. Il souhaite une réponse utile et des informations qu'il peut vérifier. Mon travail a été de constituer le catalogue, de préparer ses fiches pour la recherche, puis de relier cette recherche à un modèle qui rédige et à une API que vos équipes peuvent appeler. Le catalogue livré contient 7 586 événements parisiens. Je vais suivre ce parcours avec vous, montrer deux demandes en direct et expliquer ce qui fonctionne ainsi que ce qui reste à améliorer.
 
 **À montrer :** Partage uniquement la fenêtre du diaporama. Garde ce guide hors du partage.
 
-**Transition :** Commençons par le risque métier que le RAG cherche à réduire.
+**Transition :** Pour comprendre la solution, séparons le catalogue, la recherche et la rédaction.
 
-## 02 — Le RAG relie la réponse au catalogue (65 s)
+## 02 — Chercher dans le catalogue avant de répondre (65 s)
 
-Le problème métier est qu'une recherche par mots-clés ne correspond pas toujours à la façon dont un utilisateur exprime son envie. Par exemple, une sortie en famille peut correspondre à une visite jouée par des comédiens, même si les mots utilisés diffèrent. Un modèle de langage seul peut produire une réponse convaincante sans connaître les événements du catalogue. Le RAG combine deux capacités. Il recherche d'abord des passages proches du sens de la question. Il ajoute ensuite ces passages au contexte du modèle. Enfin, Mistral formule une réponse en français. Les sources permettent de revenir aux événements d'origine. Le RAG réduit ainsi le risque d'invention, mais ne le supprime pas : il faut encore vérifier la pertinence des passages et la fidélité de la réponse.
+Dans notre bibliothèque, les fiches OpenAgenda forment le catalogue. Chaque fiche décrit un événement, avec son titre, son lieu, ses dates et son lien. Le bibliothécaire représente la recherche avec FAISS : il retrouve des passages proches de la demande. Puis un rédacteur, le modèle Mistral, reçoit ces passages et formule la réponse. Les embeddings sont ce qui permet de comparer numériquement le sens des textes et de la question. Le RAG consiste à chercher d'abord, puis à rédiger avec les informations retrouvées. Je n'ai pas entraîné Mistral sur le catalogue : j'ai construit l'index et organisé ce passage d'informations. L'analogie a une limite : FAISS compare des vecteurs, il ne comprend pas toutes les contraintes comme un bibliothécaire humain.
 
 **À montrer :** Pointe les trois étapes. L'exemple famille existe dans le jeu RAGAS ; ce n'est pas une nouvelle preuve live.
 
-**Transition :** Cette approche dépend d'abord de la qualité du catalogue préparé.
+**Transition :** Avant d’aider un visiteur, il faut constituer un catalogue fiable.
 
-## 03 — Le corpus est un instantané explicite de Paris (75 s)
+## 03 — Constituer et nettoyer le catalogue (75 s)
 
-Les données proviennent d'OpenAgenda à travers le jeu public exposé par Opendatasoft. Cette source est celle du lien donné dans la mission et ne demande pas de clé pour la collecte. Le script filtre Paris et la première date des événements, du 10 juillet 2025 au 10 juillet 2026. Il parcourt les résultats, nettoie les descriptions HTML, gère les champs absents et supprime les doublons par identifiant. Il produit un fichier Parquet structuré et un manifeste qui trace les paramètres et le volume. Je conserve les dates, le lieu et l'URL pour que la réponse soit vérifiable. Cette fenêtre était celle du POC construit en juillet. Pour une utilisation aujourd'hui, le corpus doit être actualisé : je ne présente pas ce catalogue figé comme un agenda à jour.
+J'ai commencé par collecter les fiches du dataset public OpenAgenda indiqué par la mission, accessible via Opendatasoft. J'ai choisi Paris et une fenêtre du 10 juillet 2025 au 10 juillet 2026. La collecte parcourt les pages, retire les doublons par identifiant et nettoie les descriptions, notamment les balises HTML. Je garde les informations qui permettent de vérifier une réponse : titre, description, lieu, dates et URL. Les données sont exportées dans un fichier Parquet, un format structuré relisible par les scripts. Ce catalogue contient 7 586 événements. Comme une bibliothèque dont le catalogue n'a pas été mis à jour depuis juillet, il manque les nouvelles fiches d'octobre. Je reconnais cette limite : pour conseiller des sorties actuelles, il faut actualiser les données et vérifier les dates.
 
 **À montrer :** Explique la fenêtre telle qu'elle est. Si on te demande le fichier, ouvre le manifeste de collecte, pas le JSON brut entier.
 
-**Transition :** Une fois les fiches préparées, il faut les rendre recherchables par leur sens.
+**Transition :** Une fiche peut être longue : nous allons préparer des passages plus faciles à retrouver.
 
-## 04 — Les descriptions deviennent des passages recherchables (75 s)
+## 04 — Découper les fiches, puis comparer leur sens (75 s)
 
-Certaines fiches sont longues. Les indexer comme un seul bloc risquerait de diluer une information utile. J'utilise donc le découpage récursif de LangChain, configuré à 1 000 caractères avec un chevauchement maximal de 200 caractères. Le chevauchement limite la perte d'information aux frontières. Par exemple, une fiche CHIMERE contient 10 273 caractères et produit 15 passages, car le découpage tient aussi compte des séparateurs. Le modèle mistral-embed transforme chaque passage en un vecteur de 1 024 dimensions, autrement dit une liste de nombres représentant son sens. La construction se fait par lots de 50. Au total, FAISS contient 14 903 vecteurs pour les 7 586 événements. Chaque passage conserve l'identifiant de l'événement, ses dates, son lieu et son lien.
+Dans un catalogue, certaines fiches sont courtes et d'autres très longues. Pour ne pas transmettre toute une longue description au rédacteur, je les découpe en passages, appelés chunks. Le réglage de départ est de 1 000 caractères, avec jusqu'à 200 caractères de chevauchement pour préserver les informations aux frontières. Le découpage cherche à respecter les séparateurs du texte. La fiche CHIMERE illustre ce point : elle produit 15 passages. Tout le catalogue produit 14 903 passages, et non 14 903 événements. Chaque passage est transformé par mistral-embed en un vecteur de 1 024 nombres. Ces nombres servent à comparer le sens ; ce ne sont pas des catégories lisibles par un humain. Je conserve aussi le lien vers la fiche, ses dates et son lieu.
 
 **À montrer :** Distingue la fiche d'exemple et les volumes de tout le corpus. Aucun réindexage en direct.
 
-**Transition :** L'index est préparé. Voyons ce qui se passe lorsqu'un utilisateur pose une question.
+**Transition :** Voyons comment le bibliothécaire utilise ces représentations pour une question.
 
-## 05 — Mistral reçoit la question et quatre passages (70 s)
+## 05 — Le bibliothécaire cherche ; le rédacteur répond (70 s)
 
-Au moment d'une question, on utilise le même modèle d'embedding que pour les documents. Cela rend leurs vecteurs comparables. FAISS sélectionne les quatre passages les plus proches : c'est le paramètre top-k. Le code assemble ensuite un contexte avec le texte et les métadonnées, puis le transmet avec la question à ministral-8b-2512. Pour la soutenance, ce modèle remplace mistral-small-latest, limité par Mistral aujourd'hui. Le prompt demande de répondre seulement à partir du contexte, de citer les informations disponibles et de ne pas inventer. La température est basse, à 0,1, pour limiter la variation ; la réponse est limitée à 700 tokens. Le JSON renvoie la réponse et les sources récupérées, regroupées par événement. Attention : quatre passages peuvent provenir du même événement. Et l'absence de seuil de pertinence signifie que le modèle doit encore décider si le contexte permet de répondre.
+Quand le visiteur pose une question, mistral-embed la transforme avec le même modèle que les passages. Les vecteurs deviennent ainsi comparables. FAISS retrouve les quatre passages les plus proches : c'est le top-k fixé à quatre. Dans notre image, le bibliothécaire dépose quatre extraits sur le bureau du rédacteur. Le prompt est sa consigne : répondre en français à partir de ces extraits, citer les informations disponibles et dire qu'il ne sait pas si elles manquent. Mistral Small était le modèle initial. Aujourd'hui, il renvoyait une limite d'usage ; j'ai configuré la version ministral-8b-2512, puis vérifié la démo. L'embedding reste identique, donc le catalogue vectoriel n'a pas été reconstruit. Les scores historiques concernent toutefois Small. Le prompt aide le rédacteur, mais ne garantit pas une réponse sans erreur.
 
 **À montrer :** Pointe la séparation embedding/chat et le texte du prompt. Si demandé, ouvre SYSTEM_PROMPT dans rag.py.
 
-**Transition :** Ces étapes sont séparées dans le code pour pouvoir les tester et les remplacer.
+**Transition :** Cette bibliothèque fonctionne en deux temps : la préparation et le traitement d’une demande.
 
-## 06 — La préparation de l’index précède les questions (60 s)
+## 06 — Préparer les rayons une fois, chercher à chaque demande (60 s)
 
-L'architecture distingue la préparation des données du traitement des questions. La préparation collecte les fiches, les normalise, calcule leurs embeddings et sauvegarde l'index. Elle est faite avant l'utilisation du chatbot et appelle déjà Mistral pour les vecteurs. À chaque question, l'API appelle le service RAG, qui recharge l'index si nécessaire, recherche les passages et sollicite le modèle de chat. Le retriever et le client Mistral sont initialisés à la première question puis conservés en mémoire pour les suivantes. Le dossier scripts contient les commandes de lancement, tandis que src contient la logique métier. Cette séparation permet d'utiliser le même moteur depuis le terminal, l'API et l'évaluation. Elle évite de relancer la collecte ou l'indexation pour chaque demande.
+Il faut distinguer les deux moments. Avant les questions, je prépare les rayons : collecte, nettoyage, découpage, calcul des embeddings et enregistrement de l'index FAISS. Chaque passage reste relié à sa fiche. Puis, à chaque demande, je vectorise uniquement la question, recherche les passages et appelle le rédacteur. Je ne recollecte pas tout OpenAgenda et je ne recalcule pas tous les vecteurs à chaque question. Le fichier FAISS livré contient 14 903 vecteurs ; tous les identifiants d'événements sont représentés. L'index est chargé à la première demande, puis réutilisé. Attention, les rayons sont locaux, mais mistral-embed et le rédacteur sont des services distants. Cette bibliothèque dépend donc encore d'internet.
 
 **À montrer :** Si Jérémy demande le code, montre service.py puis rag.py. Évite de naviguer entre toutes les fonctions.
 
-**Transition :** L'API donne aux équipes un contrat simple pour tester cette chaîne.
+**Transition :** Pour que vos équipes puissent poser une question, il reste à ouvrir un guichet.
 
-## 07 — L’API rend le POC accessible aux équipes (65 s)
+## 07 — Un guichet pour les équipes produit (65 s)
 
-FastAPI expose trois routes métier. Health indique que le serveur répond et montre sa configuration. Ask accepte une question et renvoie un JSON avec la réponse, les sources et le nombre de passages récupérés. Rebuild reconstruit l'index depuis le fichier Parquet ; il ne lance pas une nouvelle collecte. Swagger, sur docs, permet de lire et tester le contrat sans écrire de client. Docker embarque le code, les dépendances et le seed. Au premier démarrage, l'index et les données sont copiés dans un volume persistant. La clé Mistral est injectée par l'environnement et n'est pas versionnée. Le jeton d'administration de rebuild est optionnel et doit être configuré avant une exposition publique. Le POC reste dépendant d'internet pour vectoriser la question et générer la réponse.
+FastAPI est le guichet de notre bibliothèque. Une application lui envoie une question en JSON et reçoit une réponse, des sources et le nombre de passages récupérés. La route ask fait ce travail. Health indique que le guichet répond et affiche sa configuration, mais ne vérifie pas à elle seule que le bibliothécaire et le rédacteur peuvent répondre. Rebuild reconstruit les rayons à partir du Parquet ; elle ne collecte pas de nouvelles fiches. Swagger documente ces routes. Docker rassemble le code, les dépendances et le catalogue de départ pour lancer le même service ailleurs. La clé Mistral reste côté serveur. Le jeton de reconstruction est optionnel dans le POC ; il faut sécuriser ce guichet avant de l'exposer publiquement.
 
 **À montrer :** Pendant la démo, ouvre Swagger et montre les routes ; garde /rebuild fermé. Tu peux cliquer le lien Démo de la slide suivante.
 
-**Transition :** Je vais maintenant montrer un cas présent dans le corpus et un cas hors périmètre.
+**Transition :** Passons maintenant au guichet avec deux demandes concrètes.
 
-## 08 — La démonstration montre un résultat et une limite (140 s)
+## 08 — Au guichet : une fiche trouvée, une demande hors catalogue (140 s)
 
-Je commence par montrer que l'API répond et que ses routes sont documentées. Pour le premier cas, je demande des informations sur Concert Fishers à Paris. Le résultat doit permettre de retrouver l'événement, son lieu, sa date et son URL. Il s'agit d'un exemple du corpus livré, pas d'une sortie à venir aujourd'hui. Je compare la réponse au premier événement source. Les autres sources sont les voisins récupérés et ne sont pas toutes nécessaires à cette réponse. Pour le second cas, je demande des expositions photo à Lyon. Le corpus contient Paris. Dans la répétition directe d'aujourd'hui, le modèle dit qu'il ne sait pas et n'invente pas d'exposition lyonnaise. FAISS renvoie quand même des passages : cela illustre la limite de la recherche sans seuil de pertinence.
+Je montre d'abord les routes et la configuration du guichet. Dans la page de démonstration, je demande des informations sur Concert Fishers à Paris et je clique sur l'appel direct. La page transmet la question à l'API, qui recherche les passages et appelle le rédacteur. Je compare maintenant la réponse à la fiche : Concert Fishers, Le Gymnase Montparnasse, le 21 juin 2026 et l'URL OpenAgenda. Cet événement est passé ; il sert à vérifier la chaîne sur le catalogue livré. Pour la deuxième demande, je cherche des expositions photo à Lyon. Notre catalogue couvre Paris. Le modèle indique qu'il ne sait pas répondre à partir de ce corpus. Le bibliothécaire retrouve tout de même des passages voisins : ce ne sont pas des recommandations pour Lyon. Cette distinction explique pourquoi un filtre de ville serait utile.
 
 **À montrer :** 140 s au total : 20 s health/Swagger ; 50 s cas nominal ; 40 s Lyon ; 30 s explication et retour au deck. Une tentative live maximum en cas de quota, puis enregistrement. Mode secours disponible hors réseau.
 
-**Transition :** La démonstration donne un exemple ; les tests et les métriques complètent cette preuve.
+**Transition :** Deux demandes donnent des exemples. Comment vérifier plus largement la bibliothèque ?
 
-## 09 — Les tests du code et la qualité des réponses se complètent (65 s)
+## 09 — Tester le mécanisme et examiner les réponses (65 s)
 
-J'ai exécuté aujourd'hui la suite : les 76 tests passent. Ils vérifient notamment les filtres, la normalisation, la construction et le rechargement de l'index, la forme des réponses, la validation API et le calcul des métriques. Ces tests utilisent des doublures pour les services externes. Ils protègent les comportements du code, sans garantir que Mistral est accessible ni que toutes les réponses métier sont bonnes. Un deuxième niveau contient quatre questions annotées avec des réponses et des titres attendus. Les résultats enregistrés classent les quatre cas comme corrects selon les règles locales. Ces règles sont assez permissives : un titre peut être retrouvé dans les sources sans que la réponse soit parfaite. Je complète donc cette évaluation par RAGAS. L'automatisation en CI serait une prochaine étape ; elle n'est pas implémentée ici.
+Pour contrôler la bibliothèque, je distingue la mécanique et la qualité des conseils. Les 76 tests locaux passent : ils vérifient notamment les filtres, le nettoyage, le découpage, l'indexation, le contrat API et les erreurs. Ils utilisent des doublures pour ne pas dépendre du fournisseur à chaque exécution. Les appels réels sont vérifiés séparément dans la démo. Le jeu fonctionnel contient quatre questions annotées, avec des titres attendus et un cas de refus. Sa règle est permissive : un titre présent dans les sources peut suffire à classer le cas comme correct, même si la réponse reste imparfaite. Quatre cas corrects ne signifient donc pas cent pour cent de fiabilité. Aucune chaîne CI/CD n'est livrée ; les scripts permettent déjà d'automatiser les vérifications.
 
 **À montrer :** Annonce le résultat des tests, puis explique ce qu'ils couvrent. Montre le petit jeu CSV si demandé.
 
-**Transition :** RAGAS nous aide à distinguer une bonne recherche d'une réponse pleinement correcte.
+**Transition :** RAGAS apporte une seconde lecture : examiner les extraits et le travail du rédacteur.
 
-## 10 — Les scores RAGAS orientent les améliorations (100 s)
+## 10 — Le lecteur contrôle les extraits et la rédaction (100 s)
 
-L'évaluation RAGAS porte sur trois cas : Concert Fishers, le Salon de la Photo et une sortie en famille avec visite théâtralisée. Pour chaque cas, je conserve la question, les passages réellement transmis au modèle, la réponse et une référence humaine. Un modèle juge calcule quatre métriques. La fidélité mesure si la réponse est soutenue par le contexte. La pertinence mesure son adéquation à la question. La précision du contexte apprécie la pertinence et le classement des passages récupérés ; elle ne mesure pas la couverture de tout le catalogue. La correction compare la réponse à la référence. Les moyennes enregistrées le 23 juillet sont 0,900, 0,846, 1,000 et 0,683. Le dernier score montre que des écarts demeurent même avec un contexte utile. Sur le cas famille, le score de correction est d'environ 0,581 et la réponse ajoute des informations pratiques à vérifier. La priorité est donc de mieux cadrer la réponse, contrôler les faits et élargir le jeu d'évaluation. Trois exemples démontrent la méthode, pas la performance générale.
+J'ai aussi utilisé RAGAS sur trois cas, avec les passages effectivement récupérés, la réponse et une référence humaine. Reprenons la bibliothèque. La fidélité demande si les affirmations du rédacteur sont soutenues par les extraits : sa moyenne est 0,900. La pertinence demande si la réponse traite la demande du visiteur : 0,846. La précision du contexte examine l'utilité et l'ordre des extraits apportés par le bibliothécaire : 1,000. Ce score ne signifie pas qu'il a retrouvé tous les événements pertinents. La correction compare la réponse à la référence attendue : 0,683. Une réponse peut donc être cohérente avec les extraits, tout en oubliant une information ou en s'éloignant de la référence. Le cas famille est le plus faible en correction, autour de 0,581. Ces résultats datent du 23 juillet, utilisent Mistral Small et ne portent que sur trois cas. Ils orientent les améliorations ; ils ne démontrent pas la qualité générale de Ministral 8B.
 
 **À montrer :** Lis les quatre scores avec leur sens, puis donne la limite du petit échantillon. En discussion, ouvre les exemples RAGAS du rapport.
 
-**Transition :** Ces résultats et la démonstration permettent d'identifier les limites prioritaires.
+**Transition :** Ces contrôles mettent en évidence trois limites concrètes de notre bibliothèque.
 
-## 11 — Les limites définissent le travail avant production (65 s)
+## 11 — Un catalogue daté, une recherche imparfaite, un rédacteur externe (65 s)
 
-La première limite est le corpus : il est limité à Paris et figé en juillet. Pour recommander des sorties actuelles, il faut automatiser son actualisation et filtrer les dates au moment de la demande. La deuxième concerne la recherche : le top-k renvoie les voisins les plus proches même lorsqu'ils ne répondent pas réellement à la question. Le refus repose alors sur le prompt et le modèle. Un seuil calibré et des filtres explicites seraient plus robustes. La troisième limite est l'exploitation. L'index est local, mais les embeddings de question et la génération appellent Mistral. Aujourd'hui, Mistral Small était limité. La démo a été rétablie avec Ministral 8B, sans changer les embeddings. Les erreurs fournisseur sont désormais contrôlées. Ce nouveau modèle doit être réévalué ; les anciens scores ne lui sont pas attribués. Enfin, trois cas RAGAS restent insuffisants pour conclure à une qualité générale.
+La première limite concerne le catalogue : il est limité à Paris et figé en juillet. Il faut actualiser les fiches et filtrer les occurrences pour recommander des sorties actuelles. La deuxième concerne le bibliothécaire : il apporte les passages les plus proches, même lorsque leur ville ou leur date ne répond pas à la demande. Un seuil calibré et des filtres explicites rendraient le refus plus robuste. La troisième concerne le rédacteur : il dépend de Mistral, peut rencontrer une limite d'usage et peut encore ajouter un conseil hors contexte. J'ai rétabli la démo avec Ministral 8B et contrôlé les erreurs fournisseur, mais cela ne prouve pas une qualité équivalente à Small. Il faut réévaluer ce modèle, diversifier les questions et renforcer les contrôles avant un déploiement plus large.
 
 **À montrer :** Relie chaque limite à une amélioration. Si la démo enregistrée a été utilisée, rappelle simplement la cause observée.
 
-**Transition :** Je propose donc une suite mesurée, fondée sur les risques identifiés.
+**Transition :** La prochaine étape est donc d’améliorer cette bibliothèque et de mesurer son utilité avec vos équipes.
 
-## 12 — Un pilote mesuré est la prochaine étape (75 s)
+## 12 — Une bibliothèque testable ; un pilote à mesurer (75 s)
 
-Pour conclure, le POC livre une chaîne complète : des données réelles, un index persistant, une génération augmentée, une API, Docker, des tests et une méthode d'évaluation. Je recommande d'abord d'actualiser le corpus et d'ajouter les garde-fous de ville et de date. Ensuite, d'élargir le jeu annoté et de comparer les paramètres de recherche. Un pilote doit mesurer la réponse utile, les refus corrects, les clics vers les sources, la latence et le coût. Je vous montre brièvement les preuves dans le rapport et le dépôt. Le rapport documente les choix et les résultats. Dans le dépôt, scripts permet de relancer les étapes, src contient le moteur et l'API, tests les validations, et seed-data le corpus de référence. Ces éléments permettent à une autre personne de reproduire et d'examiner le POC. Je suis prêt à répondre à vos questions.
+Pour conclure, le POC livre notre bibliothèque : un catalogue réel, des passages indexés, une recherche par proximité de sens, un rédacteur guidé par les sources et un guichet API accessible avec Docker. Je propose d'abord d'actualiser le catalogue et d'ajouter les contraintes de ville et de date. Ensuite, d'élargir les références humaines et de comparer les réglages ainsi que les modèles. Enfin, un pilote doit mesurer l'utilité des réponses, les refus corrects, les clics vers les sources, la latence et le coût. Je vous montre brièvement le rapport et le dépôt : scripts permet de relancer les étapes, src contient le moteur et le guichet, tests les contrôles, et seed-data le catalogue de référence et son index. La solution est examinable et testable ; sa qualité à plus grande échelle reste à mesurer. Je suis prêt à répondre à vos questions.
 
 **À montrer :** 30 s de conclusion ; 20 s rapport (architecture, évaluation, limites) ; 25 s dépôt (scripts/, src/, tests/, seed-data/). Retourne ensuite au deck. Tous les liens sont dans le guide.
 
-**Transition :** Discussion : écoute la question, réponds en une phrase, puis donne la preuve ou la limite utile.
+**Transition :** Discussion : commence par la réponse courte, puis explique le composant et la preuve concernés.

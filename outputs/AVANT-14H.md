@@ -23,7 +23,7 @@ Les 76 tests locaux passent. Il reste à comprendre, répéter et préparer ton 
 
 ## Ton début, à lire
 
-« Bonjour Jérémy. Je vous présente le prototype réalisé pour Puls-Events : un assistant de recommandation culturelle qui s’appuie sur les événements OpenAgenda. J’ai construit la chaîne de collecte, préparation, recherche vectorielle et génération, puis je l’ai exposée avec FastAPI et Docker. Je vais expliquer les choix, montrer deux cas en direct et présenter les résultats ainsi que les limites. »
+« Bonjour Jérémy. Pour expliquer ce POC, je vous propose une image simple : une bibliothèque d'événements culturels. Un visiteur arrive avec une demande, par exemple une sortie en famille à Paris. Il souhaite une réponse utile et des informations qu'il peut vérifier. Mon travail a été de constituer le catalogue, de préparer ses fiches pour la recherche, puis de relier cette recherche à un modèle qui rédige et à une API que vos équipes peuvent appeler. Le catalogue livré contient 7 586 événements parisiens. Je vais suivre ce parcours avec vous, montrer deux demandes en direct et expliquer ce qui fonctionne ainsi que ce qui reste à améliorer. »
 
 ## Le déroulé
 
@@ -35,11 +35,10 @@ Les correctifs et supports du jour sont destinés au dépôt GitHub. Le dépôt 
 
 ## Si un problème revient
 
-Annonce l’échec. Le bouton « Réponse enregistrée » montre explicitement la répétition du jour ; il ne remplace pas automatiquement un appel réel. Si le navigateur tombe, utilise le PDF du diaporama et le script oral PDF. Si tu perds le fil : besoin → recherche → génération → preuve → limite.
+Annonce l’échec. Le bouton « Réponse enregistrée » montre explicitement la répétition du jour ; il ne remplace pas automatiquement un appel réel. Si le navigateur tombe, utilise le PDF du diaporama et le script oral PDF. Si tu perds le fil : catalogue → passages → sens → bibliothécaire → rédacteur → guichet → contrôle.
 
 Après une fermeture, depuis la racine du projet :
 
 ```sh
-docker compose up -d --no-build
-python docs/soutenance/serve_soutenance.py
+python scripts/lancer_soutenance.py
 ```

@@ -10,12 +10,15 @@ Pour la démonstration du jour, renseigner `MISTRAL_API_KEY` et
 `RAG_CHAT_MODEL=ministral-8b-2512` dans un fichier `.env` personnel, puis lancer :
 
 ```bash
-docker compose up -d --build
-python docs/soutenance/serve_soutenance.py
+docker compose build
+python scripts/lancer_soutenance.py
 ```
 
 Ouvrir ensuite `http://127.0.0.1:8765`. Les pages et les réponses enregistrées
 restent consultables sans réseau ; les appels directs nécessitent Mistral.
+Le lancement garde les pages en arrière-plan après fermeture du terminal.
+Le diaporama et le guide suivent une même analogie : catalogue, passages,
+représentation du sens, bibliothécaire FAISS, rédacteur Mistral et guichet FastAPI.
 Le corpus et les évaluations de juillet sont historiques. Les limites et le
 changement de modèle sont décrits dans la dernière section de ce rapport.
 

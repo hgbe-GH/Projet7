@@ -27,3 +27,5 @@ horizon futur, filtres ville/date, refus calibré, jeu annoté plus large,
 authentification, supervision, CI/CD et tests de charge. Cette livraison
 prépare une soutenance de POC ; elle ne prétend pas livrer un service de
 production ni une qualité parfaite.
+
+Refonte du fil oral : les douze étapes, le texte à lire et les notes PowerPoint suivent la même analogie de bibliothèque. Les pages sont relancées par un serveur détaché ; le nouveau lanceur permet de le rétablir. Affichage vérifié à 1280 × 720 et 390 × 844, PDF de présentation de douze pages et script oral de treize pages.

@@ -7,3 +7,6 @@ Vérification technique : 76 tests passent ; index réel IndexFlatL2, 14903 vect
 Exécution : sauvegarder les anciens supports ; écrire une source unique pour les slides et les notes ; générer HTML ; lancer serveur local et Docker ; vérifier navigation, liens, synchronisation, démo enregistrée, erreurs visibles et impression ; fournir les URL et le premier parcours de révision.
 Ne pas reconstituer le corpus ou lancer /rebuild pendant la préparation ; conserver les artefacts livrés et les preuves historiques.
 Revue finale : le script api_test.py renvoie désormais un code de sortie non nul si health, ask ou rebuild échoue ; quatre tests de régression ont été ajoutés. Les sources et supports utiles sont inclus dans Git. Le rapport PDF/Word distingue l’état du 1er octobre de l’évaluation historique.
+
+Fil conducteur commun au diaporama, aux notes PowerPoint et au guide : catalogue → passages → représentation du sens → bibliothécaire FAISS → rédacteur Mistral → guichet FastAPI → contrôle. Le guide distingue la métaphore et les opérations réellement codées.
+Relance persistante : python scripts/lancer_soutenance.py ; démarre Docker et le serveur de supports en arrière-plan. Redémarrage après arrêt du serveur vérifié.

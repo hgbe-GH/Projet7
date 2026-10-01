@@ -1,6 +1,7 @@
 SOUTENANCE — HUGO GAUBE — 1er octobre 2026 à 14 h
 
 COMMENCER
+Fil conducteur : catalogue → passages → sens → bibliothécaire → rédacteur → guichet → contrôle.
 Lire AVANT-14H.md pour la liste priorisée et les contrôles avant l’entretien.
 1. Ouvrir guide-soutenance-openagenda-rag.html, rubrique « Comprendre le projet ».
 2. Lire le script des 12 étapes avec les explications simples.
@@ -38,8 +39,8 @@ Les HTML et la démo enregistrée fonctionnent aussi par ouverture directe du fi
 Les appels live nécessitent le serveur local, Docker et Mistral disponible.
 
 RELANCER APRÈS FERMETURE (DEPUIS LA RACINE DU PROJET)
-docker compose up -d --no-build
-python docs/soutenance/serve_soutenance.py
+python scripts/lancer_soutenance.py
+Le serveur des pages reste en arrière-plan après fermeture du terminal.
 
 REPRODUIRE LES SUPPORTS HTML
 python docs/soutenance/generer_support.py
